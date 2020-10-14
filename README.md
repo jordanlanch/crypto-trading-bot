@@ -92,7 +92,7 @@ sqlite3 bot.db < bot.sql
 Lets start it
 
 ```
-node index.js trade
+npm start
 ```
 
 ## How to use: Docker
@@ -200,6 +200,15 @@ node index.js backfill -e bitmex -p 1m -s XRPZ18
 
 For custom strategies use [var/strategies](var/strategies) folder.
 
+```
+# simple file structure
+var/strategies/your_strategy.js
+
+# or wrap strategy into any sub folder depth
+var/strategies/my_strategy/my_strategy.js
+var/strategies/subfolder1/our_strategy/our_strategy.js
+```
+
 Find some example strategies inside [modules/strategy/strategies](modules/strategy/strategies)
 
 ## Tools / Watchdog
@@ -236,6 +245,31 @@ Find some example strategies inside [modules/strategy/strategies](modules/strate
     ],
 ```
 
+### Tick Interval
+
+Per default every strategy is "ticked" every full minute with a ~10sec time window. If you want to tick every 15 minutes or less see possible examples below.
+
+Supported units are "m" (minute) and "s" (seconds)
+
+```json
+{
+   "strategies":[
+      {
+         "strategy":"cci",
+         "interval":"15m"
+      },
+      {
+         "strategy":"cci2",
+         "interval":"30s"
+      },
+      {
+         "strategy":"cci3",
+         "interval":"60m"
+      }
+   ]
+}
+```
+
 ## Trading
 
 ### Capital
@@ -250,6 +284,7 @@ You should only provide one of them, first wins.
         'trade': {
             'capital': 0.015, // this will buy 0.015 BTC
             'currency_capital': 50,  // this will use 50 EUR and buys the equal amount of BTC (example: BTC price 3000 use 50 EUR. will result in 0.016 BTC)
+            'balance_percent': 75,  // this will use 75 % of your exchange margin tradable balance. Currently implemented only on Bitfinex exchange.
         },
     })
 ```
@@ -301,6 +336,7 @@ Other bots with possible design pattern
  * https://github.com/Ekliptor/WolfBot
  * https://github.com/andresilvasantos/bitprophet
  * https://github.com/kavehs87/PHPTradingBot
+ * https://github.com/Superalgos/Superalgos
 
 ### Strategies
 
@@ -311,3 +347,6 @@ Some strategies based on technical indicators for collection some ideas
  * https://github.com/xFFFFF/Gekko-Strategies
  * https://github.com/sthewissen/Mynt/tree/master/src/Mynt.Core/Strategies
  * https://github.com/Ekliptor/WolfBot/tree/master/src/Strategies
+ * https://github.com/Superalgos/Strategy-BTC-WeakHandsBuster
+ * https://github.com/Superalgos/Strategy-BTC-BB-Top-Bounce
+ 

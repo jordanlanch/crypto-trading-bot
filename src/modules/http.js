@@ -64,6 +64,14 @@ module.exports = class Http {
       return desks;
     });
 
+    twig.extendFunction('node_version', function() {
+      return process.version;
+    });
+
+    twig.extendFunction('memory_usage', function() {
+      return Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100;
+    });
+
     twig.extendFilter('format_json', function(value) {
       return JSON.stringify(value, null, '\t');
     });
@@ -318,6 +326,10 @@ module.exports = class Http {
     });
 
     app.get('/trades', async (req, res) => {
+      res.render('../templates/trades.html.twig');
+    });
+
+    app.get('/trades.json', async (req, res) => {
       const positions = [];
       const orders = [];
 
@@ -357,13 +369,9 @@ module.exports = class Http {
         });
       }
 
-      res.render('../templates/trades.html.twig', {
-        orders: orders,
-        positions: positions.sort(
-          (a, b) =>
-            (!a.position.createdAt ? 0 : a.position.createdAt.getTime()) -
-            (!b.position.createdAt ? 0 : b.position.createdAt.getTime())
-        )
+      res.json({
+        orders: orders.sort((a, b) => a.order.symbol.localeCompare(b.order.symbol)),
+        positions: positions.sort((a, b) => a.position.symbol.localeCompare(b.position.symbol))
       });
     });
 
