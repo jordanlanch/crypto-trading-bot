@@ -6,8 +6,8 @@ module.exports = {
    * @param callback
    * @returns {Promise<unknown>}
    */
-  ftxInitPerp: async callback => {
-    return new Promise(resolve => {
+  ftxInitPerp: async (callback) => {
+    return new Promise((resolve) => {
       request('https://ftx.com/api/markets', (_error, _res, body) => {
         if (_error) {
           resolve([]);
@@ -24,14 +24,14 @@ module.exports = {
         const pairs = [];
 
         markets
-          .filter(m => m.enabled === true && m.type === 'future')
-          .filter(m => m.name.endsWith('-PERP')) // name filter
-          .forEach(pair => {
+          .filter((m) => m.enabled === true && m.type === 'future')
+          .filter((m) => m.name.endsWith('-PERP')) // name filter
+          .forEach((pair) => {
             let result = {
               symbol: pair.name,
               periods: ['1m', '15m', '1h'],
               exchange: 'ftx',
-              state: 'watch'
+              state: 'watch',
             };
 
             if (callback) {
@@ -53,8 +53,8 @@ module.exports = {
    * @param callback
    * @returns {Promise<unknown>}
    */
-  binanceInitUsd: async callback => {
-    return new Promise(resolve => {
+  binanceInitUsd: async (callback) => {
+    return new Promise((resolve) => {
       request('https://api.binance.com/api/v1/exchangeInfo', (_error, _res, body) => {
         const pairs = [];
 
@@ -67,17 +67,28 @@ module.exports = {
 
         content.symbols
           .filter(
-            p =>
+            (p) =>
               ['USDT'].includes(p.quoteAsset) &&
               !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
               p.status.toLowerCase() === 'trading'
           )
-          .forEach(pair => {
+          .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1m', '15m', '1h'],
+              periods: ['1h', '4h', '6h', '1d'],
               exchange: 'binance',
-              state: 'watch'
+              state: 'watch',
+              trade: {
+                currency_capital: 60,
+              },
+              strategies: [
+                {
+                  strategy: 'trader_macd',
+                  options: {
+                    period: '1d',
+                  },
+                },
+              ],
             };
 
             if (callback) {
@@ -99,7 +110,7 @@ module.exports = {
    * @param callback
    * @returns {Promise<unknown>}
    */
-  binanceInitSpotUsd: async callback => {
+  binanceInitSpotUsd: async (callback) => {
     const crossMarginPairs = await module.exports.binanceCrossMarginPairs();
 
     return module.exports.binanceInitUsd((result, pair) => {
@@ -122,10 +133,10 @@ module.exports = {
    * @returns {Promise<unknown>}
    */
   binanceCrossMarginPairs: () => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       request('https://www.binance.com/gateway-api/v1/friendly/margin/vip/spec/list-all', (_error, _res, body) => {
         const content = JSON.parse(body);
-        const crossMarginPairs = content.data.map(i => i.assetName);
+        const crossMarginPairs = content.data.map((i) => i.assetName);
 
         resolve(crossMarginPairs);
       });
@@ -137,7 +148,7 @@ module.exports = {
    * @param callback
    * @returns {Promise<unknown>}
    */
-  binanceInitMarginUsd: async callback => {
+  binanceInitMarginUsd: async (callback) => {
     const crossMarginPairs = await module.exports.binanceCrossMarginPairs();
 
     return module.exports.binanceInitUsd((result, pair) => {
@@ -160,21 +171,21 @@ module.exports = {
    * @param callback
    * @returns {Promise<unknown>}
    */
-  bitmexInit: async callback => {
-    return new Promise(resolve => {
+  bitmexInit: async (callback) => {
+    return new Promise((resolve) => {
       request('https://www.bitmex.com/api/v1/instrument/active', (_error, _res, body) => {
         const pairs = [];
 
         const content = JSON.parse(body);
 
         content
-          .filter(p => ['FFCCSX', 'FFWCSX'].includes(p.typ))
-          .forEach(pair => {
+          .filter((p) => ['FFCCSX', 'FFWCSX'].includes(p.typ))
+          .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
               periods: ['1m', '15m', '1h'],
               exchange: 'bitmex',
-              state: 'watch'
+              state: 'watch',
             };
 
             if (callback) {
@@ -196,21 +207,21 @@ module.exports = {
    * @param callback
    * @returns {Promise<unknown>}
    */
-  binanceFuturesInit: async callback => {
-    return new Promise(resolve => {
+  binanceFuturesInit: async (callback) => {
+    return new Promise((resolve) => {
       request('https://fapi.binance.com/fapi/v1/exchangeInfo', (_error, _res, body) => {
         const pairs = [];
 
         const content = JSON.parse(body);
 
         content.symbols
-          .filter(p => p.status.toUpperCase() === 'TRADING')
-          .forEach(pair => {
+          .filter((p) => p.status.toUpperCase() === 'TRADING')
+          .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
               periods: ['1m', '15m', '1h'],
               exchange: 'binance_futures',
-              state: 'watch'
+              state: 'watch',
             };
 
             if (callback) {
@@ -227,21 +238,59 @@ module.exports = {
     });
   },
 
-  bitfinexUsdMarginInit: async callback => {
-    return new Promise(resolve => {
+  bitfinexUsdMarginInit: async (callback) => {
+    return new Promise((resolve) => {
       request('https://api.bitfinex.com/v1/symbols_details', (_error, _res, body) => {
         const pairs = [];
 
         const content = JSON.parse(body);
 
         content
-          .filter(p => p.margin === true && p.pair.endsWith('usd') && !p.pair.startsWith('USD'))
-          .forEach(pair => {
+          .filter(
+            (p) =>
+              p.margin === true &&
+              p.pair.endsWith('usd') &&
+              !p.pair.startsWith('edo') &&
+              !p.pair.startsWith('etp') &&
+              !p.pair.startsWith('alg') &&
+              !p.pair.startsWith('san') &&
+              !p.pair.startsWith('ust') &&
+              !p.pair.startsWith('dai') &&
+              !p.pair.startsWith('usd') &&
+              !p.pair.startsWith('testbtc')
+          )
+          .forEach((pair) => {
+            // console.log(pair)
             let result = {
               symbol: pair.pair.toUpperCase(),
-              periods: ['1m', '15m', '1h'],
+              periods: ['1h', '4h', '6h', '1d'],
               exchange: 'bitfinex',
-              state: 'watch'
+              extra: {
+                bitfinex_leverage: 2,
+              },
+              state: 'watch',
+              watchdogs: [
+                {
+                  name: 'risk_reward_ratio',
+                  stop_percent: 3,
+                },
+                {
+                  name: 'trailing_stop',
+                  target_percent: 3,
+                  stop_percent: 2.5,
+                },
+              ],
+              trade: {
+                currency_capital: 60,
+              },
+              strategies: [
+                {
+                  strategy: 'trader_macd',
+                  options: {
+                    period: '1d',
+                  }
+                },
+              ],
             };
 
             if (callback) {
@@ -258,21 +307,21 @@ module.exports = {
     });
   },
 
-  bybitInit: async callback => {
-    return new Promise(resolve => {
+  bybitInit: async (callback) => {
+    return new Promise((resolve) => {
       request('https://api.bybit.com/v2/public/symbols', (_error, _res, body) => {
         const pairs = [];
 
         const content = JSON.parse(body);
 
         content.result
-          .filter(p => ['USD'].includes(p.quote_currency))
-          .forEach(pair => {
+          .filter((p) => ['USD'].includes(p.quote_currency))
+          .forEach((pair) => {
             let result = {
               symbol: pair.name,
               periods: ['1m', '15m', '1h'],
               exchange: 'bybit',
-              state: 'watch'
+              state: 'watch',
             };
 
             if (callback) {
@@ -287,5 +336,5 @@ module.exports = {
         resolve(pairs);
       });
     });
-  }
+  },
 };
