@@ -277,7 +277,7 @@ module.exports = {
                 {
                   name: 'trailing_stop',
                   target_percent: 3,
-                  stop_percent: 2.5,
+                  stop_percent: 1.5,
                 },
               ],
               trade: {
