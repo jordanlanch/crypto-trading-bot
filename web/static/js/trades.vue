@@ -9,22 +9,22 @@
         <table class="table table-bordered table-sm table-hover">
           <thead>
           <tr>
-            <th scope="col">Exchange</th>
+            <th scope="col" title="Exchange">E</th>
             <th scope="col">Symbol</th>
             <th scope="col">Amount</th>
             <th scope="col">Currency</th>
             <th scope="col">Profit</th>
             <th scope="col">Entry</th>
-            <th scope="col">UpdatedAt</th>
-            <th scope="col">CreatedAt</th>
-            <th scope="col">Side</th>
-            <th scope="col">Action</th>
+            <th scope="col">Updated</th>
+            <th scope="col">Created</th>
+            <th scope="col" title="Side">S</th>
+            <th scope="col" title="Action">A</th>
           </tr>
 
           </thead>
           <tbody>
-          <tr v-for='position in positions'>
-            <td>{{ position.exchange }}</td>
+          <tr v-for='position in positions' :key="`${position.exchange}-${position.position.symbol}`">
+            <td><img :src="`/img/exchanges/${position.exchange}.png`" :alt="position.exchange" :title="position.exchange" width="16px" height="16px"></td>
             <td><a target="blank" :href="'/tradingview/' + position.exchange + ':' + position.position.symbol">{{ position.position.symbol }}</a></td>
             <td v-bind:class="{ 'text-success': position.position.amount > 0, 'text-danger': position.position.amount < 0 }">
               {{ position.position.amount }}
@@ -55,8 +55,8 @@
               </template>
             </td>
             <td>
-              <i v-if="position.position.side === 'short'" class="fas fa-chevron-circle-down text-danger"></i>
-              <i v-if="position.position.side === 'long'" class="fas fa-chevron-circle-up text-success"></i>
+              <i v-if="position.position.side === 'short'" class="fas fa-chevron-circle-down text-danger" title="short"></i>
+              <i v-if="position.position.side === 'long'" class="fas fa-chevron-circle-up text-success" title="long"></i>
             </td>
             <td style="white-space: nowrap;padding: 0;">
               <form :action="'/pairs/' + position.exchange + '-' + position.position.symbol" method="post">
@@ -81,29 +81,29 @@
           <table class="table table-bordered table-sm table-hover">
             <thead>
             <tr>
-              <th scope="col">Exchange</th>
+              <th scope="col" title="Exchange">E</th>
               <th scope="col">Symbol</th>
               <th scope="col">Type</th>
-              <th scope="col">ID</th>
+              <th scope="col">Id</th>
               <th scope="col">Price</th>
               <th scope="col">Amount</th>
               <th scope="col">Retry</th>
               <th scope="col">OurId</th>
-              <th scope="col">CreatedAt</th>
-              <th scope="col">UpdatedAt</th>
+              <th scope="col">Created</th>
+              <th scope="col">Updated</th>
               <th scope="col">Status</th>
-              <th scope="col">Side</th>
-              <th scope="col">Action</th>
+              <th scope="col" title="Side">S</th>
+              <th scope="col" title="Action">A</th>
             </tr>
 
             </thead>
             <tbody>
-            <tr v-for='order in orders'>
-              <td>{{ order.exchange }}</td>
+            <tr v-for='order in orders' :key="`${order.exchange}-${order.order.symbol}-${order.order.id}`">
+              <td><img :src="`/img/exchanges/${order.exchange}.png`" :alt="order.exchange" :title="order.exchange" width="16px" height="16px"></td>
               <td><a target="blank" :href="'/tradingview/' + order.exchange + ':' + order.order.symbol">{{ order.order.symbol }}</a></td>
               <td>{{ order.order.type }}</td>
               <td>{{ order.order.id }}</td>
-              <td>{{ order.order.price }}</td>
+              <td>{{ order.order.price }}<span class="text-muted" v-if="order.percent_to_price" title="Percent to current price"> {{ order.percent_to_price|round(1) }} %</span></td>
               <td v-bind:class="{ 'text-success': order.order.amount > 0, 'text-danger': order.order.amount < 0 }">{{ order.order.amount }}</td>
               <td>{{ order.order.retry }}</td>
               <td>{{ order.order.ourId }}</td>
@@ -111,8 +111,8 @@
               <td>{{ order.order.updatedAt|date('d.m.y H:i') }}</td>
               <td>{{ order.order.status }}</td>
               <td>
-                <i v-if="order.order.side === 'sell'" class="fas fa-chevron-circle-down text-danger"></i>
-                <i v-if="order.order.side === 'buy'" class="fas fa-chevron-circle-up text-success"></i>
+                <i v-if="order.order.side === 'sell'" class="fas fa-chevron-circle-down text-danger" title="short"></i>
+                <i v-if="order.order.side === 'buy'" class="fas fa-chevron-circle-up text-success" title="long"></i>
               </td>
               <td>
                 <a title="cancel" :href="'/order/' + order.exchange + '/' + order.order.id"><i class="fas fa-window-close text-dark"></i></a>
@@ -132,7 +132,8 @@ module.exports = {
     return {
       positions: [],
       orders: [],
-      positionsUpdatedAt: ''
+      positionsUpdatedAt: '',
+      ordersUpdatedAt: ''
     }
   },
   created: function() {
