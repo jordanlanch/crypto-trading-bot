@@ -14,6 +14,7 @@
             <th scope="col">Amount</th>
             <th scope="col">Currency</th>
             <th scope="col">Profit</th>
+            <th scope="col">$ Profit</th>
             <th scope="col">Entry</th>
             <th scope="col">Updated</th>
             <th scope="col">Created</th>
@@ -37,6 +38,11 @@
             <td>
             <span v-if="typeof position.position.profit !== 'undefined'" v-bind:class="{ 'text-success': position.position.profit >= 0, 'text-danger': position.position.profit < 0 }">
               {{ position.position.profit|round(2) }} %
+            </span>
+            </td>
+            <td>
+            <span v-if="typeof (position.currency * position.position.profit /100).toFixed(2) !== 'undefined'" v-bind:class="{ 'text-success': (position.currency * position.position.profit /100).toFixed(2) >= 0, 'text-danger': (position.currency * position.position.profit /100).toFixed(2) < 0 }">
+              $ {{ (position.currency * position.position.profit /100).toFixed(2) }}
             </span>
             </td>
             <td>
@@ -72,20 +78,19 @@
             <td></td>
             <td>Total</td>
             <td>
-              <template v-if="!!sumField('currency').toFixed(2)">
-                {{ sumField('currency').toFixed(2) }}
+              <template v-if="!!sumCurrency().toFixed(2)">
+                {{ sumCurrency().toFixed(2) }}
               </template>
             </td>
             <td>
-            <span v-if="typeof sumFieldPosition('position','profit').toFixed(2) !== 'undefined'" v-bind:class="{ 'text-success': sumFieldPosition('position','profit').toFixed(2) >= 0, 'text-danger': sumFieldPosition('position','profit').toFixed(2) < 0 }">
-              {{ sumFieldPosition('position','profit').toFixed(2)  }} %
+              <span v-if="typeof (sumProfit().toFixed(2)*100/sumCurrency().toFixed(2)) !== 'undefined'" v-bind:class="{ 'text-success':  (sumProfit().toFixed(2)*100/sumCurrency().toFixed(2)) >= 0, 'text-danger': (sumProfit().toFixed(2)*100/sumCurrency().toFixed(2)) < 0 }">
+               {{ (sumProfit().toFixed(2)*100/sumCurrency().toFixed(2)) |round(2) }} %
             </span>
-            </td>
+             </td>
             <td>
-              <span v-if="typeof (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) !== 'undefined'" v-bind:class="{ 'text-success':  (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) >= 0, 'text-danger': (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) < 0 }">
-               $ {{ (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) }}
+              <span v-if="typeof sumProfit().toFixed(2) !== 'undefined'" v-bind:class="{ 'text-success':  sumProfit().toFixed(2) >= 0, 'text-danger': sumProfit().toFixed(2) < 0 }">
+               $ {{ sumProfit().toFixed(2) }}
             </span>
-              
              </td>
             <td></td>
             <td></td>
@@ -183,13 +188,13 @@ module.exports = {
     cancelAutoUpdate() {
       clearInterval(this.timer);
     },
-    sumField(key) {
+    sumCurrency() {
         // sum data in give key (property)
-        return this.positions.reduce((a, b) => a + (b[key] || 0), 0)
+        return this.positions.reduce((a, b) => a + (b['currency'] || 0), 0)
     },
-    sumFieldPosition(key, key2) {
+    sumProfit() {
         // sum data in give key (property)
-        return this.positions.reduce((a, b) => a + (b[key][key2] || 0), 0)
+        return this.positions.reduce((a, b) => a + ((b['currency']*b['position']['profit']/100) || 0), 0)
     }
   },
   beforeDestroy() {
