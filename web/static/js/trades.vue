@@ -67,6 +67,31 @@
               </form>
             </td>
           </tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>Total</td>
+            <td>
+              <template v-if="!!sumField('currency').toFixed(2)">
+                {{ sumField('currency').toFixed(2) }}
+              </template>
+            </td>
+            <td>
+            <span v-if="typeof sumFieldPosition('position','profit').toFixed(2) !== 'undefined'" v-bind:class="{ 'text-success': sumFieldPosition('position','profit').toFixed(2) >= 0, 'text-danger': sumFieldPosition('position','profit').toFixed(2) < 0 }">
+              {{ sumFieldPosition('position','profit').toFixed(2)  }} %
+            </span>
+            </td>
+            <td>
+              <span v-if="typeof (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) !== 'undefined'" v-bind:class="{ 'text-success':  (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) >= 0, 'text-danger': (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) < 0 }">
+               $ {{ (sumField('currency').toFixed(2) * sumFieldPosition('position','profit').toFixed(2) / 100).toFixed(2) }}
+            </span>
+              
+             </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tr>
           </tbody>
         </table>
       </div>
@@ -157,6 +182,14 @@ module.exports = {
     },
     cancelAutoUpdate() {
       clearInterval(this.timer);
+    },
+    sumField(key) {
+        // sum data in give key (property)
+        return this.positions.reduce((a, b) => a + (b[key] || 0), 0)
+    },
+    sumFieldPosition(key, key2) {
+        // sum data in give key (property)
+        return this.positions.reduce((a, b) => a + (b[key][key2] || 0), 0)
     }
   },
   beforeDestroy() {
