@@ -75,7 +75,7 @@ describe('#resample of candles', () => {
     assert.equal(resampleCandles.length, 6);
 
     assert.equal(resampleCandles[0].time, 1393495200);
-    assert.equal(resampleCandles[4].time, 1393480800);
+    assert.equal(resampleCandles[4].time, 1393480900);
     assert.equal(resampleCandles[4]._candle_count, 4);
   });
 

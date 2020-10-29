@@ -7,11 +7,11 @@ describe('#system util test', function() {
       root: 'test123',
       root2: undefined,
       webserver: {
-        test: 8080
+        test: 8090
       }
     });
 
-    assert.equal(systemUtil.getConfig('webserver.test'), 8080);
+    assert.equal(systemUtil.getConfig('webserver.test'), 8090);
     assert.equal(systemUtil.getConfig('root'), 'test123');
     assert.equal(systemUtil.getConfig('UNKONWN', 'test'), 'test');
     assert.equal(systemUtil.getConfig('UNKONWN'), undefined);

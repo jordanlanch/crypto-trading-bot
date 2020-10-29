@@ -20,5 +20,5 @@ COPY . /usr/src/app
 # Apply all patches in app
 RUN npm run postinstall
 
-EXPOSE 8080
+EXPOSE 8090
 CMD ["npm", "run", "start"]
