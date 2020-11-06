@@ -523,7 +523,7 @@ module.exports = class TraderCustom {
     /*
     levels signals
     */
-    let count_ovb6H = 1.5;
+    let count_ovb6H = 0.5;
     let count_ovb4H = 1;
     let count_ovb1H = 0.75;
 
