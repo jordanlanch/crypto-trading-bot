@@ -234,7 +234,7 @@ module.exports = {
                 },
               ],
               trade: {
-                currency_capital: 30,
+                currency_capital: 60,
               },
               strategies: [
                 {
