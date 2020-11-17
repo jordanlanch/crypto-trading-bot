@@ -219,9 +219,31 @@ module.exports = {
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1m', '15m', '1h'],
+              periods: ['1h', '4h', '6h', '1d'],
               exchange: 'binance_futures',
               state: 'watch',
+              watchdogs: [
+                {
+                  name: 'risk_reward_ratio',
+                  stop_percent: 3,
+                },
+                {
+                  name: 'trailing_stop',
+                  target_percent: 3,
+                  stop_percent: 1,
+                },
+              ],
+              trade: {
+                currency_capital: 30,
+              },
+              strategies: [
+                {
+                  strategy: 'trader_macd',
+                  options: {
+                    period: '1d',
+                  }
+                },
+              ],
             };
 
             if (callback) {
