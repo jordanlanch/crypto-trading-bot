@@ -721,21 +721,21 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 1H
 
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 20, 80);
+    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 10, 90);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
     debug.rsi6H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
+    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 10, 90);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
     debug.rsi4H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi1H, count_rsi1H, 20, 80);
+    resolve_rsi = this.resolve_rsi(debug, rsi1H, count_rsi1H, 10, 90);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi1H += resolve_rsi.buy;
