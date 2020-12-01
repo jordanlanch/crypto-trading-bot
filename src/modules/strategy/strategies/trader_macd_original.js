@@ -2,7 +2,7 @@ const SignalResult = require('../dict/signal_result');
 
 module.exports = class TraderCustom {
   getName() {
-    return 'trader_macd';
+    return 'trader_macd_old';
   }
 
   buildIndicator(indicatorBuilder, options) {
