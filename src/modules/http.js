@@ -75,6 +75,11 @@ module.exports = class Http {
       return Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100;
     });
 
+    const up = new Date();
+    twig.extendFunction('uptime', function() {
+      return moment(up).toNow(true);
+    });
+
     twig.extendFilter('format_json', function(value) {
       return JSON.stringify(value, null, '\t');
     });
@@ -120,7 +125,7 @@ module.exports = class Http {
     app.get('/backtest', async (req, res) => {
       res.render('../templates/backtest.html.twig', {
         strategies: this.backtest.getBacktestStrategies(),
-        pairs: this.backtest.getBacktestPairs()
+        pairs: await this.backtest.getBacktestPairs()
       });
     });
 
@@ -136,7 +141,8 @@ module.exports = class Http {
           req.body.candle_period,
           pair[0],
           pair[1],
-          req.body.options ? JSON.parse(req.body.options) : {}
+          req.body.options ? JSON.parse(req.body.options) : {},
+          req.body.initial_capital
         )
       );
     });

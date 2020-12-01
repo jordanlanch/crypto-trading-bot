@@ -1,6 +1,7 @@
 const WebSocket = require('ws');
 const ccxt = require('ccxt');
 const moment = require('moment');
+const _ = require('lodash');
 const Ticker = require('../dict/ticker');
 const Order = require('../dict/order');
 const TickerEvent = require('../event/ticker_event');
@@ -48,17 +49,21 @@ module.exports = class BinanceFutures {
 
     if (config.key && config.secret && config.key.length > 0 && config.secret.length > 0) {
       setInterval(async () => {
-        me.throttler.addTask('binance_futures_sync_orders', me.ccxtExchangeOrder.syncOrders());
+        me.throttler.addTask('binance_futures_sync_orders', async () => {
+          await me.ccxtExchangeOrder.syncOrders();
+        });
       }, 1000 * 30);
 
       setInterval(async () => {
-        me.throttler.addTask('binance_futures_sync_positions', me.syncPositionViaRestApi());
+        me.throttler.addTask('binance_futures_sync_positions', me.syncPositionViaRestApi.bind(me));
       }, 1000 * 36);
 
       setTimeout(async () => {
         await ccxtClient.fetchMarkets();
-        me.throttler.addTask('binance_futures_sync_orders', me.ccxtExchangeOrder.syncOrders());
-        me.throttler.addTask('binance_futures_sync_positions', me.syncPositionViaRestApi());
+        me.throttler.addTask('binance_futures_sync_orders', async () => {
+          await me.ccxtExchangeOrder.syncOrders();
+        });
+        me.throttler.addTask('binance_futures_sync_positions', me.syncPositionViaRestApi.bind(me));
       }, 1000);
 
       setTimeout(async () => {
@@ -66,7 +71,7 @@ module.exports = class BinanceFutures {
       }, 2000);
 
       setTimeout(async () => {
-        await me.initPublicWebsocket(symbols, config);
+        await me.initPublicWebsocket(symbols);
       }, 5000);
     } else {
       me.logger.info('Binance Futures: Starting as anonymous; no trading possible');
@@ -315,39 +320,66 @@ module.exports = class BinanceFutures {
     return false;
   }
 
-  async initPublicWebsocket(symbols, config) {
+  async initPublicWebsocket(symbols) {
+    const me = this;
+
+    const allSubscriptions = [];
+    symbols.forEach(symbol => {
+      allSubscriptions.push(`${symbol.symbol.toLowerCase()}@bookTicker`);
+      allSubscriptions.push(...symbol.periods.map(p => `${symbol.symbol.toLowerCase()}@kline_${p}`));
+    });
+
+    me.logger.info(`Binance Futures: Public stream subscriptions: ${allSubscriptions.length}`);
+
+    // "A single connection can listen to a maximum of 200 streams."; let us have some window frames
+    _.chunk(allSubscriptions, 180).forEach((allSubscriptionsChunk, indexConnection) => {
+      me.initPublicWebsocketChunk(allSubscriptionsChunk, indexConnection);
+    });
+  }
+
+  /**
+   * A per websocket init function scope to filter maximum allowed subscriptions per connection
+   *
+   * @param {string[]} subscriptions
+   * @param {int} indexConnection
+   */
+  initPublicWebsocketChunk(subscriptions, indexConnection) {
     const me = this;
     const ws = new WebSocket('wss://fstream.binance.com/stream');
 
-    ws.onerror = function(e) {
-      me.logger.info(`Binance Futures: Public stream error: ${String(e)}`);
+    ws.onerror = function(event) {
+      me.logger.error(
+        `Binance Futures: Public stream (${indexConnection}) error: ${JSON.stringify([event.code, event.message])}`
+      );
     };
 
+    let subscriptionTimeouts = {};
+
     ws.onopen = function() {
-      me.logger.info('Binance Futures: Public stream opened.');
+      me.logger.info(`Binance Futures: Public stream (${indexConnection}) opened.`);
 
-      // we are only allowed to send a websocket every 5 sec; wait for some init stuff and then run it
-      setTimeout(() => {
-        symbols.forEach((symbol, index) => {
-          // we are only allowed to send a request every 5 seconds
-          setTimeout(() => {
-            const params = [
-              `${symbol.symbol.toLowerCase()}@bookTicker`,
-              ...symbol.periods.map(p => `${symbol.symbol.toLowerCase()}@kline_${p}`)
-            ];
+      me.logger.info(
+        `Binance Futures: Needed Websocket (${indexConnection}) subscriptions: ${JSON.stringify(subscriptions.length)}`
+      );
 
-            me.logger.debug(`Binance Futures: Public stream subscribing: ${JSON.stringify([symbol.symbol, params])}`);
+      // "we are only allowed to send 5 requests per second"; but limit it also for the "SUBSCRIBE" itself who knows upcoming changes on this
+      _.chunk(subscriptions, 15).forEach((subscriptionChunk, index) => {
+        subscriptionTimeouts[index] = setTimeout(() => {
+          me.logger.debug(
+            `Binance Futures: Public stream (${indexConnection}) subscribing: ${JSON.stringify(subscriptionChunk)}`
+          );
 
-            ws.send(
-              JSON.stringify({
-                method: 'SUBSCRIBE',
-                params: params,
-                id: Math.floor(Math.random() * Math.floor(100))
-              })
-            );
-          }, (index + 1) * 5500);
-        });
-      }, 10000);
+          ws.send(
+            JSON.stringify({
+              method: 'SUBSCRIBE',
+              params: subscriptionChunk,
+              id: Math.floor(Math.random() * Math.floor(100))
+            })
+          );
+
+          delete subscriptionTimeouts[index];
+        }, (index + 1) * 1500);
+      });
     };
 
     ws.onmessage = async function(event) {
@@ -387,12 +419,23 @@ module.exports = class BinanceFutures {
       }
     };
 
-    ws.onclose = function() {
-      me.logger.info('Binance futures: Public stream connection closed.');
+    ws.onclose = function(event) {
+      me.logger.error(
+        `Binance Futures: Public Stream (${indexConnection}) connection closed: ${JSON.stringify([
+          event.code,
+          event.message
+        ])}`
+      );
+
+      Object.values(subscriptionTimeouts).forEach(timeout => {
+        clearTimeout(timeout);
+      });
+
+      subscriptionTimeouts = {};
 
       setTimeout(async () => {
-        me.logger.info('Binance futures: Public stream connection reconnect');
-        await me.initPublicWebsocket(symbols, config);
+        me.logger.info(`Binance Futures: Public stream (${indexConnection}) connection reconnect`);
+        await me.initPublicWebsocketChunk(subscriptions, indexConnection);
       }, 1000 * 30);
     };
   }
@@ -429,14 +472,14 @@ module.exports = class BinanceFutures {
           const order = BinanceFutures.createRestOrderFromWebsocket(message.o);
 
           me.logger.info(`Binance Futures: ORDER_TRADE_UPDATE event: ${JSON.stringify([message.e, message.o, order])}`);
-          me.throttler.addTask('binance_futures_sync_orders', me.ccxtExchangeOrder.syncOrders(), 3000);
+          me.throttler.addTask('binance_futures_sync_orders', me.ccxtExchangeOrder.syncOrders.bind(me), 3000);
           me.ccxtExchangeOrder.triggerPlainOrder(order);
         }
 
         if (message.e && message.e.toUpperCase() === 'ACCOUNT_UPDATE') {
           me.accountUpdate(message);
 
-          me.throttler.addTask('binance_futures_sync_positions', me.syncPositionViaRestApi(), 3000);
+          me.throttler.addTask('binance_futures_sync_positions', me.syncPositionViaRestApi.bind(me), 3000);
         }
       }
     };
@@ -450,8 +493,8 @@ module.exports = class BinanceFutures {
       }
     }, 1000 * 60 * 10);
 
-    ws.onclose = function() {
-      me.logger.info('Binance futures: User stream connection closed.');
+    ws.onclose = function(event) {
+      me.logger.error(`Binance futures: User stream connection closed: ${JSON.stringify([event.code, event.message])}`);
       clearInterval(heartbeat);
 
       setTimeout(async () => {

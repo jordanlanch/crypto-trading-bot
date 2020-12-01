@@ -5996,7 +5996,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 
 @media (min-width: 1200px) {
   .modal-xl {
-    max-width: 1540px;
+    max-width: 99%  !important;
   }
 }
 

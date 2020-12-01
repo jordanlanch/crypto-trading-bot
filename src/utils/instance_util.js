@@ -219,9 +219,27 @@ module.exports = {
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1m', '15m', '1h'],
+              periods: ['1h', '2h','4h', '6h', '1d'],
               exchange: 'binance_futures',
               state: 'watch',
+              watchdogs: [
+                {
+                  name: 'risk_reward_ratio',
+                  target_percent: 4,
+                  stop_percent: 3,
+                }
+              ],
+              trade: {
+                currency_capital: 60,
+              },
+              strategies: [
+                {
+                  strategy: 'trader_macd',
+                  options: {
+                    period: '1d',
+                  },
+                },
+              ],
             };
 
             if (callback) {
@@ -277,7 +295,7 @@ module.exports = {
                 {
                   name: 'trailing_stop',
                   target_percent: 3,
-                  stop_percent: 2.5,
+                  stop_percent: 1,
                 },
               ],
               trade: {
@@ -288,7 +306,7 @@ module.exports = {
                   strategy: 'trader_macd',
                   options: {
                     period: '1d',
-                  }
+                  },
                 },
               ],
             };

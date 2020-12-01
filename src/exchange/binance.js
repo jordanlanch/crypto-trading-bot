@@ -151,7 +151,7 @@ module.exports = class Binance {
     try {
       result = await this.client.order(payload);
     } catch (e) {
-      this.logger.error(`Binance: order create error: ${JSON.stringify(e.message, order, payload)}`);
+      this.logger.error(`Binance: order create error: ${JSON.stringify(e.code, e.message, order, payload)}`);
 
       if ((e.message && e.message.toLowerCase().includes('insufficient balance')) || (e.code && e.code === -2010)) {
         return ExchangeOrder.createRejectedFromOrder(order, `${e.code} - ${e.message}`);
@@ -539,15 +539,18 @@ module.exports = class Binance {
       if (isRemoveEvent) {
         this.logger.info(`Binance: Removing non open order: ${orderStatus} - ${JSON.stringify(event)}`);
         this.orderbag.delete(event.orderId);
+        this.throttler.addTask('binance_sync_balances', this.syncBalances.bind(this), 5000);
       }
 
       // sync all open orders and get entry based fire them in parallel
-      this.throttler.addTask('binance_sync_orders', this.syncOrders());
+      this.throttler.addTask('binance_sync_orders', this.syncOrders.bind(this));
 
       // set last order price to our trades. so we have directly profit and entry prices
       this.throttler.addTask(
         `binance_sync_trades_for_entries_${event.symbol}`,
-        this.syncTradesForEntries([event.symbol]),
+        async () => {
+          await this.syncTradesForEntries([event.symbol]);
+        },
         300
       );
 
@@ -576,7 +579,7 @@ module.exports = class Binance {
 
       this.balances = balances;
 
-      this.throttler.addTask('binance_sync_balances', this.syncBalances(), 5000);
+      this.throttler.addTask('binance_sync_balances', this.syncBalances.bind(this), 5000);
     }
   }
 
