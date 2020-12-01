@@ -26,17 +26,16 @@ module.exports = class TraderCustom {
       signal_length: 9,
     });
 
-    indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
-      fast_length: 5,
-      slow_length: 34,
-      signal_length: 8,
-    });
-
-    indicatorBuilder.add('macd_2h_02', 'macd', '2h', {
-      fast_length: 6,
-      slow_length: 23,
-      signal_length: 10,
-    });
+    // indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
+    //   fast_length: 5,
+    //   slow_length: 34,
+    //   signal_length: 8,
+    // });
+    // indicatorBuilder.add('macd_2h_02', 'macd', '2h', {
+    //   fast_length: 6,
+    //   slow_length: 23,
+    //   signal_length: 10,
+    // });
 
     indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
       fast_length: 12,
@@ -144,8 +143,6 @@ module.exports = class TraderCustom {
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_1h_01'),
       indicatorPeriod.getIndicator('macd_1h_02'),
-      indicatorPeriod.getIndicator('macd_2h_01'),
-      indicatorPeriod.getIndicator('macd_2h_02'),
       indicatorPeriod.getIndicator('macd_4h_01'),
       indicatorPeriod.getIndicator('macd_4h_02'),
       indicatorPeriod.getIndicator('macd_6h'),
@@ -180,8 +177,6 @@ module.exports = class TraderCustom {
     price,
     macd1H01Full,
     macd1H02Full,
-    macd2H01Full,
-    macd2H02Full,
     macd4H01Full,
     macd4H02Full,
     macd6HFull,
@@ -457,8 +452,8 @@ module.exports = class TraderCustom {
     const cci4H = cci4HFull.slice(0, -1);
     const macd1H01 = macd1H01Full.slice(0, -1);
     const macd1H02 = macd1H02Full.slice(0, -1);
-    const macd2H01 = macd2H01Full.slice(0, -1);
-    const macd2H02 = macd2H02Full.slice(0, -1);
+    // const macd2H01 = macd2H01Full.slice(0, -1);
+    // const macd2H02 = macd2H02Full.slice(0, -1);
     const macd4H01 = macd4H01Full.slice(0, -1);
     const macd4H02 = macd4H02Full.slice(0, -1);
     const macd6H = macd6HFull.slice(0, -1);
@@ -505,15 +500,10 @@ module.exports = class TraderCustom {
 
     let debug = {
       macd1H01: 0,
-      // macd1H02: 0,
-      macd2H01: 0,
-      // macd2H02: 0,
+      macd1H02: 0,
       macd4H01: 0,
-      // macd4H02: 0,
+      macd4H02: 0,
       macd6H: 0,
-      // macd6H01: 0,
-      // macd6H02: 0,
-      // macd6H03: 0,
       cci6H: 0,
       cci4H: 0,
       cci1H: 0,
@@ -543,7 +533,6 @@ module.exports = class TraderCustom {
 
     let count_macd6H = 1.5;
     let count_macd4H = 1;
-    let count_macd2H = 0.75;
     let count_macd1H = 0.75;
 
     let count_ao6H = 1.5;
@@ -591,21 +580,21 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1H
 
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.1, 4);
+    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 2, 3);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
     debug.obv6H -= resolve_obv.sell;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H,1.05, 4);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 0.5, 1);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
     debug.obv4H -= resolve_obv.sell;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 1.1, 4);
+    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 0.5, 1);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv1H += resolve_obv.buy;
@@ -665,19 +654,19 @@ module.exports = class TraderCustom {
     debug.macd6H -= resolve_macd.sell;
     debug = resolve_macd.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long4H, macd4H02, count_macd4H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd4H02 += resolve_macd.buy;
-    // debug.macd4H02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
-
-    resolve_macd = this.resolve_macd(debug, long4H, macd4H01, count_macd4H);
+    resolve_macd = this.resolve_macd(debug, long4H, macd4H02, count_macd4H);
     count_signals_buy += resolve_macd.buy;
     count_signals_sell += resolve_macd.sell;
-    debug.macd4H01 += resolve_macd.buy;
-    debug.macd4H01 -= resolve_macd.sell;
+    debug.macd4H02 += resolve_macd.buy;
+    debug.macd4H02 -= resolve_macd.sell;
     debug = resolve_macd.debug;
+
+    // resolve_macd = this.resolve_macd(debug, long4H, macd4H01, count_macd4H);
+    // count_signals_buy += resolve_macd.buy;
+    // count_signals_sell += resolve_macd.sell;
+    // debug.macd4H01 += resolve_macd.buy;
+    // debug.macd4H01 -= resolve_macd.sell;
+    // debug = resolve_macd.debug;
 
     // resolve_macd = this.resolve_macd(debug, long1H, macd2H02, count_macd2H);
     // count_signals_buy += resolve_macd.buy;
@@ -686,12 +675,12 @@ module.exports = class TraderCustom {
     // debug.macd2H02 -= resolve_macd.sell;
     // debug = resolve_macd.debug;
 
-    resolve_macd = this.resolve_macd(debug, long1H, macd2H01, count_macd2H);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd2H01 += resolve_macd.buy;
-    debug.macd2H01 -= resolve_macd.sell;
-    debug = resolve_macd.debug;
+    // resolve_macd = this.resolve_macd(debug, long1H, macd2H01, count_macd2H);
+    // count_signals_buy += resolve_macd.buy;
+    // count_signals_sell += resolve_macd.sell;
+    // debug.macd2H01 += resolve_macd.buy;
+    // debug.macd2H01 -= resolve_macd.sell;
+    // debug = resolve_macd.debug;
 
     resolve_macd = this.resolve_macd(debug, long1H, macd1H01, count_macd1H);
     count_signals_buy += resolve_macd.buy;
@@ -814,24 +803,6 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      // {
-      //   label: 'macd6H01',
-      //   value: 'macd6H01',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
-      // {
-      //   label: 'macd6H02',
-      //   value: 'macd6H02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
-      // {
-      //   label: 'macd6H03',
-      //   value: 'macd6H03',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
       {
         label: 'rsi6H',
         value: 'rsi6H',
@@ -856,12 +827,6 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      // {
-      //   label: 'macd4H02',
-      //   value: 'macd4H02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
       {
         label: 'macd4H01',
         value: 'macd4H01',
@@ -877,18 +842,6 @@ module.exports = class TraderCustom {
       {
         label: 'ao4H',
         value: 'ao4H',
-        type: 'cross',
-        type: 'sma200',
-      },
-      // {
-      //   label: 'macd2H02',
-      //   value: 'macd2H02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
-      {
-        label: 'macd2H01',
-        value: 'macd2H01',
         type: 'cross',
         type: 'sma200',
       },
@@ -917,12 +870,6 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      // {
-      //   label: 'macd1H02',
-      //   value: 'macd1H02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
       {
         label: 'rsi1H',
         value: 'rsi1H',

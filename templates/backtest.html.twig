@@ -60,7 +60,7 @@
                                                     <select class="form-control" id="form-candle-period" name="candle_period" required>
                                                         {% if pairs|length > 0 %}
                                                             {% for period in pairs[0].options %}
-                                                                <option value="{{ period }}" {% if period == '15m' %}selected{% endif %}>{{ period }}</option>
+                                                                <option value="{{ period }}" {% if period == '1h' %}selected{% endif %}>{{ period }}</option>
                                                             {% endfor %}                                                        
                                                         {% endif %}
                                                     </select>
@@ -68,7 +68,7 @@
 
                                                 <div class="form-group">
                                                     <label for="form-hours">Last Hours</label>
-                                                    <input class="form-control" id="form-hours" name="hours" value="168" required>
+                                                    <input class="form-control" id="form-hours" name="hours" value="1200" required>
                                                 </div>
                                             </div>
 
@@ -80,7 +80,7 @@
 
                                                 <div class="form-group">
                                                     <label for="form-tick-interval">Signal Tick Interval (in minutes)</label>
-                                                    <input class="form-control" id="form-tick-interval" name="ticker_interval" value="15" required>
+                                                    <input class="form-control" id="form-tick-interval" name="ticker_interval" value="60" required>
                                                 </div>
 
                                                 <div class="form-group">

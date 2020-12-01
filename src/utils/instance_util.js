@@ -219,7 +219,7 @@ module.exports = {
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '4h', '6h', '1d'],
+              periods: ['1h', '2h','4h', '6h', '1d'],
               exchange: 'binance_futures',
               state: 'watch',
               watchdogs: [

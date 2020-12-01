@@ -1,8 +1,41 @@
-<table class="table table-bordered table-sm table-hover backtest-table">
+<style>
+.header-fixed {
+    width: 100% 
+}
+
+.header-fixed > thead,
+.header-fixed > tbody,
+.header-fixed > thead > tr,
+.header-fixed > tbody > tr,
+.header-fixed > thead > tr > th,
+.header-fixed > tbody > tr > td {
+    display: block;
+}
+
+.header-fixed > tbody > tr:after,
+.header-fixed > thead > tr:after {
+    content: ' ';
+    display: block;
+    visibility: hidden;
+    clear: both;
+}
+
+.header-fixed > tbody {
+    overflow-y: auto;
+    height: 800px;
+}
+
+.header-fixed > tbody > tr > td,
+.header-fixed > thead > tr > th {
+    width: 61px;
+    float: left;
+}
+</style>
+<table class="table table-bordered table-sm table-hover backtest-table header-fixed">
     <thead>
     <tr>
-        <th scope="col">Time</th>
-        <th scope="col">Price</th>
+        <th style="width: 145px !important;" scope="col">Time</th>
+        <th style="width: 70px !important;" scope="col">Price</th>
         <th scope="col">Signal</th>
 
         {% for key, fields in extra_fields %}
@@ -16,8 +49,8 @@
     <tbody>
     {% for row in rows %}
         <tr>
-            <td style="white-space: nowrap">{{ row.time|date('y-m-d H:i:s') }}</td>
-            <td>{{ row.price|default }}</td>
+            <td style="white-space: nowrap;width: 145px !important;">{{ row.time|date('y-m-d H:i:s') }}</td>
+            <td style="width: 70px !important;" >{{ row.price|default }}</td>
             <td>
                 {% if row.result is defined %}
                     {% if row.result.signal == 'long' %}
