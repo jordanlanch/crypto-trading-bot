@@ -591,21 +591,21 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1H
 
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.1, 4);
+    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.1, 5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
     debug.obv6H -= resolve_obv.sell;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H,1.05, 4);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.1, 10.5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
     debug.obv4H -= resolve_obv.sell;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 1.1, 4);
+    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 0.5, 10.5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv1H += resolve_obv.buy;
@@ -753,9 +753,9 @@ module.exports = class TraderCustom {
     debug.rsi1H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
 
-    console.log('******price***************--->' + price);
-    console.log('************count_signals_buy***************--->' + count_signals_buy);
-    console.log('******************count_signals_sell***************--->' + count_signals_sell);
+    // console.log('******price***************--->' + price);
+    // console.log('************count_signals_buy***************--->' + count_signals_buy);
+    // console.log('******************count_signals_sell***************--->' + count_signals_sell);
 
     debug.buy = count_signals_buy;
     debug.sell = count_signals_sell;
