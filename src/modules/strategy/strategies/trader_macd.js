@@ -518,8 +518,17 @@ module.exports = class TraderCustom {
       cci4H: 0,
       cci1H: 0,
       obv6H: 0,
+      highest_overage_obv_6h: 0,
+      current_average_obv_6h: 0,
+      difference_obv_6h: 0,
       obv4H: 0,
+      highest_overage_obv_4h: 0,
+      current_average_obv_4h: 0,
+      difference_obv_4h: 0,
       obv1H: 0,
+      highest_overage_obv_1h: 0,
+      current_average_obv_1h: 0,
+      difference_obv_1h: 0,
       ao6H: 0,
       ao4H: 0,
       ao1H: 0,
@@ -596,20 +605,29 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
     debug.obv6H -= resolve_obv.sell;
+    debug.highest_overage_obv_6h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_6h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_6h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.1, 10.5);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.07, 5.1);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
     debug.obv4H -= resolve_obv.sell;
+    debug.highest_overage_obv_4h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_4h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_4h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 0.5, 10.5);
+    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 1.5, 16);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv1H += resolve_obv.buy;
     debug.obv1H -= resolve_obv.sell;
+    debug.highest_overage_obv_1h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_1h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_1h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
     //CCI 6H, 4H, 1H
@@ -737,6 +755,7 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
     debug.rsi6H -= resolve_rsi.sell;
+    
     debug = resolve_rsi.debug;
 
     resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
@@ -807,7 +826,25 @@ module.exports = class TraderCustom {
         value: 'obv6H',
         type: 'cross',
         type: 'sma200',
+      },            
+      {
+        label: 'highest_overage_obv_6h',
+        value: 'highest_overage_obv_6h',
+        type: 'cross',
+        type: 'sma200',
       },      
+      {
+        label: 'current_average_obv_6h',
+        value: 'current_average_obv_6h',
+        type: 'cross',
+        type: 'sma200',
+      },      
+      {
+        label: 'difference_obv_6h',
+        value: 'difference_obv_6h',
+        type: 'cross',
+        type: 'sma200',
+      },
       {
         label: 'macd6H',
         value: 'macd6H',
@@ -853,6 +890,24 @@ module.exports = class TraderCustom {
       {
         label: 'obv4H',
         value: 'obv4H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'highest_overage_obv_4h',
+        value: 'highest_overage_obv_4h',
+        type: 'cross',
+        type: 'sma200',
+      },      
+      {
+        label: 'current_average_obv_4h',
+        value: 'current_average_obv_4h',
+        type: 'cross',
+        type: 'sma200',
+      },      
+      {
+        label: 'difference_obv_4h',
+        value: 'difference_obv_4h',
         type: 'cross',
         type: 'sma200',
       },
@@ -902,6 +957,24 @@ module.exports = class TraderCustom {
       {
         label: 'obv1H',
         value: 'obv1H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'highest_overage_obv_1h',
+        value: 'highest_overage_obv_1h',
+        type: 'cross',
+        type: 'sma200',
+      },      
+      {
+        label: 'current_average_obv_1h',
+        value: 'current_average_obv_1h',
+        type: 'cross',
+        type: 'sma200',
+      },      
+      {
+        label: 'difference_obv_1h',
+        value: 'difference_obv_1h',
         type: 'cross',
         type: 'sma200',
       },
@@ -956,21 +1029,17 @@ module.exports = class TraderCustom {
 
     const currentAverage_obv = current_obv.reduce((a, b) => a + b, 0) / current_obv.length;
 
-    debug.highest_overage_obv = highestOverage_obv;
-    debug.current_average_obv = currentAverage_obv;
-
     if (currentAverage_obv >= highestOverage_obv) {
       const difference_obv = Math.abs(currentAverage_obv / highestOverage_obv);
 
-      debug.difference_obv = difference_obv;
 
       if (difference_obv >= triggerMultiplier) {
-        return { buy: count_ovb, sell: 0, debug: debug };
+        return { buy: count_ovb, sell: 0, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: difference_obv };
       } else {
-        return { buy: 0, sell: count_ovb, debug: debug };
+        return { buy: 0, sell: count_ovb, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: difference_obv };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return { buy: 0, sell: 0, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: 0 };
   }
 
   resolve_cci(debug, long, cci, count_cci) {
