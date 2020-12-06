@@ -261,137 +261,107 @@ let z = [
     });
   });
 
-  let z = [
-    'BTCUSDT',
-  ];
-  
-  z.forEach((pair) => {
-    c.symbols.push({
-      symbol: pair,
-      periods: ['1h', '2h', '4h', '6h', '1d'],
-      exchange: 'binance',
-      state: 'watch',
-      watchdogs: [
-        {
-          name: 'stoploss_watch',
-          stop: 1.5,
+  c.symbols.push({
+    symbol: 'BTCUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_BTC',
+        options: {
+          period: '1d',
         },
-      ],
-      strategies: [
-        {
-          strategy: 'trader_macd_BTC',
-          options: {
-            period: '1d',
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
 
-  let z = [
-    'ETHUSDT',
-  ];
-  
-  z.forEach((pair) => {
-    c.symbols.push({
-      symbol: pair,
-      periods: ['1h', '2h', '4h', '6h', '1d'],
-      exchange: 'binance',
-      state: 'watch',
-      watchdogs: [
-        {
-          name: 'stoploss_watch',
-          stop: 1.5,
+  c.symbols.push({
+    symbol: 'ETHUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_ETH',
+        options: {
+          period: '1d',
         },
-      ],
-      strategies: [
-        {
-          strategy: 'trader_macd_ETH',
-          options: {
-            period: '1d',
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
 
-  let z = [
-    'XRPUSDT',
-  ];
-  
-  z.forEach((pair) => {
-    c.symbols.push({
-      symbol: pair,
-      periods: ['1h', '2h', '4h', '6h', '1d'],
-      exchange: 'binance',
-      state: 'watch',
-      watchdogs: [
-        {
-          name: 'stoploss_watch',
-          stop: 1.5,
+  c.symbols.push({
+    symbol: 'XRPUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_XRP',
+        options: {
+          period: '1d',
         },
-      ],
-      strategies: [
-        {
-          strategy: 'trader_macd_XRP',
-          options: {
-            period: '1d',
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
 
-  let z = [
-    'EOSUSDT',
-  ];
-  
-  z.forEach((pair) => {
-    c.symbols.push({
-      symbol: pair,
-      periods: ['1h', '2h', '4h', '6h', '1d'],
-      exchange: 'binance',
-      state: 'watch',
-      watchdogs: [
-        {
-          name: 'stoploss_watch',
-          stop: 1.5,
+  c.symbols.push({
+    symbol: 'EOSUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_EOS',
+        options: {
+          period: '1d',
         },
-      ],
-      strategies: [
-        {
-          strategy: 'trader_macd_EOS',
-          options: {
-            period: '1d',
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
 
-  let z = [
-    'LTCUSDT',
-  ];
-  
-  z.forEach((pair) => {
-    c.symbols.push({
-      symbol: pair,
-      periods: ['1h', '2h', '4h', '6h', '1d'],
-      exchange: 'binance',
-      state: 'watch',
-      watchdogs: [
-        {
-          name: 'stoploss_watch',
-          stop: 1.5,
+  c.symbols.push({
+    symbol: 'LTCUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_LTC',
+        options: {
+          period: '1d',
         },
-      ],
-      strategies: [
-        {
-          strategy: 'trader_macd_LTC',
-          options: {
-            period: '1d',
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
