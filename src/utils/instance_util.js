@@ -216,6 +216,14 @@ module.exports = {
 
         content.symbols
           .filter((p) => p.status.toUpperCase() === 'TRADING')
+          .filter((p) =>  
+          !p.symbol.toUpperCase().startsWith('BTC') &&
+          !p.symbol.toUpperCase().startsWith('ETH') &&
+          !p.symbol.toUpperCase().startsWith('BCH') &&
+          !p.symbol.toUpperCase().startsWith('XRP') &&
+          !p.symbol.toUpperCase().startsWith('EOS') &&
+          !p.symbol.toUpperCase().startsWith('LTC')
+          )
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
@@ -234,7 +242,7 @@ module.exports = {
               },
               strategies: [
                 {
-                  strategy: 'trader_macd',
+                  strategy: 'trader_macd_ETH',
                   options: {
                     period: '1d',
                   },

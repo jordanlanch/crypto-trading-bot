@@ -74,8 +74,10 @@ $(function() {
         }
       })
       .on('mouseenter', function enter(d) {
+        let date_ok = new Date(d.date)
+        date_ok.setHours( date_ok.getHours() + 5 );
         valueText.style('display', 'inline');
-        valueText.text(`Trade: ${d3.timeFormat('%y-%m-%d %H:%M')(d.date)}, ${d.type}, ${d3.format(',.2f')(d.price)}`);
+        valueText.text(`Trade: ${d3.timeFormat('%y-%m-%d %H:%M')(date_ok)}, ${d.type}, ${d3.format(',.2f')(d.price)}`);
       })
       .on('mouseout', function out() {
         valueText.style('display', 'none');
@@ -242,10 +244,12 @@ $(function() {
 
     const data = candles
       .map(function(d) {
+        let date_ok = new Date(d.date)
+        date_ok.setHours( date_ok.getHours() + 5 );
         if (d.signals && d.signals.length > 0) {
           d.signals.forEach(function(trade) {
             trades.push({
-              date: new Date(d.date),
+              date: new Date(date_ok),
               type: trade.signal,
               price: d.close
             });
@@ -253,7 +257,7 @@ $(function() {
         }
 
         return {
-          date: new Date(d.date),
+          date: new Date(date_ok),
           open: d.open,
           high: d.high,
           low: d.low,
