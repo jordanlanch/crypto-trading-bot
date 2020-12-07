@@ -2,7 +2,7 @@ const SignalResult = require('../dict/signal_result');
 
 module.exports = class TraderCustom {
   getName() {
-    return 'trader_macd';
+    return 'trader_macd_ADA';
   }
 
   buildIndicator(indicatorBuilder, options) {
@@ -600,7 +600,7 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1H
  //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.102, 5);
+    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.197, 5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;

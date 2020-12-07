@@ -43,99 +43,237 @@ c.init = async () => {
     // c.symbols.push(...(await InstanceUtil.binanceInitSpotUsd()));
 
 
-    // Binance futures
-    c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
+   
 
-    // Binance futures or trade with 2 USD
-    c.symbols.push(
-      ...(await InstanceUtil.binanceFuturesInit(pair => {
-        pair.symbol = "BTCUSDT";
-        pair.strategies = [
-            {
-              strategy: 'trader_macd_BTC',
-              options: {
-                period: '1d',
-              },
+    c.symbols.push({
+        symbol: "BTCUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_BTC',
+            options: {
+              period: '1d',
             },
-          ];
-        return pair;
-      }))
-    );
-  
-    c.symbols.push(
-      ...(await InstanceUtil.binanceFuturesInit(pair => {
-        pair.symbol = "ETHUSDT";
-        pair.strategies = [
-            {
-              strategy: 'trader_macd_ETH',
-              options: {
-                period: '1d',
-              },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "ETHUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_ETH',
+            options: {
+              period: '1d',
             },
-          ];
-        return pair;
-      }))
-    );
-  
-    c.symbols.push(
-      ...(await InstanceUtil.binanceFuturesInit(pair => {
-        pair.symbol = "BCHUSDT";
-        pair.strategies = [
-            {
-              strategy: 'trader_macd_BCH',
-              options: {
-                period: '1d',
-              },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "BCHUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_BCH',
+            options: {
+              period: '1d',
             },
-          ];
-        return pair;
-      }))
-    );
-  
-    c.symbols.push(
-      ...(await InstanceUtil.binanceFuturesInit(pair => {
-        pair.symbol = "XRPUSDT";
-        pair.strategies = [
-            {
-              strategy: 'trader_macd_XRP',
-              options: {
-                period: '1d',
-              },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "XRPUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_XRP',
+            options: {
+              period: '1d',
             },
-          ];
-        return pair;
-      }))
-    );
-  
-    c.symbols.push(
-      ...(await InstanceUtil.binanceFuturesInit(pair => {
-        pair.symbol = "EOSUSDT";
-        pair.strategies = [
-            {
-              strategy: 'trader_macd_EOS',
-              options: {
-                period: '1d',
-              },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "EOSUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_EOS',
+            options: {
+              period: '1d',
             },
-          ];
-        return pair;
-      }))
-    );
-  
-    c.symbols.push(
-      ...(await InstanceUtil.binanceFuturesInit(pair => {
-        pair.symbol = "LTCUSDT";
-        pair.strategies = [
-            {
-              strategy: 'trader_macd_LTC',
-              options: {
-                period: '1d',
-              },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "LTCUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_LTC',
+            options: {
+              period: '1d',
             },
-          ];
-        return pair;
-      }))
-    );
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "ADAUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_ADA',
+            options: {
+              period: '1d',
+            },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "ETCUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_ETC',
+            options: {
+              period: '1d',
+            },
+          },
+        ],
+    })
+
+    c.symbols.push({
+        symbol: "LINKUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_LINK',
+            options: {
+              period: '1d',
+            },
+          },
+        ],
+    })
+
+
+     // Binance futures
+     c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
+
 
     // Bitfinex USD margin pairs
     // c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));

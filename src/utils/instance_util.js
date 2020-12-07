@@ -222,6 +222,9 @@ module.exports = {
           !p.symbol.toUpperCase().startsWith('BCH') &&
           !p.symbol.toUpperCase().startsWith('XRP') &&
           !p.symbol.toUpperCase().startsWith('EOS') &&
+          !p.symbol.toUpperCase().startsWith('ADA') &&
+          !p.symbol.toUpperCase().startsWith('ETC') &&
+          !p.symbol.toUpperCase().startsWith('LINK') &&
           !p.symbol.toUpperCase().startsWith('LTC')
           )
           .forEach((pair) => {
