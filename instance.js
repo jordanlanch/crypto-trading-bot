@@ -226,11 +226,9 @@ c.init = () => {
 //     })
 // })
 let z = [
-    'DASHUSDT',
     'IOTAUSDT',
     'NEOUSDT',
     'QTUMUSDT',
-    'XMRUSDT',
     'ZECUSDT',
     'XTZUSDT',
   ];
@@ -419,6 +417,48 @@ let z = [
     strategies: [
       {
         strategy: 'trader_macd_LINK',
+        options: {
+          period: '1d',
+        },
+      },
+    ],
+  });
+
+  c.symbols.push({
+    symbol: 'DASHUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_DASH',
+        options: {
+          period: '1d',
+        },
+      },
+    ],
+  });
+
+  c.symbols.push({
+    symbol: 'XMRUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_XMR',
         options: {
           period: '1d',
         },
