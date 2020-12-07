@@ -226,15 +226,12 @@ c.init = () => {
 //     })
 // })
 let z = [
-    'ADAUSDT',
     'DASHUSDT',
-    'ETCUSDT',
     'IOTAUSDT',
     'NEOUSDT',
     'QTUMUSDT',
     'XMRUSDT',
     'ZECUSDT',
-    'LINKUSDT',
     'XTZUSDT',
   ];
   
@@ -359,6 +356,69 @@ let z = [
     strategies: [
       {
         strategy: 'trader_macd_LTC',
+        options: {
+          period: '1d',
+        },
+      },
+    ],
+  });
+
+  c.symbols.push({
+    symbol: 'ADAUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_ADA',
+        options: {
+          period: '1d',
+        },
+      },
+    ],
+  });
+
+  c.symbols.push({
+    symbol: 'ETCUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_ETC',
+        options: {
+          period: '1d',
+        },
+      },
+    ],
+  });
+
+  c.symbols.push({
+    symbol: 'LINKUSDT',
+    periods: ['1h', '2h', '4h', '6h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'trader_macd_LINK',
         options: {
           period: '1d',
         },
