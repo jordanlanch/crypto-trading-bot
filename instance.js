@@ -249,7 +249,7 @@ let z = [
       ],
       strategies: [
         {
-          strategy: 'trader_macd_ETH',
+          strategy: 'trader_macd_ADA',
           options: {
             period: '1d',
           },
