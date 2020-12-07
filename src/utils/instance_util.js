@@ -225,6 +225,8 @@ module.exports = {
           !p.symbol.toUpperCase().startsWith('ADA') &&
           !p.symbol.toUpperCase().startsWith('ETC') &&
           !p.symbol.toUpperCase().startsWith('LINK') &&
+          !p.symbol.toUpperCase().startsWith('DASH') &&
+          !p.symbol.toUpperCase().startsWith('XMR') &&
           !p.symbol.toUpperCase().startsWith('LTC')
           )
           .forEach((pair) => {

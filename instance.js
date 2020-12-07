@@ -270,6 +270,57 @@ c.init = async () => {
         ],
     })
 
+    c.symbols.push({
+        symbol: "DASHUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_DASH',
+            options: {
+              period: '1d',
+            },
+          },
+        ],
+    })
+
+
+    c.symbols.push({
+        symbol: "XMRUSDT",
+        periods: ['1h', '2h','4h', '6h', '1d'],
+        exchange: 'binance_futures',
+        state: 'watch',
+        watchdogs: [
+          {
+            name: 'risk_reward_ratio',
+            target_percent: 4,
+            stop_percent: 3,
+          }
+        ],
+        trade: {
+          currency_capital: 60,
+        },
+        strategies: [
+          {
+            strategy: 'trader_macd_XMR',
+            options: {
+              period: '1d',
+            },
+          },
+        ],
+    })
+
 
      // Binance futures
      c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));

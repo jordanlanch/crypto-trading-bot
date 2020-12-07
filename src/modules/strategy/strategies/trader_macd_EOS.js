@@ -51,9 +51,9 @@ module.exports = class TraderCustom {
     });
 
     indicatorBuilder.add('macd_6h', 'macd_ext', '6h', {
-      fast_period: 9,
-      slow_period: 26,
-      signal_period: 11,
+      fast_period: 5,
+      slow_period: 34,
+      signal_period: 8,
     });
 
     indicatorBuilder.add('macd_6H_01', 'macd_ext', '6h', {
