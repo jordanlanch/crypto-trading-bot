@@ -238,8 +238,8 @@ module.exports = {
               watchdogs: [
                 {
                   name: 'risk_reward_ratio',
-                  target_percent: 4,
-                  stop_percent: 3,
+                  target_percent: 3.5,
+                  stop_percent: 2,
                 }
               ],
               trade: {
