@@ -216,31 +216,32 @@ module.exports = {
 
         content.symbols
           .filter((p) => p.status.toUpperCase() === 'TRADING')
-          .filter((p) =>  
-          !p.symbol.toUpperCase().startsWith('BTC') &&
-          !p.symbol.toUpperCase().startsWith('ETH') &&
-          !p.symbol.toUpperCase().startsWith('BCH') &&
-          !p.symbol.toUpperCase().startsWith('XRP') &&
-          !p.symbol.toUpperCase().startsWith('EOS') &&
-          !p.symbol.toUpperCase().startsWith('ADA') &&
-          !p.symbol.toUpperCase().startsWith('ETC') &&
-          !p.symbol.toUpperCase().startsWith('LINK') &&
-          !p.symbol.toUpperCase().startsWith('DASH') &&
-          !p.symbol.toUpperCase().startsWith('XMR') &&
-          !p.symbol.toUpperCase().startsWith('LTC')
+          .filter(
+            (p) =>
+              !p.symbol.toUpperCase().startsWith('BTC') &&
+              !p.symbol.toUpperCase().startsWith('ETH') &&
+              !p.symbol.toUpperCase().startsWith('BCH') &&
+              !p.symbol.toUpperCase().startsWith('XRP') &&
+              !p.symbol.toUpperCase().startsWith('EOS') &&
+              !p.symbol.toUpperCase().startsWith('ADA') &&
+              !p.symbol.toUpperCase().startsWith('ETC') &&
+              !p.symbol.toUpperCase().startsWith('LINK') &&
+              !p.symbol.toUpperCase().startsWith('DASH') &&
+              !p.symbol.toUpperCase().startsWith('XMR') &&
+              !p.symbol.toUpperCase().startsWith('LTC')
           )
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '2h','4h', '6h', '1d'],
+              periods: ['1h', '2h', '4h', '6h', '1d'],
               exchange: 'binance_futures',
               state: 'watch',
               watchdogs: [
                 {
                   name: 'risk_reward_ratio',
-                  target_percent: 3.5,
-                  stop_percent: 2,
-                }
+                  target_percent: 4,
+                  stop_percent: 2.5,
+                },
               ],
               trade: {
                 currency_capital: 60,

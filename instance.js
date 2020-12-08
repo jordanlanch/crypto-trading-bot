@@ -49,8 +49,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -74,8 +74,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -99,8 +99,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -124,8 +124,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -149,8 +149,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -174,8 +174,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -199,8 +199,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -249,8 +249,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -274,8 +274,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
@@ -299,8 +299,8 @@ c.init = async () => {
     watchdogs: [
       {
         name: 'risk_reward_ratio',
-        target_percent: 3.5,
-        stop_percent: 2,
+        target_percent: 4,
+        stop_percent: 2.5,
       },
     ],
     trade: {
