@@ -1,6 +1,6 @@
 # Crypto Trading Bot
 
-[![Build Status](https://travis-ci.org/Haehnchen/crypto-trading-bot-bitfinex.svg?branch=master)](https://travis-ci.org/Haehnchen/crypto-trading-bot-bitfinex)
+[![Build Status](https://travis-ci.org/Haehnchen/crypto-trading-bot-nicolas.svg?branch=master)](https://travis-ci.org/Haehnchen/crypto-trading-bot-nicolas)
 
 A **work in progress** Cryptocurrency for common exchanges like Bitfinex, Bitmex and Binance.
 As most trading bots just provide basic buy and sell signals they provide many stuff to get profitable eg exchange orders like stop-losses or stop-limits are not supported by main bots. Also the limitation of fixed timeframe and technical indicators must be broken  
@@ -109,7 +109,7 @@ After this you can use `docker-compose` which will give you a running bot via <h
 ## Setting Up Telegram Bot
 
 First, you'll need to create a bot for Telegram. Just talk to [BotFather](https://telegram.me/botfather) and follow simple steps until it gives you a token for it.
-You'll also need to create a Telegram group, the place where you and crypto-trading-bot-bitfinex will communicate. After creating it, add the bot as administrator (make sure to uncheck "All Members Are Admins").
+You'll also need to create a Telegram group, the place where you and crypto-trading-bot-nicolas will communicate. After creating it, add the bot as administrator (make sure to uncheck "All Members Are Admins").
 
 ### Retrieving Chat IDs
 

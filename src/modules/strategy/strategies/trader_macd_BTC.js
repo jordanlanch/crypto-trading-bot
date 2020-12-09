@@ -10,133 +10,131 @@ module.exports = class TraderCustom {
     //   throw 'Invalid period';
     // }
     //6H
-    indicatorBuilder.add('cci6H', 'cci', '6h', {
+    indicatorBuilder.add('cci6H', 'cci', '360', {
       length: 20,
     });
 
-    indicatorBuilder.add('macd_1h_01', 'macd_ext', '1h', {
+    indicatorBuilder.add('macd_1h_01', 'macd_ext', '60', {
       fast_period: 6,
       slow_period: 25,
       signal_period: 10,
     });
 
-    indicatorBuilder.add('macd_1h_02', 'macd_ext', '1h', {
+    indicatorBuilder.add('macd_1h_02', 'macd_ext', '60', {
       fast_period: 12,
       slow_period: 26,
       signal_period: 9,
     });
 
-    indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
+    indicatorBuilder.add('macd_2h_01', 'macd', '120', {
       fast_period: 5,
       slow_period: 34,
       signal_period: 8,
     });
 
-    indicatorBuilder.add('macd_2h_02', 'macd', '2h', {
+    indicatorBuilder.add('macd_2h_02', 'macd', '120', {
       fast_period: 6,
       slow_period: 23,
       signal_period: 10,
     });
 
-    indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
+    indicatorBuilder.add('macd_4h_01', 'macd_ext', '240', {
       fast_period: 12,
       slow_period: 26,
       signal_period: 9,
     });
 
-    indicatorBuilder.add('macd_4h_02', 'macd_ext', '4h', {
+    indicatorBuilder.add('macd_4h_02', 'macd_ext', '240', {
       fast_period: 10,
       slow_period: 33,
       signal_period: 10,
     });
 
-    indicatorBuilder.add('macd_6h', 'macd_ext', '6h', {
+    indicatorBuilder.add('macd_6h', 'macd_ext', '360', {
       fast_period: 9,
       slow_period: 26,
       signal_period: 11,
     });
 
-    indicatorBuilder.add('macd_6H_01', 'macd_ext', '6h', {
+    indicatorBuilder.add('macd_6H_01', 'macd_ext', '360', {
       fast_period: 5,
       slow_period: 39,
       signal_period: 7,
     });
 
-    indicatorBuilder.add('macd_6H_02', 'macd_ext', '6h', {
+    indicatorBuilder.add('macd_6H_02', 'macd_ext', '360', {
       fast_period: 5,
       slow_period: 22,
       signal_period: 12,
     });
 
-    indicatorBuilder.add('macd_6H_03', 'macd_ext', '6h', {
+    indicatorBuilder.add('macd_6H_03', 'macd_ext', '360', {
       fast_period: 11,
       slow_period: 24,
       signal_period: 11,
     });
 
-    indicatorBuilder.add('obv6H', 'obv', '6h');
+    indicatorBuilder.add('obv6H', 'obv', '360');
 
-    indicatorBuilder.add('ao6H', 'ao', '6h');
+    indicatorBuilder.add('ao6H', 'ao', '360');
 
-    indicatorBuilder.add('rsi6H', 'rsi', '6h');
+    indicatorBuilder.add('rsi6H', 'rsi', '360');
 
- 
-    indicatorBuilder.add('ema2006H', 'ema', '6h', {
+    indicatorBuilder.add('ema2006H', 'ema', '360', {
       length: 200,
     });
-    indicatorBuilder.add('ema1006H', 'ema', '6h', {
+    indicatorBuilder.add('ema1006H', 'ema', '360', {
       length: 100,
     });
 
     //4h
 
-    indicatorBuilder.add('cci4H', 'cci', '4h', {
+    indicatorBuilder.add('cci4H', 'cci', '240', {
       length: 30,
     });
 
-    indicatorBuilder.add('macd_4h', 'macd_ext', '4h', {
+    indicatorBuilder.add('macd_4h', 'macd_ext', '240', {
       fast_period: 6,
       slow_period: 13,
       signal_period: 9,
     });
 
-    indicatorBuilder.add('obv4h', 'obv', '4h');
+    indicatorBuilder.add('obv4h', 'obv', '240');
 
-    indicatorBuilder.add('ao4h', 'ao', '4h');
-    indicatorBuilder.add('sma2006H', 'sma', '6h', {
+    indicatorBuilder.add('ao4h', 'ao', '240');
+    indicatorBuilder.add('sma2006H', 'sma', '360', {
       length: 55,
     });
 
-
-    indicatorBuilder.add('sma2004H', 'sma', '4h', {
+    indicatorBuilder.add('sma2004H', 'sma', '240', {
       length: 55,
     });
-    indicatorBuilder.add('ema2004H', 'ema', '4h', {
+    indicatorBuilder.add('ema2004H', 'ema', '240', {
       length: 200,
     });
-    indicatorBuilder.add('ema704h', 'ema', '4h', {
+    indicatorBuilder.add('ema704h', 'ema', '240', {
       length: 200,
     });
 
-    indicatorBuilder.add('rsi4h', 'rsi', '4h');
+    indicatorBuilder.add('rsi4h', 'rsi', '240');
     //1h
 
-    indicatorBuilder.add('cci1H', 'cci', '1h', {
+    indicatorBuilder.add('cci1H', 'cci', '60', {
       length: 30,
     });
 
-    indicatorBuilder.add('obv1h', 'obv', '1h');
+    indicatorBuilder.add('obv1h', 'obv', '60');
 
-    indicatorBuilder.add('ao1h', 'ao', '1h');
+    indicatorBuilder.add('ao1h', 'ao', '60');
 
-    indicatorBuilder.add('sma2001H', 'sma', '1h', {
+    indicatorBuilder.add('sma2001H', 'sma', '60', {
       length: 200,
     });
-    indicatorBuilder.add('ema2001H', 'ema', '1h', {
+    indicatorBuilder.add('ema2001H', 'ema', '60', {
       length: 200,
     });
 
-    indicatorBuilder.add('rsi1h', 'rsi', '1h');
+    indicatorBuilder.add('rsi1h', 'rsi', '60');
   }
 
   period(indicatorPeriod) {
@@ -599,7 +597,7 @@ module.exports = class TraderCustom {
     // }
 
     //obv 6H, 4H, 1H
- //01 16 -1.248
+    //01 16 -1.248
     let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
@@ -757,7 +755,7 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
     debug.rsi6H -= resolve_rsi.sell;
-    
+
     debug = resolve_rsi.debug;
 
     resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
@@ -828,7 +826,7 @@ module.exports = class TraderCustom {
         value: 'obv6H',
         type: 'cross',
         type: 'sma200',
-      },  
+      },
       {
         label: 'difference_obv_6h',
         value: 'difference_obv_6h',
@@ -876,13 +874,13 @@ module.exports = class TraderCustom {
         value: 'cci4H',
         type: 'cross',
         range: 'sma200',
-      },      
+      },
       {
         label: 'obv4H',
         value: 'obv4H',
         type: 'cross',
         type: 'sma200',
-      },   
+      },
       {
         label: 'difference_obv_4h',
         value: 'difference_obv_4h',
@@ -925,7 +923,7 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-     
+
       {
         label: 'cci1H',
         value: 'cci1H',
@@ -937,7 +935,7 @@ module.exports = class TraderCustom {
         value: 'obv1H',
         type: 'cross',
         type: 'sma200',
-      },   
+      },
       {
         label: 'difference_obv_1h',
         value: 'difference_obv_1h',
@@ -979,7 +977,7 @@ module.exports = class TraderCustom {
 
   getOptions() {
     return {
-      period: '6h',
+      period: '360',
     };
   }
 
@@ -998,14 +996,34 @@ module.exports = class TraderCustom {
     if (currentAverage_obv >= highestOverage_obv) {
       const difference_obv = Math.abs(currentAverage_obv / highestOverage_obv);
 
-
       if (difference_obv >= triggerMultiplier) {
-        return { buy: count_ovb, sell: 0, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: difference_obv };
+        return {
+          buy: count_ovb,
+          sell: 0,
+          debug: debug,
+          highestOverage_obv: highestOverage_obv,
+          currentAverage_obv: currentAverage_obv,
+          difference_obv: difference_obv,
+        };
       } else {
-        return { buy: 0, sell: count_ovb, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: difference_obv };
+        return {
+          buy: 0,
+          sell: count_ovb,
+          debug: debug,
+          highestOverage_obv: highestOverage_obv,
+          currentAverage_obv: currentAverage_obv,
+          difference_obv: difference_obv,
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: 0 };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug,
+      highestOverage_obv: highestOverage_obv,
+      currentAverage_obv: currentAverage_obv,
+      difference_obv: 0,
+    };
   }
 
   resolve_cci(debug, long, cci, count_cci) {
