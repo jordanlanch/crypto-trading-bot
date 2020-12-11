@@ -11,7 +11,7 @@ module.exports = class TraderCustom {
     // }
     //6H
     indicatorBuilder.add('cci6H', 'cci', '6h', {
-      length: 20,
+      length: 5,
     });
 
     indicatorBuilder.add('macd_1h_01', 'macd_ext', '1h', {
@@ -80,7 +80,6 @@ module.exports = class TraderCustom {
 
     indicatorBuilder.add('rsi6H', 'rsi', '6h');
 
- 
     indicatorBuilder.add('ema2006H', 'ema', '6h', {
       length: 200,
     });
@@ -91,7 +90,7 @@ module.exports = class TraderCustom {
     //4h
 
     indicatorBuilder.add('cci4H', 'cci', '4h', {
-      length: 30,
+      length: 10,
     });
 
     indicatorBuilder.add('macd_4h', 'macd_ext', '4h', {
@@ -106,7 +105,6 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('sma2006H', 'sma', '6h', {
       length: 55,
     });
-
 
     indicatorBuilder.add('sma2004H', 'sma', '4h', {
       length: 55,
@@ -599,8 +597,8 @@ module.exports = class TraderCustom {
     // }
 
     //obv 6H, 4H, 1H
- //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 5);
+    //01 16 -1.248
+    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 4);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
@@ -612,7 +610,7 @@ module.exports = class TraderCustom {
 
     //1.014 20 3 am
     //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.02, 2.9);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.02, 2.5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
@@ -622,7 +620,7 @@ module.exports = class TraderCustom {
     debug.difference_obv_4h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 1.5, 16);
+    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, 1.5, 8);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv1H += resolve_obv.buy;
@@ -757,7 +755,7 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
     debug.rsi6H -= resolve_rsi.sell;
-    
+
     debug = resolve_rsi.debug;
 
     resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
@@ -828,7 +826,7 @@ module.exports = class TraderCustom {
         value: 'obv6H',
         type: 'cross',
         type: 'sma200',
-      },  
+      },
       {
         label: 'difference_obv_6h',
         value: 'difference_obv_6h',
@@ -876,13 +874,13 @@ module.exports = class TraderCustom {
         value: 'cci4H',
         type: 'cross',
         range: 'sma200',
-      },      
+      },
       {
         label: 'obv4H',
         value: 'obv4H',
         type: 'cross',
         type: 'sma200',
-      },   
+      },
       {
         label: 'difference_obv_4h',
         value: 'difference_obv_4h',
@@ -925,7 +923,7 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-     
+
       {
         label: 'cci1H',
         value: 'cci1H',
@@ -937,7 +935,7 @@ module.exports = class TraderCustom {
         value: 'obv1H',
         type: 'cross',
         type: 'sma200',
-      },   
+      },
       {
         label: 'difference_obv_1h',
         value: 'difference_obv_1h',
@@ -998,14 +996,34 @@ module.exports = class TraderCustom {
     if (currentAverage_obv >= highestOverage_obv) {
       const difference_obv = Math.abs(currentAverage_obv / highestOverage_obv);
 
-
       if (difference_obv >= triggerMultiplier) {
-        return { buy: count_ovb, sell: 0, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: difference_obv };
+        return {
+          buy: count_ovb,
+          sell: 0,
+          debug: debug,
+          highestOverage_obv: highestOverage_obv,
+          currentAverage_obv: currentAverage_obv,
+          difference_obv: difference_obv,
+        };
       } else {
-        return { buy: 0, sell: count_ovb, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: difference_obv };
+        return {
+          buy: 0,
+          sell: count_ovb,
+          debug: debug,
+          highestOverage_obv: highestOverage_obv,
+          currentAverage_obv: currentAverage_obv,
+          difference_obv: difference_obv,
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug, highestOverage_obv: highestOverage_obv, currentAverage_obv: currentAverage_obv, difference_obv: 0 };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug,
+      highestOverage_obv: highestOverage_obv,
+      currentAverage_obv: currentAverage_obv,
+      difference_obv: 0,
+    };
   }
 
   resolve_cci(debug, long, cci, count_cci) {
