@@ -75,7 +75,7 @@ module.exports = {
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '4h', '6h', '1d'],
+              periods: ['1h', '4h', '6h', '12h'],
               exchange: 'binance',
               state: 'watch',
               trade: {
@@ -85,7 +85,7 @@ module.exports = {
                 {
                   strategy: 'trader_macd',
                   options: {
-                    period: '1d',
+                    period: '12h',
                   },
                 },
               ],
@@ -233,7 +233,7 @@ module.exports = {
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '2h', '4h', '6h', '1d'],
+              periods: ['1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
               state: 'watch',
               watchdogs: [
@@ -250,7 +250,7 @@ module.exports = {
                 {
                   strategy: 'trader_macd_ADA',
                   options: {
-                    period: '1d',
+                    period: '12h',
                   },
                 },
               ],
@@ -295,7 +295,7 @@ module.exports = {
             // console.log(pair)
             let result = {
               symbol: pair.pair.toUpperCase(),
-              periods: ['1h', '4h', '6h', '1d'],
+              periods: ['1h', '4h', '6h', '12h'],
               exchange: 'bitfinex',
               extra: {
                 bitfinex_leverage: 2,
@@ -319,7 +319,7 @@ module.exports = {
                 {
                   strategy: 'trader_macd',
                   options: {
-                    period: '1d',
+                    period: '12h',
                   },
                 },
               ],

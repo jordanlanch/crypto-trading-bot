@@ -43,7 +43,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'BTCUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -60,7 +60,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_BTC',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -68,7 +68,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'ETHUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -85,7 +85,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_ETH',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -93,7 +93,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'BCHUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -110,7 +110,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_BCH',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -118,7 +118,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'XRPUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -135,7 +135,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_XRP',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -143,7 +143,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'EOSUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -160,7 +160,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_EOS',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -168,7 +168,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'LTCUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -185,7 +185,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_LTC',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -193,7 +193,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'ADAUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -210,7 +210,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_ADA',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -218,7 +218,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'ETCUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -235,7 +235,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_ETC',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -243,7 +243,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'LINKUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -260,7 +260,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_LINK',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -268,7 +268,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'DASHUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -285,7 +285,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_DASH',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
@@ -293,7 +293,7 @@ c.init = async () => {
 
   c.symbols.push({
     symbol: 'XMRUSDT',
-    periods: ['1h', '2h', '4h', '6h', '1d'],
+    periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'watch',
     watchdogs: [
@@ -310,7 +310,7 @@ c.init = async () => {
       {
         strategy: 'trader_macd_XMR',
         options: {
-          period: '1d',
+          period: '12h',
         },
       },
     ],
