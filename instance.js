@@ -228,7 +228,7 @@ z.forEach((pair) => {
     ],
     strategies: [
       {
-        strategy: 'trader_macd_ADA',
+        strategy: 'trader_macd',
         options: {
           period: '12h',
         },
