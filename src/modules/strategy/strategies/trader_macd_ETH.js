@@ -15,9 +15,9 @@ module.exports = class TraderCustom {
     });
 
     indicatorBuilder.add('macd_12h_01', 'macd_ext', '12h', {
-      fast_period: 6,
-      slow_period: 25,
-      signal_period: 10,
+      fast_period: 12,
+      slow_period: 33,
+      signal_period: 9,
     });
 
     indicatorBuilder.add('macd_12h_02', 'macd_ext', '12h', {
@@ -39,9 +39,9 @@ module.exports = class TraderCustom {
     });
 
     indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
-      fast_period: 6,
-      slow_period: 19,
-      signal_period: 9,
+      fast_period: 11,
+      slow_period: 24,
+      signal_period: 11,
     });
 
     indicatorBuilder.add('macd_4h_02', 'macd_ext', '4h', {
@@ -583,7 +583,17 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1D
     //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.001, 2);
+    let resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.022, 1);
+    count_signals_buy += resolve_obv.buy;
+    count_signals_sell += resolve_obv.sell;
+    debug.obv1D += resolve_obv.buy;
+    debug.obv1D -= resolve_obv.sell;
+    debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_12h -= resolve_obv.difference_obv;
+    debug = resolve_obv.debug;
+
+    resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.001, 2);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
@@ -595,7 +605,7 @@ module.exports = class TraderCustom {
 
     //1.014 20 3 am
     //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.064, 4);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.022, 3);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
@@ -603,16 +613,6 @@ module.exports = class TraderCustom {
     debug.highest_overage_obv_4h -= resolve_obv.highestOverage_obv;
     debug.current_average_obv_4h -= resolve_obv.currentAverage_obv;
     debug.difference_obv_4h -= resolve_obv.difference_obv;
-    debug = resolve_obv.debug;
-
-    resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.058, 2);
-    count_signals_buy += resolve_obv.buy;
-    count_signals_sell += resolve_obv.sell;
-    debug.obv1D += resolve_obv.buy;
-    debug.obv1D -= resolve_obv.sell;
-    debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
-    debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
-    debug.difference_obv_12h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
     //CCI 6H, 4H, 1D

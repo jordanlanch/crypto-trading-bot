@@ -40,8 +40,8 @@ module.exports = class TraderCustom {
 
     indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
       fast_period: 6,
-      slow_period: 19,
-      signal_period: 9,
+      slow_period: 23,
+      signal_period: 10,
     });
 
     indicatorBuilder.add('macd_4h_02', 'macd_ext', '4h', {
@@ -583,7 +583,7 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1D
     //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.038, 2);
+    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 2);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
@@ -595,7 +595,7 @@ module.exports = class TraderCustom {
 
     //1.014 20 3 am
     //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.018, 1.5);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.02, 2.5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
@@ -605,7 +605,7 @@ module.exports = class TraderCustom {
     debug.difference_obv_4h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.006, 2);
+    resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.058, 2);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv1D += resolve_obv.buy;
