@@ -446,3 +446,45 @@ c.symbols.push({
     },
   ],
 });
+
+c.symbols.push({
+  symbol: 'QTUMUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [
+    {
+      name: 'stoploss_watch',
+      stop: 1.5,
+    },
+  ],
+  strategies: [
+    {
+      strategy: 'trader_macd_QTUM',
+      options: {
+        period: '12h',
+      },
+    },
+  ],
+});
+
+c.symbols.push({
+  symbol: 'XTZUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [
+    {
+      name: 'stoploss_watch',
+      stop: 1.5,
+    },
+  ],
+  strategies: [
+    {
+      strategy: 'trader_macd_XTZ',
+      options: {
+        period: '12h',
+      },
+    },
+  ],
+});
