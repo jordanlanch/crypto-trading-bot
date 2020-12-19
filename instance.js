@@ -212,7 +212,7 @@ c.init = () => {
 //         ]
 //     })
 // })
-let z = ['IOTAUSDT', 'NEOUSDT', 'QTUMUSDT', 'ZECUSDT', 'XTZUSDT'];
+let z = ['IOTAUSDT', 'NEOUSDT', 'ZECUSDT'];
 
 z.forEach((pair) => {
   c.symbols.push({
