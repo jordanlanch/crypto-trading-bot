@@ -40,7 +40,7 @@ module.exports = class TraderCustom {
 
     indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
       fast_period: 12,
-      slow_period: 26,
+      slow_period: 23,
       signal_period: 9,
     });
 
@@ -583,7 +583,17 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1D
     //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 2);
+    let resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.034, 1);
+    count_signals_buy += resolve_obv.buy;
+    count_signals_sell += resolve_obv.sell;
+    debug.obv1D += resolve_obv.buy;
+    debug.obv1D -= resolve_obv.sell;
+    debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_12h -= resolve_obv.difference_obv;
+    debug = resolve_obv.debug;
+
+    resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 2.5);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
@@ -603,16 +613,6 @@ module.exports = class TraderCustom {
     debug.highest_overage_obv_4h -= resolve_obv.highestOverage_obv;
     debug.current_average_obv_4h -= resolve_obv.currentAverage_obv;
     debug.difference_obv_4h -= resolve_obv.difference_obv;
-    debug = resolve_obv.debug;
-
-    resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.058, 2);
-    count_signals_buy += resolve_obv.buy;
-    count_signals_sell += resolve_obv.sell;
-    debug.obv1D += resolve_obv.buy;
-    debug.obv1D -= resolve_obv.sell;
-    debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
-    debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
-    debug.difference_obv_12h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
     //CCI 6H, 4H, 1D
@@ -735,7 +735,7 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 1D
 
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 20, 80);
+    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 13, 87);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
@@ -743,7 +743,7 @@ module.exports = class TraderCustom {
 
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
+    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 13, 87);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
