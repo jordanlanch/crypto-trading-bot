@@ -605,7 +605,7 @@ module.exports = class TraderCustom {
 
     //1.014 20 3 am
     //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.015, 3);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.016, 3);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
