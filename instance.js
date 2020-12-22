@@ -50,7 +50,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -75,7 +75,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -100,7 +100,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -125,7 +125,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -150,7 +150,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -175,7 +175,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -200,7 +200,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -250,7 +250,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -275,7 +275,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
@@ -300,7 +300,7 @@ c.init = async () => {
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
-        target_percent: 1.4,
+        stop_percent: 1.4,
       },
     ],
     trade: {
