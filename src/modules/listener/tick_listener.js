@@ -64,9 +64,7 @@ module.exports = class TickListener {
       throw Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
     }
 
-    const signalWindow = moment()
-      .subtract(30, 'minutes')
-      .toDate();
+    const signalWindow = moment().subtract(30, 'minutes').toDate();
 
     if (
       this.notified[symbol.exchange + symbol.symbol + strategyKey] &&
@@ -159,9 +157,7 @@ module.exports = class TickListener {
       throw Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
     }
 
-    const signalWindow = moment()
-      .subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes')
-      .toDate();
+    const signalWindow = moment().subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes').toDate();
 
     const noteKey = symbol.exchange + symbol.symbol;
     if (noteKey in this.notified && this.notified[noteKey] >= signalWindow) {
@@ -179,7 +175,7 @@ module.exports = class TickListener {
       {
         price: ticker.ask,
         strategy: strategyKey,
-        raw: JSON.stringify(result)
+        raw: JSON.stringify(result),
       },
       signal,
       strategyKey
@@ -199,21 +195,21 @@ module.exports = class TickListener {
     const types = [
       {
         name: 'watch',
-        items: this.instances.symbols.filter(sym => sym.strategies && sym.strategies.length > 0)
+        items: this.instances.symbols.filter((sym) => sym.strategies && sym.strategies.length > 0),
       },
       {
         name: 'trade',
         items: this.instances.symbols.filter(
-          sym => sym.trade && sym.trade.strategies && sym.trade.strategies.length > 0
-        )
-      }
+          (sym) => sym.trade && sym.trade.strategies && sym.trade.strategies.length > 0
+        ),
+      },
     ];
 
-    types.forEach(type => {
+    types.forEach((type) => {
       me.logger.info(`Strategy: "${type.name}" found "${type.items.length}" valid symbols`);
 
-      type.items.forEach(symbol => {
-        symbol.strategies.forEach(strategy => {
+      type.items.forEach((symbol) => {
+        symbol.strategies.forEach((strategy) => {
           let myInterval = '1m';
 
           if (strategy.interval) {
@@ -253,7 +249,7 @@ module.exports = class TickListener {
                   `"${symbol.exchange}" - "${symbol.symbol}" - "${type.name}" strategy running "${strategy.strategy}"`
                 );
                 */
-                console.log('type.name-->'+type.name)
+                // console.log('type.name-->'+type.name)
                 if (type.name === 'watch') {
                   await me.visitStrategy(strategy, symbol);
                   // await me.visitTradeStrategy(strategy, symbol);
