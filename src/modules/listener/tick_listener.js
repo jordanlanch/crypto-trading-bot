@@ -213,7 +213,7 @@ module.exports = class TickListener {
               await me.visitStrategy(strategy, symbol);
               // await me.visitStrategy(strategy, symbol);
             } else if (type.name === 'trade') {
-              // await me.visitTradeStrategy(strategy, symbol);
+              await me.visitTradeStrategy(strategy, symbol);
             } else {
               throw new Error(`Invalid strategy type${type.name}`);
             }

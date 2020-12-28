@@ -45,7 +45,7 @@ c.init = async () => {
     symbol: 'BTCUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -70,7 +70,7 @@ c.init = async () => {
     symbol: 'ETHUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -95,7 +95,7 @@ c.init = async () => {
     symbol: 'BCHUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -120,7 +120,7 @@ c.init = async () => {
     symbol: 'XRPUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -145,7 +145,7 @@ c.init = async () => {
     symbol: 'EOSUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -170,7 +170,7 @@ c.init = async () => {
     symbol: 'LTCUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -195,7 +195,7 @@ c.init = async () => {
     symbol: 'ADAUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -220,7 +220,7 @@ c.init = async () => {
     symbol: 'ETCUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -245,7 +245,7 @@ c.init = async () => {
     symbol: 'LINKUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -270,7 +270,7 @@ c.init = async () => {
     symbol: 'DASHUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -295,7 +295,7 @@ c.init = async () => {
     symbol: 'XMRUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
-    state: 'watch',
+    state: 'trade',
     watchdogs: [
       {
         name: 'risk_reward_ratio',
@@ -357,7 +357,7 @@ c.init = () => {
                     'symbol': pair,
                     'periods': ['1m', '15m', '1h'],
                     'exchange': 'binance',
-                    'state': 'watch',
+                    'state': 'trade',
                     'watchdogs': [
                         {
                             'name': 'stoploss_watch',
@@ -408,7 +408,7 @@ c.init = () => {
 //         'symbol': pair,
 //         'periods': ['1m', '15m', '1h'],
 //         'exchange': 'bitmex',
-//         'state': 'watch',
+//         'state': 'trade',
 //         'extra': {
 //             'bitmex_leverage': 5,
 //             'bitmex_rest_order_sync': 45000
@@ -457,7 +457,7 @@ c.init = () => {
 //         'symbol': pair,
 //         'periods': ['1m', '15m', '1h'],
 //         'exchange': 'bitmex_testnet',
-//         'state': 'watch',
+//         'state': 'trade',
 //         'watchdogs': [
 //             {
 //                 'name': 'stoploss',
@@ -499,7 +499,7 @@ c.init = () => {
 //         'symbol': pair,
 //         'periods': ['1m', '15m', '1h'],
 //         'exchange': 'binance',
-//         'state': 'watch',
+//         'state': 'trade',
 //         'strategies': [
 //             {
 //                 'strategy': 'cci',
