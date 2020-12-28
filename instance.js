@@ -212,30 +212,30 @@ c.init = () => {
 //         ]
 //     })
 // })
-let z = ['IOTAUSDT', 'NEOUSDT', 'ZECUSDT'];
+// let z = ['NEOUSDT'];
 
-z.forEach((pair) => {
-  c.symbols.push({
-    symbol: pair,
-    periods: ['1h', '2h', '4h', '6h', '12h'],
-    exchange: 'binance',
-    state: 'watch',
-    watchdogs: [
-      {
-        name: 'stoploss_watch',
-        stop: 1.5,
-      },
-    ],
-    strategies: [
-      {
-        strategy: 'trader_macd',
-        options: {
-          period: '12h',
-        },
-      },
-    ],
-  });
-});
+// z.forEach((pair) => {
+//   c.symbols.push({
+//     symbol: pair,
+//     periods: ['1h', '2h', '4h', '6h', '12h'],
+//     exchange: 'binance',
+//     state: 'watch',
+//     watchdogs: [
+//       {
+//         name: 'stoploss_watch',
+//         stop: 1.5,
+//       },
+//     ],
+//     strategies: [
+//       {
+//         strategy: 'trader_macd',
+//         options: {
+//           period: '12h',
+//         },
+//       },
+//     ],
+//   });
+// });
 
 c.symbols.push({
   symbol: 'BTCUSDT',
@@ -482,6 +482,69 @@ c.symbols.push({
   strategies: [
     {
       strategy: 'trader_macd_XTZ',
+      options: {
+        period: '12h',
+      },
+    },
+  ],
+});
+
+c.symbols.push({
+  symbol: 'ZECUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [
+    {
+      name: 'stoploss_watch',
+      stop: 1.5,
+    },
+  ],
+  strategies: [
+    {
+      strategy: 'trader_macd_ZEC',
+      options: {
+        period: '12h',
+      },
+    },
+  ],
+});
+
+c.symbols.push({
+  symbol: 'IOTAUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [
+    {
+      name: 'stoploss_watch',
+      stop: 1.5,
+    },
+  ],
+  strategies: [
+    {
+      strategy: 'trader_macd_IOTA',
+      options: {
+        period: '12h',
+      },
+    },
+  ],
+});
+
+c.symbols.push({
+  symbol: 'NEOUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [
+    {
+      name: 'stoploss_watch',
+      stop: 1.5,
+    },
+  ],
+  strategies: [
+    {
+      strategy: 'trader_macd_NEO',
       options: {
         period: '12h',
       },

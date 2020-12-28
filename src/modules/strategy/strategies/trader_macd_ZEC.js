@@ -2,7 +2,7 @@ const SignalResult = require('../dict/signal_result');
 
 module.exports = class TraderCustom {
   getName() {
-    return 'trader_macd_ETC';
+    return 'trader_macd_ZEC';
   }
 
   buildIndicator(indicatorBuilder, options) {
@@ -40,8 +40,8 @@ module.exports = class TraderCustom {
 
     indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
       fast_period: 6,
-      slow_period: 19,
-      signal_period: 9,
+      slow_period: 23,
+      signal_period: 10,
     });
 
     indicatorBuilder.add('macd_4h_02', 'macd_ext', '4h', {
@@ -593,7 +593,7 @@ module.exports = class TraderCustom {
     debug.difference_obv_12h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.026, 2);
+    resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 2);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
@@ -605,7 +605,7 @@ module.exports = class TraderCustom {
 
     //1.014 20 3 am
     //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 0.756, 2);
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 0.9924, 2);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
@@ -712,7 +712,14 @@ module.exports = class TraderCustom {
 
     //AO 6H, 4H, 1D
 
-    let resolve_ao = this.resolve_ao(debug, long6H, ao6H, count_ao6H);
+    let resolve_ao = this.resolve_ao(debug, long1D, ao1D, count_ao1D);
+    count_signals_buy += resolve_ao.buy;
+    count_signals_sell += resolve_ao.sell;
+    debug.ao1D += resolve_ao.buy;
+    debug.ao1D -= resolve_ao.sell;
+    debug = resolve_ao.debug;
+
+    resolve_ao = this.resolve_ao(debug, long6H, ao6H, count_ao6H);
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao6H += resolve_ao.buy;
@@ -724,13 +731,6 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_ao.sell;
     debug.ao4H += resolve_ao.buy;
     debug.ao4H -= resolve_ao.sell;
-    debug = resolve_ao.debug;
-
-    resolve_ao = this.resolve_ao(debug, long1D, ao1D, count_ao1D);
-    count_signals_buy += resolve_ao.buy;
-    count_signals_sell += resolve_ao.sell;
-    debug.ao1D += resolve_ao.buy;
-    debug.ao1D -= resolve_ao.sell;
     debug = resolve_ao.debug;
 
     //RSI 6H, 4H, 1D
