@@ -130,21 +130,44 @@ module.exports = class Http {
     });
 
     app.post('/backtest/submit', async (req, res) => {
-      const pair = req.body.pair.split('.');
+      let pairs = req.body.pair;
 
-      res.render(
-        '../templates/backtest_submit.html.twig',
-        await this.backtest.getBacktestResult(
-          parseInt(req.body.ticker_interval),
-          req.body.hours,
-          req.body.strategy,
-          req.body.candle_period,
-          pair[0],
-          pair[1],
-          req.body.options ? JSON.parse(req.body.options) : {},
-          req.body.initial_capital
-        )
-      );
+      if (typeof pairs === 'string') {
+        pairs = [pairs];
+      }
+
+      const asyncs = pairs.map(pair => {
+        return async () => {
+          const p = pair.split('.');
+
+          return {
+            pair: pair,
+            result: await this.backtest.getBacktestResult(
+              parseInt(req.body.ticker_interval, 10),
+              req.body.hours,
+              req.body.strategy,
+              req.body.candle_period,
+              p[0],
+              p[1],
+              req.body.options ? JSON.parse(req.body.options) : {},
+              req.body.initial_capital
+            )
+          };
+        };
+      });
+
+      const backtests = await Promise.all(asyncs.map(fn => fn()));
+
+      // single details view
+      if (backtests.length === 1) {
+        res.render('../templates/backtest_submit.html.twig', backtests[0].result);
+        return;
+      }
+
+      // multiple view
+      res.render('../templates/backtest_submit_multiple.html.twig', {
+        backtests: backtests
+      });
     });
 
     app.get('/tradingview/:symbol', (req, res) => {
@@ -174,6 +197,16 @@ module.exports = class Http {
         desk: this.systemUtil.getConfig('desks')[req.params.desk],
         interval: req.query.interval || undefined,
         id: req.params.desk,
+      });
+    });
+
+    app.get('/desks/:desk/fullscreen', (req, res) => {
+      const configElement = this.systemUtil.getConfig('desks')[req.params.desk];
+      res.render('../templates/tradingview_desk.html.twig', {
+        desk: configElement,
+        interval: req.query.interval || undefined,
+        id: req.params.desk,
+        watchlist: configElement.pairs.map(i => i.symbol)
       });
     });
 
