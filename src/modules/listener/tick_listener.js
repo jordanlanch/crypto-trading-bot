@@ -196,12 +196,27 @@ module.exports = class TickListener {
           const timeoutWindow = timeout + (Math.floor(Math.random() * 9000) + 5000);
 
           me.logger.info(
-            `"${symbol.exchange}" - "${symbol.symbol}" - "${type.name}" init strategy "${strategy.strategy}" in ${(
-              timeoutWindow /
-              60 /
-              1000
-            ).toFixed(3)} minutes`
+            `"${symbol.exchange}" - "${symbol.symbol}" - "${type.name}" - init strategy "${
+              strategy.strategy
+            }" (${myInterval}) in ${(timeoutWindow / 60 / 1000).toFixed(3)} minutes`
           );
+
+          const strategyIntervalCallback = async () => {
+            /*
+            // logging can be high traffic on alot of pairs
+            me.logger.debug(
+              `"${symbol.exchange}" - "${symbol.symbol}" - "${type.name}" strategy running "${strategy.strategy}"`
+            );
+            */
+
+            if (type.name === 'watch') {
+              await me.visitStrategy(strategy, symbol);
+            } else if (type.name === 'trade') {
+              await me.visitTradeStrategy(strategy, symbol);
+            } else {
+              throw new Error(`Invalid strategy type${type.name}`);
+            }
+          };
 
           setTimeout(() => {
             me.logger.info(
@@ -210,24 +225,12 @@ module.exports = class TickListener {
               }" now every ${(interval / 60 / 1000).toFixed(2)} minutes`
             );
 
+            // first run call
+            queue.add(strategyIntervalCallback);
+
+            // continuous run
             setInterval(() => {
-              queue.add(async () => {
-                /*
-                // logging can be high traffic on alot of pairs
-                me.logger.debug(
-                  `"${symbol.exchange}" - "${symbol.symbol}" - "${type.name}" strategy running "${strategy.strategy}"`
-                );
-                */
-                console.log('type.name-->' + type.name);
-                if (type.name === 'watch') {
-                  //await me.visitStrategy(strategy, symbol);
-                  await me.visitTradeStrategy(strategy, symbol);
-                } else if (type.name === 'trade') {
-                  await me.visitTradeStrategy(strategy, symbol);
-                } else {
-                  throw new Error(`Invalid strategy type${type.name}`);
-                }
-              });
+              queue.add(strategyIntervalCallback);
             }, interval);
           }, timeoutWindow);
         });
