@@ -31,7 +31,7 @@ module.exports = {
               symbol: pair.name,
               periods: ['1m', '15m', '1h'],
               exchange: 'ftx',
-              state: 'watch',
+              state: 'trade',
             };
 
             if (callback) {
@@ -85,7 +85,7 @@ module.exports = {
               symbol: pair.symbol,
               periods: ['1h', '4h', '6h', '12h'],
               exchange: 'binance',
-              state: 'watch',
+              state: 'trade',
               trade: {
                 currency_capital: 60,
               },
@@ -193,7 +193,7 @@ module.exports = {
               symbol: pair.symbol,
               periods: ['1m', '15m', '1h'],
               exchange: 'bitmex',
-              state: 'watch',
+              state: 'trade',
             };
 
             if (callback) {
@@ -243,7 +243,7 @@ module.exports = {
               symbol: pair.symbol,
               periods: ['1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
-              state: 'watch',
+              state: 'trade',
               watchdogs: [
                 {
                   name: 'risk_reward_ratio',
@@ -308,7 +308,7 @@ module.exports = {
               extra: {
                 bitfinex_leverage: 2,
               },
-              state: 'watch',
+              state: 'trade',
               watchdogs: [
                 {
                   name: 'risk_reward_ratio',
@@ -361,7 +361,7 @@ module.exports = {
               symbol: pair.name,
               periods: ['1m', '15m', '1h'],
               exchange: 'bybit',
-              state: 'watch',
+              state: 'trade',
             };
 
             if (callback) {
