@@ -236,6 +236,24 @@ module.exports = {
               !p.symbol.toUpperCase().startsWith('LINK') &&
               !p.symbol.toUpperCase().startsWith('DASH') &&
               !p.symbol.toUpperCase().startsWith('XMR') &&
+              !p.symbol.toUpperCase().startsWith('ENJ') &&
+              !p.symbol.toUpperCase().startsWith('EGLD') &&
+              !p.symbol.toUpperCase().startsWith('DOT') &&
+              !p.symbol.toUpperCase().startsWith('CRV') &&
+              !p.symbol.toUpperCase().startsWith('BLZ') &&
+              !p.symbol.toUpperCase().startsWith('KSM') &&
+              !p.symbol.toUpperCase().startsWith('LRC') &&
+              !p.symbol.toUpperCase().startsWith('MATI') &&
+              !p.symbol.toUpperCase().startsWith('MKR') &&
+              !p.symbol.toUpperCase().startsWith('NEAR') &&
+              !p.symbol.toUpperCase().startsWith('OMG') &&
+              !p.symbol.toUpperCase().startsWith('REN') &&
+              !p.symbol.toUpperCase().startsWith('RLC') &&
+              !p.symbol.toUpperCase().startsWith('RUNE') &&
+              !p.symbol.toUpperCase().startsWith('THETA') &&
+              !p.symbol.toUpperCase().startsWith('WAVES') &&
+              !p.symbol.toUpperCase().startsWith('ZEN') &&
+              !p.symbol.toUpperCase().startsWith('ZRX') &&
               !p.symbol.toUpperCase().startsWith('LTC')
           )
           .forEach((pair) => {
