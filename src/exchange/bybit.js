@@ -52,20 +52,20 @@ module.exports = class Bybit {
     this.requestClient
       .executeRequestRetry(
         {
-          url: `${this.getBaseUrl()}/v2/public/symbols`,
+          url: `${this.getBaseUrl()}/v2/public/symbols`
         },
-        (result) => {
+        result => {
           return result && result.response && result.response.statusCode >= 500;
         }
       )
-      .then((response) => {
+      .then(response => {
         const body = JSON.parse(response.body);
         if (!body.result) {
           this.logger.error(`Bybit: invalid instruments request: ${response.body}`);
           return;
         }
 
-        body.result.forEach((instrument) => {
+        body.result.forEach(instrument => {
           tickSizes[instrument.name] = parseFloat(instrument.price_filter.tick_size);
           lotSizes[instrument.name] = parseFloat(instrument.lot_size_filter.qty_step);
         });
@@ -74,11 +74,11 @@ module.exports = class Bybit {
     const ws = new WebSocket('wss://stream.bybit.com/realtime');
 
     const me = this;
-    ws.onopen = function () {
+    ws.onopen = function() {
       me.logger.info('Bybit: Connection opened.');
 
-      symbols.forEach((symbol) => {
-        symbol.periods.forEach((p) => {
+      symbols.forEach(symbol => {
+        symbol.periods.forEach(p => {
           const periodMinute = resample.convertPeriodToMinute(p);
 
           ws.send(JSON.stringify({ op: 'subscribe', args: [`klineV2.${periodMinute}.${symbol.symbol}`] }));
@@ -93,7 +93,10 @@ module.exports = class Bybit {
         me.apiSecret = config.secret;
 
         const expires = new Date().getTime() + 10000;
-        const signature = crypto.createHmac('sha256', config.secret).update(`GET/realtime${expires}`).digest('hex');
+        const signature = crypto
+          .createHmac('sha256', config.secret)
+          .update(`GET/realtime${expires}`)
+          .digest('hex');
 
         ws.send(JSON.stringify({ op: 'auth', args: [config.key, expires, signature] }));
 
@@ -105,7 +108,7 @@ module.exports = class Bybit {
                 me.throttler.addTask(
                   `bybit_sync_all_orders`,
                   async () => {
-                    await me.syncOrdersViaRestApi(symbols.map((symbol) => symbol.symbol));
+                    await me.syncOrdersViaRestApi(symbols.map(symbol => symbol.symbol));
                   },
                   1245
                 );
@@ -122,7 +125,7 @@ module.exports = class Bybit {
       }
     };
 
-    ws.onmessage = async function (event) {
+    ws.onmessage = async function(event) {
       if (event.type === 'message') {
         const data = JSON.parse(event.data);
 
@@ -162,7 +165,7 @@ module.exports = class Bybit {
             instruments = [data.data];
           }
 
-          instruments.forEach((instrument) => {
+          instruments.forEach(instrument => {
             // update and init
             if (!instrument.last_price_e4) {
               return;
@@ -194,14 +197,14 @@ module.exports = class Bybit {
         } else if (data.data && data.topic && ['order', 'stop_order'].includes(data.topic.toLowerCase())) {
           const orders = data.data;
 
-          Bybit.createOrders(orders).forEach((order) => {
+          Bybit.createOrders(orders).forEach(order => {
             me.triggerOrder(order);
           });
 
           me.throttler.addTask(
             `bybit_sync_all_orders`,
             async () => {
-              await me.syncOrdersViaRestApi(symbols.map((symbol) => symbol.symbol));
+              await me.syncOrdersViaRestApi(symbols.map(symbol => symbol.symbol));
             },
             1245
           );
@@ -209,7 +212,7 @@ module.exports = class Bybit {
           const positionsRaw = data.data;
           const positions = [];
 
-          positionsRaw.forEach((positionRaw) => {
+          positionsRaw.forEach(positionRaw => {
             if (!['buy', 'sell'].includes(positionRaw.side.toLowerCase())) {
               delete me.positions[positionRaw.symbol];
             } else {
@@ -217,7 +220,7 @@ module.exports = class Bybit {
             }
           });
 
-          Bybit.createPositionsWithOpenStateOnly(positions).forEach((position) => {
+          Bybit.createPositionsWithOpenStateOnly(positions).forEach(position => {
             me.positions[position.symbol] = position;
           });
 
@@ -226,7 +229,7 @@ module.exports = class Bybit {
       }
     };
 
-    ws.onclose = function () {
+    ws.onclose = function() {
       logger.info('Bybit: Connection closed.');
 
       for (const interval of me.intervals) {
@@ -241,8 +244,8 @@ module.exports = class Bybit {
       }, 10000);
     };
 
-    symbols.forEach((symbol) => {
-      symbol.periods.forEach((period) => {
+    symbols.forEach(symbol => {
+      symbol.periods.forEach(period => {
         // for bot init prefill data: load latest candles from api
         this.queue.add(() => {
           const minutes = resample.convertPeriodToMinute(period);
@@ -264,7 +267,7 @@ module.exports = class Bybit {
               return;
             }
 
-            const candleSticks = body.result.map((candle) => {
+            const candleSticks = body.result.map(candle => {
               return new ExchangeCandlestick(
                 me.getName(),
                 candle.symbol,
@@ -279,7 +282,7 @@ module.exports = class Bybit {
             });
 
             await this.candleImporter.insertThrottledCandles(
-              candleSticks.map((candle) => {
+              candleSticks.map(candle => {
                 return ExchangeCandlestick.createFromCandle(this.getName(), symbol.symbol, period, candle);
               })
             );
@@ -325,7 +328,7 @@ module.exports = class Bybit {
    */
   fullOrdersUpdate(orders) {
     const ourOrders = {};
-    for (const order of Bybit.createOrders(orders).filter((order) => order.status === 'open')) {
+    for (const order of Bybit.createOrders(orders).filter(order => order.status === 'open')) {
       ourOrders[order.id] = order;
     }
 
@@ -345,11 +348,11 @@ module.exports = class Bybit {
   }
 
   async findOrderById(id) {
-    return (await this.getOrders()).find((order) => order.id === id || order.id == id);
+    return (await this.getOrders()).find(order => order.id === id || order.id == id);
   }
 
   async getOrdersForSymbol(symbol) {
-    return (await this.getOrders()).filter((order) => order.symbol === symbol);
+    return (await this.getOrders()).filter(order => order.symbol === symbol);
   }
 
   async getPositions() {
@@ -465,7 +468,7 @@ module.exports = class Bybit {
     const parametersSorted = {};
     Object.keys(parameters)
       .sort()
-      .forEach((key) => (parametersSorted[key] = parameters[key]));
+      .forEach(key => (parametersSorted[key] = parameters[key]));
 
     parametersSorted.sign = crypto
       .createHmac('sha256', this.apiSecret)
@@ -487,11 +490,11 @@ module.exports = class Bybit {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          Accept: 'application/json'
         },
-        body: JSON.stringify(parametersSorted),
+        body: JSON.stringify(parametersSorted)
       },
-      (result) => {
+      result => {
         return result && result.response && result.response.statusCode >= 500;
       }
     );
@@ -512,7 +515,7 @@ module.exports = class Bybit {
     }
 
     let returnOrder;
-    Bybit.createOrders([json.result]).forEach((order) => {
+    Bybit.createOrders([json.result]).forEach(order => {
       this.triggerOrder(order);
       returnOrder = order;
     });
@@ -535,7 +538,7 @@ module.exports = class Bybit {
    * @returns {Promise<any>}
    */
   validatePlacedOrder(order) {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       setTimeout(async () => {
         // calling a direct "order_id" is not given any result
         // we fetch latest order and find our id
@@ -543,13 +546,13 @@ module.exports = class Bybit {
           api_key: this.apiKey,
           timestamp: new Date().getTime(),
           symbol: order.symbol,
-          limit: 5,
+          limit: 5
         };
 
         const parametersSorted2 = {};
         Object.keys(parameters2)
           .sort()
-          .forEach((key) => (parametersSorted2[key] = parameters2[key]));
+          .forEach(key => (parametersSorted2[key] = parameters2[key]));
 
         parametersSorted2.sign = crypto
           .createHmac('sha256', this.apiSecret)
@@ -563,10 +566,10 @@ module.exports = class Bybit {
             url: url1,
             headers: {
               'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
+              Accept: 'application/json'
+            }
           },
-          (result) => {
+          result => {
             return result && result.response && result.response.statusCode >= 500;
           }
         );
@@ -579,7 +582,7 @@ module.exports = class Bybit {
           resolve();
         }
 
-        const find = json.result.data.find((o) => (o.order_id = order.id));
+        const find = json.result.data.find(o => (o.order_id = order.id));
         if (!find) {
           this.logger.error(`Bybit: Order not found:${JSON.stringify({ body: body })}`);
           resolve();
@@ -601,7 +604,7 @@ module.exports = class Bybit {
    * @param symbol
    */
   async updateLeverage(symbol) {
-    const config = this.symbols.find((cSymbol) => cSymbol.symbol === symbol);
+    const config = this.symbols.find(cSymbol => cSymbol.symbol === symbol);
     if (!config) {
       this.logger.error(`Bybit: Invalid leverage config for:${symbol}`);
       return;
@@ -629,7 +632,7 @@ module.exports = class Bybit {
       api_key: this.apiKey,
       leverage: leverageSize,
       symbol: symbol,
-      timestamp: new Date().getTime(),
+      timestamp: new Date().getTime()
     };
 
     parameters.sign = crypto
@@ -643,11 +646,11 @@ module.exports = class Bybit {
         url: `${this.getBaseUrl()}/user/leverage/save`,
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          Accept: 'application/json'
         },
-        body: JSON.stringify(parameters),
+        body: JSON.stringify(parameters)
       },
-      (r) => {
+      r => {
         return r && r.response && r.response.statusCode >= 500;
       }
     );
@@ -684,7 +687,7 @@ module.exports = class Bybit {
       api_key: this.apiKey,
       [isConditionalOrder ? 'stop_order_id' : 'order_id']: id,
       symbol: order.getSymbol(),
-      timestamp: new Date().getTime(),
+      timestamp: new Date().getTime()
     };
 
     parameters.sign = crypto
@@ -705,11 +708,11 @@ module.exports = class Bybit {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
+          Accept: 'application/json'
         },
-        body: JSON.stringify(parameters),
+        body: JSON.stringify(parameters)
       },
-      (result) => {
+      result => {
         return result && result.response && result.response.statusCode >= 500;
       }
     );
@@ -778,10 +781,10 @@ module.exports = class Bybit {
    */
   static createPositionsWithOpenStateOnly(positions) {
     return positions
-      .filter((position) => {
+      .filter(position => {
         return ['buy', 'sell'].includes(position.side.toLowerCase());
       })
-      .map((position) => {
+      .map(position => {
         const side = position.side.toLowerCase() === 'buy' ? 'long' : 'short';
         let { size } = position;
 
@@ -804,7 +807,7 @@ module.exports = class Bybit {
   }
 
   static createOrders(orders) {
-    return orders.map((originOrder) => {
+    return orders.map(originOrder => {
       const order = originOrder;
 
       // some endpoints / websocket request merge extra field into nested "ext_fields"; just merge them into main
@@ -934,16 +937,16 @@ module.exports = class Bybit {
   async syncOrdersViaRestApi(symbols) {
     const promises = [];
 
-    symbols.forEach((symbol) => {
+    symbols.forEach(symbol => {
       // there is not full active order state; we need some more queries
-      ['Created', 'New', 'PartiallyFilled'].forEach((orderStatus) => {
+      ['Created', 'New', 'PartiallyFilled'].forEach(orderStatus => {
         promises.push(async () => {
           const parameter = {
             api_key: this.apiKey,
             limit: 100,
             order_status: orderStatus,
             symbol: symbol,
-            timestamp: new Date().getTime(), // 1 min in the future
+            timestamp: new Date().getTime() // 1 min in the future
           };
 
           parameter.sign = crypto
@@ -957,10 +960,10 @@ module.exports = class Bybit {
               url: url,
               headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json',
-              },
+                Accept: 'application/json'
+              }
             },
-            (r) => {
+            r => {
               return r && r.response && r.response.statusCode >= 500;
             }
           );
@@ -974,7 +977,7 @@ module.exports = class Bybit {
               `Bybit: Invalid orders response:${JSON.stringify({
                 error: error,
                 body: body,
-                orderStatus: orderStatus,
+                orderStatus: orderStatus
               })}`
             );
 
@@ -1004,7 +1007,7 @@ module.exports = class Bybit {
           api_key: this.apiKey,
           limit: 100,
           symbol: symbol,
-          timestamp: new Date().getTime(),
+          timestamp: new Date().getTime()
         };
 
         parameter.sign = crypto
@@ -1018,10 +1021,10 @@ module.exports = class Bybit {
             url: url,
             headers: {
               'Content-Type': 'application/json',
-              Accept: 'application/json',
-            },
+              Accept: 'application/json'
+            }
           },
-          (r) => {
+          r => {
             return r && r.response && r.response.statusCode >= 500;
           }
         );
@@ -1049,20 +1052,20 @@ module.exports = class Bybit {
           throw new Error(`Invalid stop-order update`);
         }
 
-        return json.result.data.filter((order) => order.stop_order_status === 'Untriggered');
+        return json.result.data.filter(order => order.stop_order_status === 'Untriggered');
       });
     });
 
     let results;
     try {
-      results = await Promise.all(promises.map((fn) => fn()));
+      results = await Promise.all(promises.map(fn => fn()));
     } catch (e) {
       this.logger.error(`Bybit: Orders via API updated stopped: ${e.message}`);
       return;
     }
 
     const orders = [];
-    results.forEach((order) => {
+    results.forEach(order => {
       orders.push(...order);
     });
 
@@ -1076,10 +1079,13 @@ module.exports = class Bybit {
   async syncPositionViaRestApi() {
     const parameter = {
       api_key: this.apiKey,
-      timestamp: new Date().getTime(), // 1 min in the future
+      timestamp: new Date().getTime() // 1 min in the future
     };
 
-    parameter.sign = crypto.createHmac('sha256', this.apiSecret).update(querystring.stringify(parameter)).digest('hex');
+    parameter.sign = crypto
+      .createHmac('sha256', this.apiSecret)
+      .update(querystring.stringify(parameter))
+      .digest('hex');
 
     const url = `${this.getBaseUrl()}/v2/private/position/list?${querystring.stringify(parameter)}`;
     const result = await this.requestClient.executeRequestRetry(
@@ -1087,10 +1093,10 @@ module.exports = class Bybit {
         url: url,
         headers: {
           'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
+          Accept: 'application/json'
+        }
       },
-      (r) => {
+      r => {
         return r && r.response && r.response.statusCode >= 500;
       }
     );
@@ -1145,7 +1151,7 @@ module.exports = class Bybit {
       symbol: order.getSymbol(),
       qty: order.getAmount(),
       order_type: orderType,
-      time_in_force: 'GoodTillCancel',
+      time_in_force: 'GoodTillCancel'
     };
 
     if (order.isPostOnly()) {
