@@ -4,9 +4,12 @@ const _ = require('lodash');
 const IndicatorBuilder = require('./dict/indicator_builder');
 const IndicatorPeriod = require('./dict/indicator_period');
 const ta = require('../../utils/technical_analysis');
+const Resample = require('../../utils/resample');
+const CommonUtil = require('../../utils/common_util');
 const StrategyContext = require('../../dict/strategy_context');
 const Ticker = require('../../dict/ticker');
 const SignalResult = require('./dict/signal_result');
+const Position = require('../../dict/position');
 
 module.exports = class StrategyManager {
   constructor(technicalAnalysisValidator, exchangeCandleCombine, logger, projectDir) {
@@ -93,16 +96,37 @@ module.exports = class StrategyManager {
    * @param symbol
    * @param options
    * @param lastSignal
+   * @param lastSignalEntry
    * @returns {Promise<array>}
    */
-  async executeStrategyBacktest(strategyName, exchange, symbol, options, lastSignal) {
+  async executeStrategyBacktest(strategyName, exchange, symbol, options, lastSignal, lastSignalEntry) {
     const results = await this.getTaResult(strategyName, exchange, symbol, options);
     if (!results || Object.keys(results).length === 0) {
       return {};
     }
 
     const price = results._candle ? results._candle.close : undefined;
-    const context = StrategyContext.create(new Ticker(exchange, symbol, undefined, price, price));
+
+    let context;
+    if (lastSignal && lastSignalEntry && price) {
+      // provide a suitable value; its just backtesting
+      const amount = lastSignal === 'short' ? -1 : 1;
+
+      context = StrategyContext.createFromPosition(
+        new Ticker(exchange, symbol, undefined, price, price),
+        new Position(
+          symbol,
+          lastSignal,
+          amount,
+          CommonUtil.getProfitAsPercent(lastSignal, price, lastSignalEntry),
+          undefined,
+          lastSignalEntry
+        )
+      );
+    } else {
+      context = StrategyContext.create(new Ticker(exchange, symbol, undefined, price, price));
+    }
+
     context.lastSignal = lastSignal;
 
     const indicatorPeriod = new IndicatorPeriod(context, results);
@@ -172,12 +196,19 @@ module.exports = class StrategyManager {
         };
       });
 
+      // filter candles in the futures: eg current non closed candle
+      const periodAsMinute = Resample.convertPeriodToMinute(period) * 60;
+      const unixtime = Math.floor(Date.now() / 1000);
+      const olderThenCurrentPeriod = unixtime - (unixtime % periodAsMinute) - periodAsMinute * 0.1;
+
       const lookbacks = await this.exchangeCandleCombine.fetchCombinedCandles(
         exchange,
         symbol,
         period,
-        foreignExchanges
+        foreignExchanges,
+        olderThenCurrentPeriod
       );
+
       if (lookbacks[exchange].length > 0) {
         // check if candle to close time is outside our allow time window
         if (
