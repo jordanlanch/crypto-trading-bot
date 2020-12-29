@@ -46,7 +46,10 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
+    watchdogs: [{
+        name: 'stoploss',
+        percent: 1.4,
+      },
       {
         name: 'risk_reward_ratio',
         target_percent: 2.8,
@@ -56,14 +59,12 @@ c.init = async () => {
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_BTC',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_BTC',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -71,24 +72,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_ETH',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_ETH',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -96,24 +96,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_BCH',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_BCH',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -121,24 +120,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_XRP',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_XRP',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -146,24 +144,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_EOS',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_EOS',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -171,24 +168,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_LTC',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_LTC',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -196,24 +192,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_ADA',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_ADA',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -221,24 +216,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 3,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 3,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_ETC',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_ETC',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -246,24 +240,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_LINK',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_LINK',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -271,24 +264,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_DASH',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_DASH',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   c.symbols.push({
@@ -296,24 +288,23 @@ c.init = async () => {
     periods: ['1h', '2h', '4h', '6h', '12h'],
     exchange: 'binance_futures',
     state: 'trade',
-    watchdogs: [
-      {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
-      },
-    ],
+    watchdogs: [{
+      name: 'stoploss',
+      percent: 1.4,
+    }, {
+      name: 'risk_reward_ratio',
+      target_percent: 2.8,
+      stop_percent: 1.4,
+    }, ],
     trade: {
       currency_capital: 60,
     },
-    strategies: [
-      {
-        strategy: 'trader_macd_XMR',
-        options: {
-          period: '12h',
-        },
+    strategies: [{
+      strategy: 'trader_macd_XMR',
+      options: {
+        period: '12h',
       },
-    ],
+    }, ],
   });
 
   // Binance futures
