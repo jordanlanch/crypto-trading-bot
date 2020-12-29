@@ -14,7 +14,7 @@ module.exports = class Backtest {
 
   async getBacktestPairs() {
     // @TODO: resolve n+1 problem (issue on big database)
-    const asyncs = this.instances.symbols.map(symbol => {
+    const asyncs = this.instances.symbols.map((symbol) => {
       return async () => {
         // its much too slow to fetch this
         // const periods = await this.exchangeCandleCombine.fetchCandlePeriods(symbol.exchange, symbol.symbol);
@@ -22,12 +22,12 @@ module.exports = class Backtest {
 
         return {
           name: `${symbol.exchange}.${symbol.symbol}`,
-          options: periods.length > 0 ? periods : ['15m', '1m', '5m', '1h', '4h']
+          options: periods.length > 0 ? periods : ['15m', '1m', '5m', '1h', '4h'],
         };
       };
     });
 
-    const promise = await Promise.all(asyncs.map(fn => fn()));
+    const promise = await Promise.all(asyncs.map((fn) => fn()));
     return promise.sort((a, b) => {
       const x = a.name;
       const y = b.name;
@@ -36,16 +36,55 @@ module.exports = class Backtest {
   }
 
   getBacktestStrategies() {
-    return this.strategyManager.getStrategies().map(strategy => {
+    return this.strategyManager.getStrategies().map((strategy) => {
       return {
         name: strategy.getName(),
-        options: typeof strategy.getOptions !== 'undefined' ? strategy.getOptions() : undefined
+        options: typeof strategy.getOptions !== 'undefined' ? strategy.getOptions() : undefined,
       };
     });
   }
 
+  async getSentimentBinanceFuturres(symbol) {
+    const [topTraders, globalTraders] = await Promise.all([
+      fetch(
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=5m&limit=500'
+      ),
+      fetch(
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=5m&limit=500'
+      ),
+    ]);
+
+    const array_top = await topTraders.json();
+    const array_global = await globalTraders.json();
+
+    return {
+      array_top: array_top,
+      array_global: array_global,
+    };
+  }
+
+  isBuyOrSell(longShortRatioTOP, longShortRatioGLOBAL) {
+    if (longShortRatioTOP > longShortRatioGLOBAL) {
+      return {
+        buy: 2,
+        sell: 0,
+        diference: longShortRatioTOP - longShortRatioGLOBAL,
+        longShortRatioTOP: longShortRatioTOP,
+        longShortRatioGLOBAL: longShortRatioGLOBAL,
+      };
+    } else {
+      return {
+        buy: 0,
+        sell: 2,
+        diference: longShortRatioGLOBAL - longShortRatioTOP,
+        longShortRatioTOP: longShortRatioTOP,
+        longShortRatioGLOBAL: longShortRatioGLOBAL,
+      };
+    }
+  }
+
   getBacktestResult(tickIntervalInMinutes, hours, strategy, candlePeriod, exchange, pair, options, initial_capital) {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       const start = moment()
         .startOf('hour')
         .subtract(hours * 60, 'minutes')
@@ -74,27 +113,64 @@ module.exports = class Backtest {
 
           const filter = {};
           for (const ex in periodCache[key]) {
-            filter[ex] = periodCache[key][ex].slice().filter(candle => candle.time < current);
+            filter[ex] = periodCache[key][ex].slice().filter((candle) => candle.time < current);
           }
 
           return filter;
-        }
+        },
       };
 
       // store last triggered signal info
       const lastSignal = {
         price: undefined,
-        signal: undefined
+        signal: undefined,
       };
 
       // store missing profit because of early close
       const lastSignalClosed = {
         price: undefined,
-        signal: undefined
+        signal: undefined,
       };
+
+      let array_all = await this.getSentimentBinanceFuturres(pair)
+      let array_top = array_all.array_top;
+      let array_global = array_all.array_global;
+      // console.log('array_top -->' + JSON.stringify(array_top));
+      // console.log('array_global -->' + JSON.stringify(array_global));
+
 
       const end = moment().unix();
       while (current < end) {
+        let current_str = '' + current + '000';
+        let new_current = parseInt(current_str, 10);
+
+        let buy_or_sell = {};
+
+        let array_last_current_top = array_top.filter((t) => new_current >= t.timestamp);
+        let array_last_current_global = array_global.filter((t) => new_current >= t.timestamp);
+        // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
+        // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
+
+
+        let last_top = array_last_current_top[0]
+        let last_global = array_last_current_global[0]
+
+        if (last_top === undefined || last_global === undefined) {
+          buy_or_sell = {
+            buy: 0,
+            sell: 0,
+            diference: 0,
+            longShortRatioTOP: 0,
+            longShortRatioGLOBAL: 0,
+          };
+        } else {
+
+          buy_or_sell = this.isBuyOrSell(
+            Number(last_top.longShortRatio),
+            Number(last_global.longShortRatio)
+          );
+        }
+
         const strategyManager = new StrategyManager({}, mockedRepository, {}, this.projectDir);
 
         const item = await strategyManager.executeStrategyBacktest(
@@ -103,7 +179,8 @@ module.exports = class Backtest {
           pair,
           options,
           lastSignal.signal,
-          lastSignal.price
+          lastSignal.price,
+          buy_or_sell
         );
         item.time = current;
 
@@ -146,11 +223,11 @@ module.exports = class Backtest {
         current += tickIntervalInMinutes * 60;
       }
 
-      const signals = rows.slice().filter(r => r.result && r.result.getSignal());
+      const signals = rows.slice().filter((r) => r.result && r.result.getSignal());
 
       const dates = {};
 
-      signals.forEach(signal => {
+      signals.forEach((signal) => {
         if (!dates[signal.time]) {
           dates[signal.time] = [];
         }
@@ -160,15 +237,15 @@ module.exports = class Backtest {
 
       const exchangeCandles = await mockedRepository.fetchCombinedCandles(exchange, pair, candlePeriod);
       const candles = exchangeCandles[exchange]
-        .filter(c => c.time > start)
-        .map(candle => {
+        .filter((c) => c.time > start)
+        .map((candle) => {
           let signals;
 
           for (const time in JSON.parse(JSON.stringify(dates))) {
             if (time >= candle.time) {
-              signals = dates[time].map(i => {
+              signals = dates[time].map((i) => {
                 return {
-                  signal: i.result.getSignal()
+                  signal: i.result.getSignal(),
                 };
               });
               delete dates[time];
@@ -182,7 +259,7 @@ module.exports = class Backtest {
             low: candle.low,
             close: candle.close,
             volume: candle.volume,
-            signals: signals
+            signals: signals,
           };
         });
 
@@ -199,14 +276,14 @@ module.exports = class Backtest {
         configuration: {
           exchange: exchange,
           symbol: pair,
-          period: candlePeriod
-        }
+          period: candlePeriod,
+        },
       });
     });
   }
 
   getBacktestSummary(signals, initial_capital) {
-    return new Promise(async resolve => {
+    return new Promise(async (resolve) => {
       const initialCapital = Number(initial_capital); // 1000 $ Initial Capital
       let workingCapital = initialCapital; // Capital that changes after every trade
 
@@ -218,7 +295,7 @@ module.exports = class Backtest {
         profitableCount: 0, // Number of Profitable Trades
         lossMakingCount: 0, // Number of Trades that caused a loss
         total: 0, // Totol number of Trades
-        profitabilityPercent: 0 // Percentage Of Trades that were profitable
+        profitabilityPercent: 0, // Percentage Of Trades that were profitable
       };
 
       let cumulativePNLPercent = 0; // Sum of all the PNL Percentages
@@ -319,7 +396,7 @@ module.exports = class Backtest {
         netProfit: netProfit,
         initialCapital: initialCapital,
         finalCapital: Number(workingCapital.toFixed(2)),
-        trades: trades
+        trades: trades,
       };
 
       resolve(summary);

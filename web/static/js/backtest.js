@@ -1,405 +1,347 @@
-const moment = require('moment');
-const _ = require('lodash');
-const StrategyManager = require('./strategy/strategy_manager');
-const Resample = require('../utils/resample');
-const CommonUtil = require('../utils/common_util');
+$(function () {
+  $('table.backtest-table').on('click', 'a.button-debug-toggle', function (e) {
+    e.preventDefault();
+    $(this)
+      .closest('.debug-toggle')
+      .toggleClass('hide');
+  });
 
-module.exports = class Backtest {
-  constructor(instances, strategyManager, exchangeCandleCombine, projectDir) {
-    this.instances = instances;
-    this.strategyManager = strategyManager;
-    this.exchangeCandleCombine = exchangeCandleCombine;
-    this.projectDir = projectDir;
-  }
+  $('table.backtest-table').on('click', 'a.button-debug-toggle-all', function (e) {
+    e.preventDefault();
 
-  async getBacktestPairs() {
-    // @TODO: resolve n+1 problem (issue on big database)
-    const asyncs = this.instances.symbols.map((symbol) => {
-      return async () => {
-        // its much too slow to fetch this
-        // const periods = await this.exchangeCandleCombine.fetchCandlePeriods(symbol.exchange, symbol.symbol);
-        const periods = [];
+    $(this)
+      .closest('table.backtest-table')
+      .find('td .debug-toggle')
+      .toggleClass('hide');
+  });
+
+  const chart = $('.chart');
+
+  if (chart.length > 0) {
+    const candles = chart.data('candles');
+
+    const dim = {
+      width: chart.width(),
+      height: 500,
+      margin: {
+        top: 20,
+        right: 60,
+        bottom: 30,
+        left: 60
+      },
+      ohlc: {
+        height: 450
+      },
+      indicator: {
+        height: 0,
+        padding: 0
+      }
+    };
+
+    dim.plot = {
+      width: dim.width - dim.margin.left - dim.margin.right,
+      height: dim.height - dim.margin.top - dim.margin.bottom
+    };
+
+    dim.indicator.top = dim.ohlc.height + dim.indicator.padding;
+    dim.indicator.bottom = dim.indicator.top + dim.indicator.height + dim.indicator.padding;
+
+    const indicatorTop = d3.scaleLinear().range([dim.indicator.top, dim.indicator.bottom]);
+
+    const zoom = d3.zoom().on('zoom', zoomed);
+
+    const x = techan.scale.financetime().range([0, dim.plot.width]);
+
+    const y = d3.scaleLinear().range([dim.ohlc.height, 0]);
+
+    const yPercent = y.copy(); // Same as y at this stage, will get a different domain later
+
+    let yInit;
+    let yPercentInit;
+    let zoomableInit;
+
+    const yVolume = d3.scaleLinear().range([y(0), y(0.4)]);
+
+    const candlestick = techan.plot
+      .candlestick()
+      .xScale(x)
+      .yScale(y);
+
+    const tradearrow = techan.plot
+      .tradearrow()
+      .xScale(x)
+      .yScale(y)
+      .orient(function (d) {
+        switch (d.type) {
+          case 'close':
+            return 'left';
+          case 'short':
+            return 'down';
+          case 'long':
+            return 'up';
+          default:
+            return 'right';
+        }
+      })
+      .on('mouseenter', function enter(d) {
+        let date_ok = new Date(d.date)
+        date_ok.setHours(date_ok.getHours() + 5);
+        valueText.style('display', 'inline');
+        valueText.text(`Trade: ${d3.timeFormat('%y-%m-%d %H:%M')(date_ok)}, ${d.type}, ${d3.format(',.2f')(d.price)}`);
+      })
+      .on('mouseout', function out() {
+        valueText.style('display', 'none');
+      });
+
+    const volume = techan.plot
+      .volume()
+      .accessor(candlestick.accessor()) // Set the accessor to a ohlc accessor so we get highlighted bars
+      .xScale(x)
+      .yScale(yVolume);
+
+    const xAxis = d3.axisBottom(x);
+
+    const timeAnnotation = techan.plot
+      .axisannotation()
+      .axis(xAxis)
+      .orient('bottom')
+      .format(d3.timeFormat('%Y-%m-%d %H:%M'))
+      .width(120)
+      .translate([0, dim.plot.height]);
+
+    const yAxis = d3.axisRight(y);
+
+    const ohlcAnnotation = techan.plot
+      .axisannotation()
+      .axis(yAxis)
+      .orient('right')
+      .format(d3.format(',.2f'))
+      .translate([x(1), 0]);
+
+    const closeAnnotation = techan.plot
+      .axisannotation()
+      .axis(yAxis)
+      .orient('right')
+      .accessor(candlestick.accessor())
+      .format(d3.format(',.2f'))
+      .translate([x(1), 0]);
+
+    const percentAxis = d3.axisLeft(yPercent).tickFormat(d3.format('+.1%'));
+
+    const percentAnnotation = techan.plot
+      .axisannotation()
+      .axis(percentAxis)
+      .orient('left');
+
+    const volumeAxis = d3
+      .axisRight(yVolume)
+      .ticks(3)
+      .tickFormat(d3.format(',.3s'));
+
+    const volumeAnnotation = techan.plot
+      .axisannotation()
+      .axis(volumeAxis)
+      .orient('right')
+      .width(35);
+
+    const ohlcCrosshair = techan.plot
+      .crosshair()
+      .xScale(timeAnnotation.axis().scale())
+      .yScale(ohlcAnnotation.axis().scale())
+      .xAnnotation(timeAnnotation)
+      .yAnnotation([ohlcAnnotation, percentAnnotation, volumeAnnotation])
+      .verticalWireRange([0, dim.plot.height]);
+
+    let svg = d3
+      .select('.chart')
+      .append('svg')
+      .attr('width', dim.width)
+      .attr('height', dim.height);
+
+    var valueText = svg
+      .append('text')
+      .style('text-anchor', 'end')
+      .attr('class', 'coords')
+      .attr('x', dim.width - 25)
+      .attr('y', 15);
+
+    const defs = svg.append('defs');
+
+    defs
+      .append('clipPath')
+      .attr('id', 'ohlcClip')
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', 0)
+      .attr('width', dim.plot.width)
+      .attr('height', dim.ohlc.height);
+
+    defs
+      .selectAll('indicatorClip')
+      .data([0, 1])
+      .enter()
+      .append('clipPath')
+      .attr('id', function (d, i) {
+        return `indicatorClip-${i}`;
+      })
+      .append('rect')
+      .attr('x', 0)
+      .attr('y', function (d, i) {
+        return indicatorTop(i);
+      })
+      .attr('width', dim.plot.width)
+      .attr('height', dim.indicator.height);
+
+    svg = svg.append('g').attr('transform', `translate(${dim.margin.left},${dim.margin.top})`);
+
+    const title = chart.data('title');
+    if (title) {
+      svg
+        .append('text')
+        .attr('class', 'symbol')
+        .attr('x', 20)
+        .text(title);
+    }
+
+    svg
+      .append('g')
+      .attr('class', 'x axis')
+      .attr('transform', `translate(0,${dim.plot.height})`);
+
+    const ohlcSelection = svg
+      .append('g')
+      .attr('class', 'ohlc')
+      .attr('transform', 'translate(0,0)');
+
+    ohlcSelection
+      .append('g')
+      .attr('class', 'axis')
+      .attr('transform', `translate(${x(1)},0)`)
+      .append('text')
+      .attr('transform', 'rotate(-90)')
+      .attr('y', -12)
+      .attr('dy', '.71em')
+      .style('text-anchor', 'end')
+      .text('Price ($)');
+
+    ohlcSelection.append('g').attr('class', 'close annotation up');
+
+    ohlcSelection
+      .append('g')
+      .attr('class', 'volume')
+      .attr('clip-path', 'url(#ohlcClip)');
+
+    ohlcSelection
+      .append('g')
+      .attr('class', 'candlestick')
+      .attr('clip-path', 'url(#ohlcClip)');
+
+    ohlcSelection.append('g').attr('class', 'percent axis');
+
+    ohlcSelection.append('g').attr('class', 'volume axis');
+
+    // Add trendlines and other interactions last to be above zoom pane
+    svg.append('g').attr('class', 'crosshair ohlc');
+
+    svg
+      .append('g')
+      .attr('class', 'tradearrow')
+      .attr('clip-path', 'url(#ohlcClip)');
+
+    const accessor = candlestick.accessor();
+
+    const trades = [];
+
+    const data = candles
+      .map(function (d) {
+        let date_ok = new Date(d.date)
+        date_ok.setHours(date_ok.getHours() + 5);
+        if (d.signals && d.signals.length > 0) {
+          d.signals.forEach(function (trade) {
+            trades.push({
+              date: new Date(date_ok),
+              type: trade.signal,
+              price: d.close
+            });
+          });
+        }
 
         return {
-          name: `${symbol.exchange}.${symbol.symbol}`,
-          options: periods.length > 0 ? periods : ['15m', '1m', '5m', '1h', '4h'],
+          date: new Date(date_ok),
+          open: d.open,
+          high: d.high,
+          low: d.low,
+          close: d.close,
+          volume: d.volume
         };
-      };
-    });
+      })
+      .sort(function (a, b) {
+        return d3.ascending(accessor.d(a), accessor.d(b));
+      });
 
-    const promise = await Promise.all(asyncs.map((fn) => fn()));
-    return promise.sort((a, b) => {
-      const x = a.name;
-      const y = b.name;
-      return x < y ? -1 : x > y ? 1 : 0;
-    });
-  }
+    x.domain(techan.scale.plot.time(data).domain());
+    y.domain(techan.scale.plot.ohlc(data.slice()).domain());
+    yPercent.domain(techan.scale.plot.percent(y, accessor(data[0])).domain());
+    yVolume.domain(techan.scale.plot.volume(data).domain());
 
-  getBacktestStrategies() {
-    return this.strategyManager.getStrategies().map((strategy) => {
-      return {
-        name: strategy.getName(),
-        options: typeof strategy.getOptions !== 'undefined' ? strategy.getOptions() : undefined,
-      };
-    });
-  }
+    svg
+      .select('g.candlestick')
+      .datum(data)
+      .call(candlestick);
+    svg
+      .select('g.close.annotation')
+      .datum([data[data.length - 1]])
+      .call(closeAnnotation);
+    svg
+      .select('g.volume')
+      .datum(data)
+      .call(volume);
 
-  async getSentimentBinanceFuturres(symbol) {
-    const [topTraders, globalTraders] = await Promise.all([
-      fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=5m&limit=500'
-      ),
-      fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=5m&limit=500'
-      ),
-    ]);
+    svg
+      .select('g.crosshair.ohlc')
+      .call(ohlcCrosshair)
+      .call(zoom);
 
-    const array_top = await topTraders.json();
-    const array_global = await globalTraders.json();
+    svg
+      .select('g.tradearrow')
+      .datum(trades)
+      .call(tradearrow);
 
-    return {
-      array_top: array_top,
-      array_global: array_global,
-    };
-  }
+    // Stash for zooming
+    zoomableInit = x
+      .zoomable()
+      .domain([0, data.length])
+      .copy(); // Zoom in a little to hide indicator preroll
+    yInit = y.copy();
+    yPercentInit = yPercent.copy();
 
-  isBuyOrSell(longShortRatioTOP, longShortRatioGLOBAL) {
-    if (longShortRatioTOP > longShortRatioGLOBAL) {
-      return {
-        buy: 2,
-        sell: 0,
-        diference: longShortRatioTOP - longShortRatioGLOBAL,
-        longShortRatioTOP: longShortRatioTOP,
-        longShortRatioGLOBAL: longShortRatioGLOBAL,
-      };
-    } else {
-      return {
-        buy: 0,
-        sell: 2,
-        diference: longShortRatioGLOBAL - longShortRatioTOP,
-        longShortRatioTOP: longShortRatioTOP,
-        longShortRatioGLOBAL: longShortRatioGLOBAL,
-      };
+    draw();
+
+    function reset() {
+      zoom.scale(1);
+      zoom.translate([0, 0]);
+      draw();
+    }
+
+    function zoomed() {
+      x.zoomable().domain(d3.event.transform.rescaleX(zoomableInit).domain());
+      y.domain(d3.event.transform.rescaleY(yInit).domain());
+      yPercent.domain(d3.event.transform.rescaleY(yPercentInit).domain());
+
+      draw();
+    }
+
+    function draw() {
+      svg.select('g.x.axis').call(xAxis);
+      svg.select('g.ohlc .axis').call(yAxis);
+      svg.select('g.volume.axis').call(volumeAxis);
+      svg.select('g.percent.axis').call(percentAxis);
+
+      // We know the data does not change, a simple refresh that does not perform data joins will suffice.
+      svg.select('g.candlestick').call(candlestick.refresh);
+      svg.select('g.close.annotation').call(closeAnnotation.refresh);
+      svg.select('g.volume').call(volume.refresh);
+      svg.select('g.tradearrow').call(tradearrow.refresh);
     }
   }
-
-  getBacktestResult(tickIntervalInMinutes, hours, strategy, candlePeriod, exchange, pair, options, initial_capital) {
-    return new Promise(async (resolve) => {
-      const start = moment()
-        .startOf('hour')
-        .subtract(hours * 60, 'minutes')
-        .unix();
-
-      // collect candles for cart and allow a prefill of eg 200 candles for our indicators starts
-
-      const rows = [];
-      let current = start;
-
-      // mock repository for window selection of candles
-      const periodCache = {};
-      const prefillWindow = start - Resample.convertPeriodToMinute(candlePeriod) * 200 * 60;
-      const mockedRepository = {
-        fetchCombinedCandles: async (mainExchange, symbol, period, exchanges = []) => {
-          const key = mainExchange + symbol + period;
-          if (!periodCache[key]) {
-            periodCache[key] = await this.exchangeCandleCombine.fetchCombinedCandlesSince(
-              mainExchange,
-              symbol,
-              period,
-              exchanges,
-              prefillWindow
-            );
-          }
-
-          const filter = {};
-          for (const ex in periodCache[key]) {
-            filter[ex] = periodCache[key][ex].slice().filter((candle) => candle.time < current);
-          }
-
-          return filter;
-        },
-      };
-
-      // store last triggered signal info
-      const lastSignal = {
-        price: undefined,
-        signal: undefined,
-      };
-
-      // store missing profit because of early close
-      const lastSignalClosed = {
-        price: undefined,
-        signal: undefined,
-      };
-
-      let array_all = await this.getSentimentBinanceFuturres(pair)
-      let array_top = array_all.array_top;
-      let array_global = array_all.array_global;
-      // console.log('array_top -->' + JSON.stringify(array_top));
-      // console.log('array_global -->' + JSON.stringify(array_global));
-
-
-      const end = moment().unix();
-      while (current < end) {
-        let current_str = '' + current + '000';
-        let new_current = parseInt(current_str, 10);
-
-        let buy_or_sell = {};
-
-        let array_last_current_top = array_top.filter((t) => new_current >= t.timestamp);
-        let array_last_current_global = array_global.filter((t) => new_current >= t.timestamp);
-        // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
-        // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
-
-
-        let last_top = array_last_current_top[0]
-        let last_global = array_last_current_global[0]
-
-        if (last_top === undefined || last_global === undefined) {
-          buy_or_sell = {
-            buy: 0,
-            sell: 0,
-            diference: 0,
-            longShortRatioTOP: 0,
-            longShortRatioGLOBAL: 0,
-          };
-        } else {
-
-          buy_or_sell = this.isBuyOrSell(
-            Number(last_top.longShortRatio),
-            Number(last_global.longShortRatio)
-          );
-        }
-
-        const strategyManager = new StrategyManager({}, mockedRepository, {}, this.projectDir);
-
-        const item = await strategyManager.executeStrategyBacktest(
-          strategy,
-          exchange,
-          pair,
-          options,
-          lastSignal.signal,
-          lastSignal.price,
-          buy_or_sell
-        );
-        item.time = current;
-
-        // so change in signal
-        let currentSignal = item.result ? item.result.getSignal() : undefined;
-        if (currentSignal === lastSignal.signal) {
-          currentSignal = undefined;
-        }
-
-        // position profit
-        if (lastSignal.price) {
-          item.profit = CommonUtil.getProfitAsPercent(lastSignal.signal, item.price, lastSignal.price);
-        }
-
-        if (['long', 'short'].includes(currentSignal)) {
-          lastSignal.signal = currentSignal;
-          lastSignal.price = item.price;
-
-          lastSignalClosed.signal = undefined;
-          lastSignalClosed.price = undefined;
-        } else if (currentSignal === 'close') {
-          lastSignalClosed.signal = lastSignal.signal;
-          lastSignalClosed.price = lastSignal.price;
-
-          lastSignal.signal = undefined;
-          lastSignal.price = undefined;
-        }
-
-        // calculate missing profits because of closed position until next event
-        if (!currentSignal && lastSignalClosed.price) {
-          if (lastSignalClosed.signal === 'long' && lastSignalClosed.price) {
-            item.lastPriceClosed = parseFloat(((item.price / lastSignalClosed.price - 1) * 100).toFixed(2));
-          } else if (lastSignalClosed.signal === 'short' && lastSignalClosed.price) {
-            item.lastPriceClosed = parseFloat(((lastSignalClosed.price / item.price - 1) * 100).toFixed(2));
-          }
-        }
-
-        rows.push(item);
-
-        current += tickIntervalInMinutes * 60;
-      }
-
-      const signals = rows.slice().filter((r) => r.result && r.result.getSignal());
-
-      const dates = {};
-
-      signals.forEach((signal) => {
-        if (!dates[signal.time]) {
-          dates[signal.time] = [];
-        }
-
-        dates[signal.time].push(signal);
-      });
-
-      const exchangeCandles = await mockedRepository.fetchCombinedCandles(exchange, pair, candlePeriod);
-      const candles = exchangeCandles[exchange]
-        .filter((c) => c.time > start)
-        .map((candle) => {
-          let signals;
-
-          for (const time in JSON.parse(JSON.stringify(dates))) {
-            if (time >= candle.time) {
-              signals = dates[time].map((i) => {
-                return {
-                  signal: i.result.getSignal(),
-                };
-              });
-              delete dates[time];
-            }
-          }
-
-          return {
-            date: new Date(candle.time * 1000),
-            open: candle.open,
-            high: candle.high,
-            low: candle.low,
-            close: candle.close,
-            volume: candle.volume,
-            signals: signals,
-          };
-        });
-
-      const backtestSummary = await this.getBacktestSummary(signals, initial_capital);
-      resolve({
-        summary: backtestSummary,
-        rows: rows.slice().reverse(),
-        signals: signals.slice().reverse(),
-        candles: JSON.stringify(candles),
-        extra_fields: this.strategyManager.getBacktestColumns(strategy),
-        strategy: strategy,
-        start: new Date(start * 1000),
-        end: candles[0] ? candles[0].date : new Date(),
-        configuration: {
-          exchange: exchange,
-          symbol: pair,
-          period: candlePeriod,
-        },
-      });
-    });
-  }
-
-  getBacktestSummary(signals, initial_capital) {
-    return new Promise(async (resolve) => {
-      const initialCapital = Number(initial_capital); // 1000 $ Initial Capital
-      let workingCapital = initialCapital; // Capital that changes after every trade
-
-      let lastPosition; // Holds Info about last action
-
-      let averagePNLPercent = 0; // Average ROI or PNL Percentage
-
-      const trades = {
-        profitableCount: 0, // Number of Profitable Trades
-        lossMakingCount: 0, // Number of Trades that caused a loss
-        total: 0, // Totol number of Trades
-        profitabilityPercent: 0, // Percentage Of Trades that were profitable
-      };
-
-      let cumulativePNLPercent = 0; // Sum of all the PNL Percentages
-      const pnlRateArray = []; // Array of all PNL Percentages of all the trades
-
-      // Iterate over all the signals
-      for (let s = 0; s < signals.length; s++) {
-        const signalObject = signals[s];
-        const signalType = signalObject.result._signal; // Can be long,short,close
-
-        // When a trade is closed
-        if (signalType == 'close') {
-          // Increment the total trades counter
-          trades.total += 1;
-
-          // Entry Position Details
-          const entrySignalType = lastPosition.result._signal; // Long or Short
-          const entryPrice = lastPosition.price; // Price during the trade entry
-          const tradedQuantity = Number((workingCapital / entryPrice).toFixed(2)); // Quantity
-
-          // Exit Details
-          const exitPrice = signalObject.price; // Price during trade exit
-          const exitValue = Number((tradedQuantity * exitPrice).toFixed(2)); // Price * Quantity
-
-          // Trade Details
-          let pnlValue = 0; // Profit or Loss Value
-
-          // When the position is Long
-          if (entrySignalType == 'long') {
-            if (exitPrice > entryPrice) {
-              // Long Trade is Profitable
-              trades.profitableCount += 1;
-            }
-
-            // Set the PNL
-            pnlValue = exitValue - workingCapital;
-          } else if (entrySignalType == 'short') {
-            if (exitPrice < entryPrice) {
-              // Short Trade is Profitable
-              trades.profitableCount += 1;
-            }
-
-            // Set the PNL
-            pnlValue = -(exitValue - workingCapital);
-          }
-
-          // Percentage Return
-          const pnlPercent = Number(((pnlValue / workingCapital) * 100).toFixed(2));
-
-          // Summation of Percentage Return
-          cumulativePNLPercent += pnlPercent;
-
-          // Maintaining the Percentage array
-          pnlRateArray.push(pnlPercent);
-
-          // Update Working Cap
-          workingCapital += pnlValue;
-        } else if (signalType == 'long' || signalType == 'short') {
-          // Enter into a position
-          lastPosition = signalObject;
-        }
-      }
-
-      // Lossmaking Trades
-      trades.lossMakingCount = trades.total - trades.profitableCount;
-
-      // Calculating the Sharpe Ratio ----------------------------------------------------------
-
-      // Average PNL Percent
-      averagePNLPercent = Number((cumulativePNLPercent / trades.total).toFixed(2));
-
-      // Initialize Sum of Mean Square Differences
-      let msdSum = 0;
-
-      // (Mean - value)^2
-      for (let p = 0; p < pnlRateArray.length; p++) {
-        // Sum of Mean Square Differences
-        msdSum += Number(((averagePNLPercent - pnlRateArray[p]) ^ 2).toFixed(2));
-      }
-
-      const variance = Number((msdSum / trades.total).toFixed(2)); // Variance
-
-      const stdDeviation = Math.sqrt(variance); // STD Deviation from the mean
-
-      // TODO:  Test the Sharpe Ratio
-      const sharpeRatio = Number(((averagePNLPercent - 3.0) / stdDeviation).toFixed(2));
-
-      // -- End of Sharpe Ratio Calculation
-
-      // Net Profit
-      const netProfit = Number((((workingCapital - initialCapital) / initialCapital) * 100).toFixed(2));
-
-      trades.profitabilityPercent = Number(((trades.profitableCount * 100) / trades.total).toFixed(2));
-
-      const summary = {
-        sharpeRatio: sharpeRatio,
-        averagePNLPercent: averagePNLPercent,
-        netProfit: netProfit,
-        initialCapital: initialCapital,
-        finalCapital: Number(workingCapital.toFixed(2)),
-        trades: trades,
-      };
-
-      resolve(summary);
-    });
-  }
-};
+});
