@@ -75,10 +75,9 @@ module.exports = {
 
         content.symbols
           .filter(
-            (p) =>
-              ['USDT'].includes(p.quoteAsset) &&
-              !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
-              p.status.toLowerCase() === 'trading'
+            (p) => ['USDT'].includes(p.quoteAsset) &&
+            !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
+            p.status.toLowerCase() === 'trading'
           )
           .forEach((pair) => {
             let result = {
@@ -89,14 +88,12 @@ module.exports = {
               trade: {
                 currency_capital: 60,
               },
-              strategies: [
-                {
-                  strategy: 'trader_macd',
-                  options: {
-                    period: '12h',
-                  },
+              strategies: [{
+                strategy: 'trader_macd',
+                options: {
+                  period: '12h',
                 },
-              ],
+              }, ],
             };
 
             if (callback) {
@@ -226,17 +223,17 @@ module.exports = {
           .filter((p) => p.status.toUpperCase() === 'TRADING')
           .filter(
             (p) =>
-              !p.symbol.toUpperCase().startsWith('BTC') &&
-              !p.symbol.toUpperCase().startsWith('ETH') &&
-              !p.symbol.toUpperCase().startsWith('BCH') &&
-              !p.symbol.toUpperCase().startsWith('XRP') &&
-              !p.symbol.toUpperCase().startsWith('EOS') &&
-              !p.symbol.toUpperCase().startsWith('ADA') &&
-              !p.symbol.toUpperCase().startsWith('ETC') &&
-              !p.symbol.toUpperCase().startsWith('LINK') &&
-              !p.symbol.toUpperCase().startsWith('DASH') &&
-              !p.symbol.toUpperCase().startsWith('XMR') &&
-              !p.symbol.toUpperCase().startsWith('LTC')
+            !p.symbol.toUpperCase().startsWith('BTC') &&
+            !p.symbol.toUpperCase().startsWith('ETH') &&
+            !p.symbol.toUpperCase().startsWith('BCH') &&
+            !p.symbol.toUpperCase().startsWith('XRP') &&
+            !p.symbol.toUpperCase().startsWith('EOS') &&
+            !p.symbol.toUpperCase().startsWith('ADA') &&
+            !p.symbol.toUpperCase().startsWith('ETC') &&
+            !p.symbol.toUpperCase().startsWith('LINK') &&
+            !p.symbol.toUpperCase().startsWith('DASH') &&
+            !p.symbol.toUpperCase().startsWith('XMR') &&
+            !p.symbol.toUpperCase().startsWith('LTC')
           )
           .forEach((pair) => {
             let result = {
@@ -244,7 +241,10 @@ module.exports = {
               periods: ['1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
               state: 'trade',
-              watchdogs: [
+              watchdogs: [{
+                  name: 'stoploss',
+                  percent: 1.4,
+                },
                 {
                   name: 'risk_reward_ratio',
                   target_percent: 2.8,
@@ -254,14 +254,12 @@ module.exports = {
               trade: {
                 currency_capital: 60,
               },
-              strategies: [
-                {
-                  strategy: 'trader_macd_ADA',
-                  options: {
-                    period: '12h',
-                  },
+              strategies: [{
+                strategy: 'trader_macd_ADA',
+                options: {
+                  period: '12h',
                 },
-              ],
+              }, ],
             };
 
             if (callback) {
@@ -288,16 +286,16 @@ module.exports = {
         content
           .filter(
             (p) =>
-              p.margin === true &&
-              p.pair.endsWith('usd') &&
-              !p.pair.startsWith('edo') &&
-              !p.pair.startsWith('etp') &&
-              !p.pair.startsWith('alg') &&
-              !p.pair.startsWith('san') &&
-              !p.pair.startsWith('ust') &&
-              !p.pair.startsWith('dai') &&
-              !p.pair.startsWith('usd') &&
-              !p.pair.startsWith('testbtc')
+            p.margin === true &&
+            p.pair.endsWith('usd') &&
+            !p.pair.startsWith('edo') &&
+            !p.pair.startsWith('etp') &&
+            !p.pair.startsWith('alg') &&
+            !p.pair.startsWith('san') &&
+            !p.pair.startsWith('ust') &&
+            !p.pair.startsWith('dai') &&
+            !p.pair.startsWith('usd') &&
+            !p.pair.startsWith('testbtc')
           )
           .forEach((pair) => {
             // console.log(pair)
@@ -309,8 +307,7 @@ module.exports = {
                 bitfinex_leverage: 2,
               },
               state: 'trade',
-              watchdogs: [
-                {
+              watchdogs: [{
                   name: 'risk_reward_ratio',
                   stop_percent: 3,
                 },
@@ -323,14 +320,12 @@ module.exports = {
               trade: {
                 currency_capital: 60,
               },
-              strategies: [
-                {
-                  strategy: 'trader_macd',
-                  options: {
-                    period: '12h',
-                  },
+              strategies: [{
+                strategy: 'trader_macd',
+                options: {
+                  period: '12h',
                 },
-              ],
+              }, ],
             };
 
             if (callback) {
