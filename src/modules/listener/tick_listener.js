@@ -1,6 +1,8 @@
 const moment = require('moment');
 const _ = require('lodash');
-const { default: PQueue } = require('p-queue');
+const {
+  default: PQueue
+} = require('p-queue');
 const StrategyContext = require('../../dict/strategy_context');
 
 module.exports = class TickListener {
@@ -78,8 +80,7 @@ module.exports = class TickListener {
       // log signal
       this.signalLogger.signal(
         symbol.exchange,
-        symbol.symbol,
-        {
+        symbol.symbol, {
           price: ticker.ask,
           strategy: strategyKey,
           raw: JSON.stringify(result),
@@ -140,8 +141,7 @@ module.exports = class TickListener {
     this.notifier.send(`[${signal} (${strategyKey})] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
     this.signalLogger.signal(
       symbol.exchange,
-      symbol.symbol,
-      {
+      symbol.symbol, {
         price: ticker.ask,
         strategy: strategyKey,
         raw: JSON.stringify(result),
@@ -157,12 +157,13 @@ module.exports = class TickListener {
   async startStrategyIntervals() {
     this.logger.info(`Starting strategy intervals`);
 
-    const queue = new PQueue({ concurrency: this.systemUtil.getConfig('tick.pair_signal_concurrency', 10) });
+    const queue = new PQueue({
+      concurrency: this.systemUtil.getConfig('tick.pair_signal_concurrency', 10)
+    });
 
     const me = this;
 
-    const types = [
-      {
+    const types = [{
         name: 'watch',
         items: this.instances.symbols.filter((sym) => sym.strategies && sym.strategies.length > 0),
       },
@@ -210,10 +211,10 @@ module.exports = class TickListener {
             */
 
             if (type.name === 'watch') {
-              await me.visitStrategy(strategy, symbol);
-              // await me.visitTradeStrategy(strategy, symbol);
+              // await me.visitStrategy(strategy, symbol);
+              await me.visitTradeStrategy(strategy, symbol);
             } else if (type.name === 'trade') {
-              // await me.visitTradeStrategy(strategy, symbol);
+              await me.visitTradeStrategy(strategy, symbol);
             } else {
               throw new Error(`Invalid strategy type${type.name}`);
             }
