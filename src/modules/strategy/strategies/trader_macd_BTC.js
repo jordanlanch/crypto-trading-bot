@@ -134,8 +134,9 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('rsi12h', 'rsi', '12h');
   }
 
-  period(indicatorPeriod) {
+  period(indicatorPeriod, options, buy_or_sell) {
     return this.trader_custom(
+      buy_or_sell,
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_12h_01'),
       indicatorPeriod.getIndicator('macd_12h_02'),
@@ -171,6 +172,7 @@ module.exports = class TraderCustom {
   }
 
   async trader_custom(
+    buy_or_sell,
     price,
     macd1D01Full,
     macd1D02Full,
@@ -521,6 +523,11 @@ module.exports = class TraderCustom {
       sell: 0,
       buy: 0,
       last_signal: lastSignal,
+      last_signal: lastSignal,
+      sentiment: 0,
+      longShortRatioTOP: 0,
+      longShortRatioGLOBAL: 0,
+      diference_sen: 0,
     };
     /*
     levels signals
@@ -573,13 +580,13 @@ module.exports = class TraderCustom {
 
     // //sma & ema 6H, 4H, 1D
 
-    // if (price >= ema704h.slice(-1)[0]) {
-    //   count_signals_buy += 1.5;
-    //   debug.ema704h += 1.5;
-    // } else {
-    //   count_signals_sell += 1.5;
-    //   debug.ema704h -= 1.5;
-    // }
+    count_signals_buy += buy_or_sell.buy;
+    count_signals_sell += buy_or_sell.sell;
+    debug.sentiment += buy_or_sell.buy;
+    debug.sentiment -= buy_or_sell.sell;
+    debug.diference_sen = buy_or_sell.diference;
+    debug.longShortRatioTOP = buy_or_sell.longShortRatioTOP;
+    debug.longShortRatioGLOBAL = buy_or_sell.longShortRatioGLOBAL;
 
     //obv 6H, 4H, 1D
     //01 16 -1.248
@@ -787,8 +794,7 @@ module.exports = class TraderCustom {
   }
 
   getBacktestColumns() {
-    return [
-      {
+    return [{
         label: 'sell',
         value: 'sell',
         type: 'cross',
@@ -805,6 +811,30 @@ module.exports = class TraderCustom {
         value: 'macd2H01',
         type: 'cross',
         type: 'sma200',
+      },
+      {
+        label: 'sentiment',
+        value: 'sentiment',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'diference_sen',
+        value: 'diference_sen',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'longShortRatioTOP',
+        value: 'longShortRatioTOP',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'longShortRatioGLOBAL',
+        value: 'longShortRatioGLOBAL',
+        type: 'cross',
+        range: 'sma200',
       },
 
       {
@@ -1031,7 +1061,11 @@ module.exports = class TraderCustom {
         const min = Math.min(...rangeValues);
         if (min <= -200) {
           debug._trigger = min;
-          return { buy: count_cci, sell: 0, debug: debug };
+          return {
+            buy: count_cci,
+            sell: 0,
+            debug: debug
+          };
         }
       }
     } else if (before_cci >= 100 && last_cci <= 100) {
@@ -1048,10 +1082,18 @@ module.exports = class TraderCustom {
       const max = Math.max(...rangeValues);
       if (max >= 200) {
         debug._trigger = max;
-        return { buy: 0, sell: count_cci, debug: debug };
+        return {
+          buy: 0,
+          sell: count_cci,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 
   resolve_macd(debug, long, macd, count_macd) {
@@ -1061,15 +1103,27 @@ module.exports = class TraderCustom {
     if (long) {
       if (before_macd < 0 && last_macd > 0) {
         debug.macd += count_macd;
-        return { buy: count_macd, sell: 0, debug: debug };
+        return {
+          buy: count_macd,
+          sell: 0,
+          debug: debug
+        };
       }
     } else {
       if (before_macd > 0 && last_macd < 0) {
         debug.macd -= count_macd;
-        return { buy: 0, sell: count_macd, debug: debug };
+        return {
+          buy: 0,
+          sell: count_macd,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 
   resolve_ao(debug, long, ao, count_ao) {
@@ -1079,15 +1133,27 @@ module.exports = class TraderCustom {
     if (long) {
       if (before_ao < 0 && last_ao > 0) {
         debug.ao += count_ao;
-        return { buy: count_ao, sell: 0, debug: debug };
+        return {
+          buy: count_ao,
+          sell: 0,
+          debug: debug
+        };
       }
     } else {
       if (before_ao > 0 && last_ao < 0) {
         debug.ao -= count_ao;
-        return { buy: 0, sell: count_ao, debug: debug };
+        return {
+          buy: 0,
+          sell: count_ao,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 
   resolve_rsi(debug, rsi, count_rsi, min, max) {
@@ -1097,16 +1163,28 @@ module.exports = class TraderCustom {
     if (before_rsi < min) {
       if (before_rsi < last_rsi) {
         debug.rsi += count_rsi;
-        return { buy: count_rsi, sell: 0, debug: debug };
+        return {
+          buy: count_rsi,
+          sell: 0,
+          debug: debug
+        };
       }
     }
 
     if (before_rsi > max) {
       if (before_rsi > last_rsi) {
         debug.rsi -= count_rsi;
-        return { buy: 0, sell: count_rsi, debug: debug };
+        return {
+          buy: 0,
+          sell: count_rsi,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 };
