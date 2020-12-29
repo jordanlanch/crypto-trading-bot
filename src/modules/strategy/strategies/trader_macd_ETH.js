@@ -136,6 +136,7 @@ module.exports = class TraderCustom {
 
   period(indicatorPeriod, options, buy_or_sell) {
     return this.trader_custom(
+      buy_or_sell,
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_12h_01'),
       indicatorPeriod.getIndicator('macd_12h_02'),
@@ -171,6 +172,7 @@ module.exports = class TraderCustom {
   }
 
   async trader_custom(
+    buy_or_sell,
     price,
     macd1D01Full,
     macd1D02Full,
