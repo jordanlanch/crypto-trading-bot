@@ -1,8 +1,8 @@
 {
-  "name": "crypto-trading-bot-nicolas",
+  "name": "crypto-trading-bot-bitfinex",
   "version": "0.0.0",
   "author": "Daniel Espendiller",
-  "bugs": "https://github.com/Haehnchen/crypto-trading-bot-nicolas/issues",
+  "bugs": "https://github.com/Haehnchen/crypto-trading-bot-bitfinex/issues",
   "contributors": [
     {
       "email": "daniel@espendiller.net",
@@ -78,7 +78,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Haehnchen/crypto-trading-bot-nicolas.git"
+    "url": "https://github.com/Haehnchen/crypto-trading-bot-bitfinex.git"
   },
   "scripts": {
     "start": "node index.js trade",
