@@ -125,9 +125,12 @@ module.exports = class StrategyManager {
     let buy_or_sell = {};
 
     let array_all = await this.getSentimentBinanceFuturres(symbol)
-    let last_top = array_all.array_top;
-    let last_global = array_all.array_global;
+    // console.log('array_all--MM' + JSON.stringify(array_all))
+    let last_top = array_all.array_top[0];
+    let last_global = array_all.array_global[0];
 
+    // console.log('last_top--MM' + JSON.stringify(last_top))
+    // console.log('last_global--MM' + JSON.stringify(last_global))
     if (last_top === undefined || last_global === undefined) {
       buy_or_sell = {
         buy: 0,
