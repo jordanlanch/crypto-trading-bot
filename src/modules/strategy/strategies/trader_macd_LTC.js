@@ -524,9 +524,10 @@ module.exports = class TraderCustom {
       buy: 0,
       last_signal: lastSignal,
       sentiment: 0,
-      longShortRatioTOP: 0,
-      longShortRatioGLOBAL: 0,
-      diference_sen: 0,
+      incremetShortTOP: 0,
+      incremetShortGlobal: 0,
+      incrementLogTOP: 0,
+      incrementLogGlobal: 0,
     };
     /*
     levels signals
@@ -583,9 +584,10 @@ module.exports = class TraderCustom {
     count_signals_sell += buy_or_sell.sell;
     debug.sentiment += buy_or_sell.buy;
     debug.sentiment -= buy_or_sell.sell;
-    debug.diference_sen = buy_or_sell.diference;
-    debug.longShortRatioTOP = buy_or_sell.longShortRatioTOP;
-    debug.longShortRatioGLOBAL = buy_or_sell.longShortRatioGLOBAL;
+    debug.incrementLogGlobal = buy_or_sell.incrementLogGlobal;
+    debug.incremetShortTOP = buy_or_sell.incremetShortTOP;
+    debug.incrementLogTOP = buy_or_sell.incrementLogTOP;
+    debug.incremetShortGlobal = buy_or_sell.incremetShortGlobal;
 
     //obv 6H, 4H, 1D
     //01 16 -1.248
@@ -818,20 +820,26 @@ module.exports = class TraderCustom {
         range: 'sma200',
       },
       {
-        label: 'diference_sen',
-        value: 'diference_sen',
+        label: 'incrementLogGlobal',
+        value: 'incrementLogGlobal',
         type: 'cross',
         range: 'sma200',
       },
       {
-        label: 'longShortRatioTOP',
-        value: 'longShortRatioTOP',
+        label: 'incremetShortTOP',
+        value: 'incremetShortTOP',
         type: 'cross',
         range: 'sma200',
       },
       {
-        label: 'longShortRatioGLOBAL',
-        value: 'longShortRatioGLOBAL',
+        label: 'incrementLogTOP',
+        value: 'incrementLogTOP',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal',
+        value: 'incremetShortGlobal',
         type: 'cross',
         range: 'sma200',
       },
