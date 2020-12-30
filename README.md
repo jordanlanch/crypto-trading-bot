@@ -1,6 +1,6 @@
 # Crypto Trading Bot
 
-[![Build Status](https://travis-ci.org/Haehnchen/crypto-trading-bot-bitfinex.svg?branch=master)](https://travis-ci.org/Haehnchen/crypto-trading-bot-bitfinex)
+[![Build Status](https://travis-ci.org/Haehnchen/crypto-trading-bot-nicolas.svg?branch=master)](https://travis-ci.org/Haehnchen/crypto-trading-bot-nicolas)
 
 A **work in progress** Cryptocurrency for common exchanges like Bitfinex, Bitmex and Binance.
 As most trading bots just provide basic buy and sell signals they provide many stuff to get profitable eg exchange orders like stop-losses or stop-limits are not supported by main bots. Also the limitation of fixed timeframe and technical indicators must be broken  
@@ -104,12 +104,12 @@ For initialize the configuration once
 ➜ docker-compose build
 ➜ docker-compose up -d
 ```
-After this you can use `docker-compose` which will give you a running bot via <http://127.0.0.1:8080>
+After this you can use `docker-compose` which will give you a running bot via <http://127.0.0.1:8070>
 
 ## Setting Up Telegram Bot
 
 First, you'll need to create a bot for Telegram. Just talk to [BotFather](https://telegram.me/botfather) and follow simple steps until it gives you a token for it.
-You'll also need to create a Telegram group, the place where you and crypto-trading-bot-bitfinex will communicate. After creating it, add the bot as administrator (make sure to uncheck "All Members Are Admins").
+You'll also need to create a Telegram group, the place where you and crypto-trading-bot-nicolas will communicate. After creating it, add the bot as administrator (make sure to uncheck "All Members Are Admins").
 
 ### Retrieving Chat IDs
 
@@ -137,11 +137,11 @@ Look for id: -1001118554477 is your chat id (with the negative sign).
 
 Some browser links
 
- * UI: http://127.0.0.1:8080
- * Signals: http://127.0.0.1:8080/signals
- * Tradingview: http://127.0.0.1:8080/tradingview/BTCUSD
- * Backtesting: http://127.0.0.1:8080/backtest
- * Order & Pair Management: http://127.0.0.1:8080/pairs
+ * UI: http://127.0.0.1:8070
+ * Signals: http://127.0.0.1:8070/signals
+ * Tradingview: http://127.0.0.1:8070/tradingview/BTCUSD
+ * Backtesting: http://127.0.0.1:8070/backtest
+ * Order & Pair Management: http://127.0.0.1:8070/pairs
 
 
 ### Security / Authentication
@@ -154,7 +154,7 @@ server {
     server_name YOURHOST;
 
     location / {
-        proxy_pass http://127.0.0.1:8080;
+        proxy_pass http://127.0.0.1:8070;
     }
 
     listen 443 ssl; # managed by Certbot

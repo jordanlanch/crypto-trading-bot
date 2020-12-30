@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   bot:
-    container_name: crypto-trading-bot-bitfinex
+    container_name: crypto-trading-bot-nicolas
     image: node:10
     build:
         context: .
@@ -11,5 +11,5 @@ services:
         - .:/usr/src/app
         - /usr/src/app/node_modules
     ports:
-        - "8080:8080"
+        - "8070:8070"
     command: npm start
