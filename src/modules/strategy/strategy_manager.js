@@ -72,10 +72,10 @@ module.exports = class StrategyManager {
   async getSentimentBinanceFuturres(symbol) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=5m&limit=1'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=500'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=5m&limit=1'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=500'
       ),
     ]);
 
@@ -88,24 +88,64 @@ module.exports = class StrategyManager {
     };
   }
 
-  isBuyOrSell(longShortRatioTOP, longShortRatioGLOBAL) {
-    if (longShortRatioTOP > longShortRatioGLOBAL) {
-      return {
-        buy: 2,
-        sell: 0,
-        diference: longShortRatioTOP - longShortRatioGLOBAL,
-        longShortRatioTOP: longShortRatioTOP,
-        longShortRatioGLOBAL: longShortRatioGLOBAL,
-      };
-    } else {
+  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter) {
+    if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
+      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+        //nothing
+        return {
+          buy: 0,
+          sell: 0,
+          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
+          incrementLogTOP: 0,
+          incrementLogGlobal: 0,
+        };
+      } else { //increment long
+        //sell
+        return {
+          buy: 0,
+          sell: 2,
+          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+          incremetShortGlobal: 0,
+          incrementLogTOP: 0,
+          incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
+        };
+      }
+    } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
+      //nothing
       return {
         buy: 0,
-        sell: 2,
-        diference: longShortRatioGLOBAL - longShortRatioTOP,
-        longShortRatioTOP: longShortRatioTOP,
-        longShortRatioGLOBAL: longShortRatioGLOBAL,
+        sell: 0,
+        incremetShortTOP: 0,
+        incremetShortGlobal: 0,
+        incrementLogTOP: 0,
+        incrementLogGlobal: 0,
       };
+    } else { //increment log TOP
+      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+        //buy
+        return {
+          buy: 2,
+          sell: 0,
+          incremetShortTOP: 0,
+          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
+          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
+          incrementLogGlobal: 0,
+        };
+
+      } else { //increment long
+        //nothing
+        return {
+          buy: 0,
+          sell: 0,
+          incremetShortTOP: 0,
+          incremetShortGlobal: 0,
+          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
+          incrementLogGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALBefore,
+        };
+      }
     }
+
   }
 
 
@@ -125,25 +165,28 @@ module.exports = class StrategyManager {
     let buy_or_sell = {};
 
     let array_all = await this.getSentimentBinanceFuturres(symbol)
-    // console.log('array_all--MM' + JSON.stringify(array_all))
-    let last_top = array_all.array_top[0];
-    let last_global = array_all.array_global[0];
 
-    // console.log('last_top--MM' + JSON.stringify(last_top))
-    // console.log('last_global--MM' + JSON.stringify(last_global))
-    if (last_top === undefined || last_global === undefined) {
+    let last_top_before = array_all.array_top[0]
+    let last_top_after = array_all.array_top[1]
+    let last_global_before = array_all.array_global[0]
+    let last_global_after = array_all.array_global[1]
+
+    if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
       buy_or_sell = {
         buy: 0,
         sell: 0,
-        diference: 0,
-        longShortRatioTOP: 0,
-        longShortRatioGLOBAL: 0,
+        incremetShortTOP: 0,
+        incremetShortGlobal: 0,
+        incrementLogTOP: 0,
+        incrementLogGlobal: 0,
       };
     } else {
 
       buy_or_sell = this.isBuyOrSell(
-        Number(last_top.longShortRatio),
-        Number(last_global.longShortRatio)
+        Number(last_top_before.longShortRatio),
+        Number(last_top_after.longShortRatio),
+        Number(last_global_before.longShortRatio),
+        Number(last_global_after.longShortRatio)
       );
     }
 

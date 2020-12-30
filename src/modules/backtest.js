@@ -47,10 +47,10 @@ module.exports = class Backtest {
   async getSentimentBinanceFuturres(symbol) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=5m&limit=500'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=500'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=5m&limit=500'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=500'
       ),
     ]);
 
@@ -63,24 +63,64 @@ module.exports = class Backtest {
     };
   }
 
-  isBuyOrSell(longShortRatioTOP, longShortRatioGLOBAL) {
-    if (longShortRatioTOP > longShortRatioGLOBAL) {
-      return {
-        buy: 2,
-        sell: 0,
-        diference: longShortRatioTOP - longShortRatioGLOBAL,
-        longShortRatioTOP: longShortRatioTOP,
-        longShortRatioGLOBAL: longShortRatioGLOBAL,
-      };
-    } else {
+  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter) {
+    if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
+      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+        //nothing
+        return {
+          buy: 0,
+          sell: 0,
+          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
+          incrementLogTOP: 0,
+          incrementLogGlobal: 0,
+        };
+      } else { //increment long
+        //sell
+        return {
+          buy: 0,
+          sell: 2,
+          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+          incremetShortGlobal: 0,
+          incrementLogTOP: 0,
+          incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
+        };
+      }
+    } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
+      //nothing
       return {
         buy: 0,
-        sell: 2,
-        diference: longShortRatioGLOBAL - longShortRatioTOP,
-        longShortRatioTOP: longShortRatioTOP,
-        longShortRatioGLOBAL: longShortRatioGLOBAL,
+        sell: 0,
+        incremetShortTOP: 0,
+        incremetShortGlobal: 0,
+        incrementLogTOP: 0,
+        incrementLogGlobal: 0,
       };
+    } else { //increment log TOP
+      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+        //buy
+        return {
+          buy: 2,
+          sell: 0,
+          incremetShortTOP: 0,
+          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
+          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
+          incrementLogGlobal: 0,
+        };
+
+      } else { //increment long
+        //nothing
+        return {
+          buy: 0,
+          sell: 0,
+          incremetShortTOP: 0,
+          incremetShortGlobal: 0,
+          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
+          incrementLogGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALBefore,
+        };
+      }
     }
+
   }
 
   getBacktestResult(tickIntervalInMinutes, hours, strategy, candlePeriod, exchange, pair, options, initial_capital) {
@@ -142,32 +182,40 @@ module.exports = class Backtest {
       const end = moment().unix();
       while (current < end) {
         let current_str = '' + current + '000';
-        let new_current = parseInt(current_str, 10);
+        let new_current = parseInt(current_str, 10); // - 30 min
+        let new_current_30 = new_current - 1800000; // - 30 min
+        // console.log('new_current--<' + new_current)
+        // console.log('new_current1800000--<' + new_current_30)
 
         let buy_or_sell = {};
 
-        let array_last_current_top = array_top.filter((t) => new_current >= t.timestamp);
-        let array_last_current_global = array_global.filter((t) => new_current >= t.timestamp);
+        let array_last_current_top = array_top.filter((t) => new_current_30 >= t.timestamp);
+        let array_last_current_global = array_global.filter((t) => new_current_30 >= t.timestamp);
         // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
         // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
 
 
-        let last_top = array_last_current_top[0]
-        let last_global = array_last_current_global[0]
+        let last_top_before = array_last_current_top[0]
+        let last_top_after = array_last_current_top[1]
+        let last_global_before = array_last_current_global[0]
+        let last_global_after = array_last_current_global[1]
 
-        if (last_top === undefined || last_global === undefined) {
+        if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
           buy_or_sell = {
             buy: 0,
             sell: 0,
-            diference: 0,
-            longShortRatioTOP: 0,
-            longShortRatioGLOBAL: 0,
+            incremetShortTOP: 0,
+            incremetShortGlobal: 0,
+            incrementLogTOP: 0,
+            incrementLogGlobal: 0,
           };
         } else {
 
           buy_or_sell = this.isBuyOrSell(
-            Number(last_top.longShortRatio),
-            Number(last_global.longShortRatio)
+            Number(last_top_before.longShortRatio),
+            Number(last_top_after.longShortRatio),
+            Number(last_global_before.longShortRatio),
+            Number(last_global_after.longShortRatio)
           );
         }
 
