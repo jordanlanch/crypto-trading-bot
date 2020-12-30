@@ -11,5 +11,5 @@ services:
         - .:/usr/src/app
         - /usr/src/app/node_modules
     ports:
-        - "8070:8070"
+        - "8080:8080"
     command: npm start
