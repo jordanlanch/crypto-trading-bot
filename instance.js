@@ -222,7 +222,7 @@ c.init = async () => {
     }, {
       name: 'risk_reward_ratio',
       target_percent: 2.8,
-      stop_percent: 3,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
