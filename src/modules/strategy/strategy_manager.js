@@ -94,7 +94,7 @@ module.exports = class StrategyManager {
         //nothing
         return {
           buy: 0,
-          sell: 0,
+          sell: 2,
           incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
           incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
           incrementLogTOP: 0,
@@ -136,7 +136,7 @@ module.exports = class StrategyManager {
       } else { //increment long
         //nothing
         return {
-          buy: 0,
+          buy: 2,
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: 0,
