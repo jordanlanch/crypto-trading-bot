@@ -90,7 +90,7 @@ module.exports = class StrategyManager {
 
   isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter) {
     if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
-      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+      if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
         //nothing
         return {
           buy: 0,
