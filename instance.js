@@ -47,13 +47,13 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-        name: 'stoploss',
-        percent: 1.4,
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
       },
       {
-        name: 'risk_reward_ratio',
-        target_percent: 2.8,
-        stop_percent: 1.4,
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
       },
     ],
     trade: {
@@ -73,13 +73,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -97,13 +99,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -121,13 +125,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -145,13 +151,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -169,13 +177,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -193,13 +203,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -217,13 +229,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -241,13 +255,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -265,13 +281,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
@@ -289,13 +307,15 @@ c.init = async () => {
     exchange: 'binance_futures',
     state: 'trade',
     watchdogs: [{
-      name: 'stoploss',
-      percent: 1.4,
-    }, {
-      name: 'risk_reward_ratio',
-      target_percent: 2.8,
-      stop_percent: 1.4,
-    }, ],
+        name: 'risk_reward_ratio',
+        stop_percent: 3,
+      },
+      {
+        name: 'trailing_stop',
+        target_percent: 3,
+        stop_percent: 1,
+      },
+    ],
     trade: {
       currency_capital: 60,
     },
