@@ -183,10 +183,10 @@ module.exports = class StrategyManager {
     } else {
 
       buy_or_sell = this.isBuyOrSell(
-        Number(last_top_before.longShortRatio),
-        Number(last_top_after.longShortRatio),
-        Number(last_global_before.longShortRatio),
-        Number(last_global_after.longShortRatio)
+        parseFloat(last_top_before.longShortRatio),
+        parseFloat(last_top_after.longShortRatio),
+        parseFloat(last_global_before.longShortRatio),
+        parseFloat(last_global_after.longShortRatio)
       );
     }
 
