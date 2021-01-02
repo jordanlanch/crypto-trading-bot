@@ -591,7 +591,7 @@ module.exports = class TraderCustom {
 
     //obv 6H, 4H, 1D
     //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.023, 1);
+    let resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.015, 1);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv1D += resolve_obv.buy;
