@@ -69,7 +69,7 @@ module.exports = class Backtest {
         //nothing
         return {
           buy: 0,
-          sell: 2,
+          sell: 0,
           incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
           incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
           incrementLogTOP: 0,
@@ -111,7 +111,7 @@ module.exports = class Backtest {
       } else { //increment long
         //nothing
         return {
-          buy: 2,
+          buy: 0,
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: 0,
@@ -195,10 +195,11 @@ module.exports = class Backtest {
         // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
 
 
-        let last_top_before = array_last_current_top[0]
-        let last_top_after = array_last_current_top[1]
-        let last_global_before = array_last_current_global[0]
-        let last_global_after = array_last_current_global[1]
+        let last_top_before = array_last_current_top.slice(-2)[0]
+        // console.log('last_top_before -->' + JSON.stringify(last_top_before));
+        let last_top_after = array_last_current_top.slice(-2)[1]
+        let last_global_before = array_last_current_global.slice(-2)[0]
+        let last_global_after = array_last_current_global.slice(-2)[1]
 
         if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
           buy_or_sell = {
@@ -212,10 +213,10 @@ module.exports = class Backtest {
         } else {
 
           buy_or_sell = this.isBuyOrSell(
-            Number(last_top_before.longShortRatio),
-            Number(last_top_after.longShortRatio),
-            Number(last_global_before.longShortRatio),
-            Number(last_global_after.longShortRatio)
+            parseFloat(last_top_before.longShortRatio),
+            parseFloat(last_top_after.longShortRatio),
+            parseFloat(last_global_before.longShortRatio),
+            parseFloat(last_global_after.longShortRatio)
           );
         }
 
