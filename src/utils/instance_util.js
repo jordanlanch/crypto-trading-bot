@@ -75,10 +75,9 @@ module.exports = {
 
         content.symbols
           .filter(
-            (p) =>
-              ['USDT'].includes(p.quoteAsset) &&
-              !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
-              p.status.toLowerCase() === 'trading'
+            (p) => ['USDT'].includes(p.quoteAsset) &&
+            !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
+            p.status.toLowerCase() === 'trading'
           )
           .forEach((pair) => {
             let result = {
@@ -89,14 +88,12 @@ module.exports = {
               trade: {
                 currency_capital: 60,
               },
-              strategies: [
-                {
-                  strategy: 'trader_macd',
-                  options: {
-                    period: '1d',
-                  },
+              strategies: [{
+                strategy: 'trader_macd',
+                options: {
+                  period: '1d',
                 },
-              ],
+              }, ],
             };
 
             if (callback) {
@@ -227,27 +224,23 @@ module.exports = {
           .forEach((pair) => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '2h','4h', '6h', '1d'],
+              periods: ['1h', '2h', '4h', '6h', '1d'],
               exchange: 'binance_futures',
               state: 'watch',
-              watchdogs: [
-                {
-                  name: 'risk_reward_ratio',
-                  target_percent: 4,
-                  stop_percent: 3,
-                }
-              ],
+              watchdogs: [{
+                name: 'risk_reward_ratio',
+                target_percent: 2.8,
+                stop_percent: 1.4,
+              }],
               trade: {
                 currency_capital: 60,
               },
-              strategies: [
-                {
-                  strategy: 'trader_macd',
-                  options: {
-                    period: '1d',
-                  },
+              strategies: [{
+                strategy: 'trader_macd',
+                options: {
+                  period: '1d',
                 },
-              ],
+              }, ],
             };
 
             if (callback) {
@@ -274,16 +267,16 @@ module.exports = {
         content
           .filter(
             (p) =>
-              p.margin === true &&
-              p.pair.endsWith('usd') &&
-              !p.pair.startsWith('edo') &&
-              !p.pair.startsWith('etp') &&
-              !p.pair.startsWith('alg') &&
-              !p.pair.startsWith('san') &&
-              !p.pair.startsWith('ust') &&
-              !p.pair.startsWith('dai') &&
-              !p.pair.startsWith('usd') &&
-              !p.pair.startsWith('testbtc')
+            p.margin === true &&
+            p.pair.endsWith('usd') &&
+            !p.pair.startsWith('edo') &&
+            !p.pair.startsWith('etp') &&
+            !p.pair.startsWith('alg') &&
+            !p.pair.startsWith('san') &&
+            !p.pair.startsWith('ust') &&
+            !p.pair.startsWith('dai') &&
+            !p.pair.startsWith('usd') &&
+            !p.pair.startsWith('testbtc')
           )
           .forEach((pair) => {
             // console.log(pair)
@@ -295,8 +288,7 @@ module.exports = {
                 bitfinex_leverage: 2,
               },
               state: 'watch',
-              watchdogs: [
-                {
+              watchdogs: [{
                   name: 'risk_reward_ratio',
                   stop_percent: 3,
                 },
@@ -309,14 +301,12 @@ module.exports = {
               trade: {
                 currency_capital: 60,
               },
-              strategies: [
-                {
-                  strategy: 'trader_macd',
-                  options: {
-                    period: '1d',
-                  },
+              strategies: [{
+                strategy: 'trader_macd',
+                options: {
+                  period: '1d',
                 },
-              ],
+              }, ],
             };
 
             if (callback) {
