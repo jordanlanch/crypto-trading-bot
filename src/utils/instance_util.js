@@ -242,13 +242,13 @@ module.exports = {
               exchange: 'binance_futures',
               state: 'trade',
               watchdogs: [{
-                  name: 'risk_reward_ratio',
-                  stop_percent: 3,
+                  name: 'stoploss',
+                  percent: 1.4,
                 },
                 {
-                  name: 'trailing_stop',
-                  target_percent: 3,
-                  stop_percent: 1,
+                  name: 'risk_reward_ratio',
+                  target_percent: 2.8,
+                  stop_percent: 1.4,
                 },
               ],
               trade: {
