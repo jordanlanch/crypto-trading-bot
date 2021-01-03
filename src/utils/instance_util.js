@@ -236,7 +236,7 @@ module.exports = {
           .forEach(pair => {
             let result = {
               symbol: pair.symbol,
-              periods: ['15m', '1h', '2h', '4h', '6h', '12h'],
+              periods: ['1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
               state: 'trade',
               watchdogs: [{
@@ -252,29 +252,29 @@ module.exports = {
                       period: '12h',
                     },
                   },
-                  {
-                    "strategy": "dca_dipper",
-                    "interval": "15m",
-                    "options": {
-                      "period": "15m",
-                      
-                      "percent_below_price": 0.1,
-                      "hma_period": 12,
-                      "hma_source": "low"
-                    }
-                  },
-                  {
-                    "strategy": "dip_catcher",
-                    "interval": "15m",
-                    "options": {
-                      "period": "15m",
-                      "trend_cloud_multiplier": 4,
-                      "hma_high_period": 9,
-                      "hma_high_candle_source": "close",
-                      "hma_low_period": 9,
-                      "hma_low_candle_source": "close"
-                    }
-                  }
+                  // {
+                  //   "strategy": "dca_dipper",
+                  //   "interval": "15m",
+                  //   "options": {
+                  //     "period": "15m",
+
+                  //     "percent_below_price": 0.1,
+                  //     "hma_period": 12,
+                  //     "hma_source": "low"
+                  //   }
+                  // },
+                  // {
+                  //   "strategy": "dip_catcher",
+                  //   "interval": "15m",
+                  //   "options": {
+                  //     "period": "15m",
+                  //     "trend_cloud_multiplier": 4,
+                  //     "hma_high_period": 9,
+                  //     "hma_high_candle_source": "close",
+                  //     "hma_low_period": 9,
+                  //     "hma_low_candle_source": "close"
+                  //   }
+                  // }
                 ]
               },
 
