@@ -242,43 +242,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_BTC',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_BTC',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -286,43 +259,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_ETH',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_ETH',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -330,43 +276,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_XRP',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_XRP',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -374,43 +293,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_EOS',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_EOS',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -418,43 +310,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_LTC',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_LTC',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -462,43 +327,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_ADA',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_ADA',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -506,43 +344,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_ETC',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_ETC',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -550,43 +361,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_LINK',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_LINK',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -594,43 +378,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_DASH',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_DASH',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -638,43 +395,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_XMR',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_XMR',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -682,43 +412,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_QTUM',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_QTUM',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -726,43 +429,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_XTZ',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_XTZ',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -770,43 +446,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_ZEC',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_ZEC',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -814,43 +463,16 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_IOTA',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_IOTA',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -858,41 +480,14 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'trader_macd_NEO',
+    options: {
+      period: '12h',
     },
-  ],
-  strategies: [
-    {
-      strategy: 'trader_macd_NEO',
-      options: {
-        period: '12h',
-      },
-    },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
