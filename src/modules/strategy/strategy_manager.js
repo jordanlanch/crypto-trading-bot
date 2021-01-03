@@ -47,7 +47,7 @@ module.exports = class StrategyManager {
 
       fs.readdirSync(dir).forEach(file => {
         if (file.endsWith('.js')) {
-          strategies.push(new (require(`${dir}/${file.substr(0, file.length - 3)}`))());
+          strategies.push(new(require(`${dir}/${file.substr(0, file.length - 3)}`))());
         }
       });
 
@@ -57,7 +57,7 @@ module.exports = class StrategyManager {
         const filename = `${folder}/${path.basename(folder)}.js`;
 
         if (fs.existsSync(filename)) {
-          strategies.push(new (require(filename))());
+          strategies.push(new(require(filename))());
         }
       });
     });
@@ -72,10 +72,10 @@ module.exports = class StrategyManager {
   async getSentimentBinanceFuturres(symbol) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=2'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=5m&limit=2'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=2'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=5m&limit=2'
       ),
     ]);
 
@@ -300,10 +300,10 @@ module.exports = class StrategyManager {
       const foreignExchanges = [
         ...new Set(
           periodGroup
-            .filter(group => group.options.exchange && group.options.symbol)
-            .map(group => {
-              return `${group.options.exchange}#${group.options.symbol}`;
-            })
+          .filter(group => group.options.exchange && group.options.symbol)
+          .map(group => {
+            return `${group.options.exchange}#${group.options.symbol}`;
+          })
         )
       ].map(exchange => {
         const e = exchange.split('#');
