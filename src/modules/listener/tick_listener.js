@@ -80,7 +80,38 @@ module.exports = class TickListener {
       // console.log('blocked')
     } else {
       this.notified[symbol.exchange + symbol.symbol + strategyKey] = new Date();
-      this.notifier.send(`[${signal} (${strategyKey})` + `] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
+      let action = '';
+      let entryPrice = ticker.ask;
+      let stop = 0;
+      let target_1 = 0;
+      let target_2 = 0;
+      let target_3 = 0;
+      let target_1_percent = 4;
+      let target_2_percent = 8;
+      let target_3_percent = 12;
+      let stop_percent = 3.5;
+      if (signal == 'long') {
+        action = 'buy';
+        target_1 = entryPrice * (1 + target_1_percent / 100);
+        target_2 = entryPrice * (1 + target_2_percent / 100);
+        target_3 = entryPrice * (1 + target_3_percent / 100);
+        stop = entryPrice * (1 - stop_percent / 100);
+        this.notifier.send(
+          `[${action}] - Strategy [${strategyKey}] \n${symbol.symbol}\nPrice [${entryPrice}]\nStop Loss [${stop}]\nTarget Profit 1 [${target_1}]\nTarget Profit 2 [${target_2}]\nTarget Profit 3 [${target_3}]`
+        );
+      } else if (signal == 'short') {
+        action = 'sell';
+        target_1 = entryPrice * (1 - target_1_percent / 100);
+        target_2 = entryPrice * (1 - target_2_percent / 100);
+        target_3 = entryPrice * (1 - target_3_percent / 100);
+        stop = entryPrice * (1 + stop_percent / 100);
+        this.notifier.send(
+          `[${action}] - Strategy [${strategyKey}]\n${symbol.symbol}\nPrice [${entryPrice}]\nStop Loss [${stop}]\nTarget Profit 1 [${target_1}]\nTarget Profit 2 [${target_2}]\nTarget Profit 3 [${target_3}]`
+        );
+      } else if (signal == 'close') {
+        action = 'close';
+        this.notifier.send(`[${action}] - Strategy [${strategyKey}]\n${symbol.symbol}\nPrice [${entryPrice}]`);
+      }
 
       // log signal
       this.signalLogger.signal(

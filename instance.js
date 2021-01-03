@@ -255,6 +255,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -275,6 +298,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
@@ -297,6 +343,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -317,6 +386,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
@@ -339,6 +431,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -359,6 +474,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
@@ -381,6 +519,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -401,6 +562,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
@@ -423,6 +607,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -443,6 +650,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
@@ -465,6 +695,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -485,6 +738,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
@@ -507,6 +783,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -528,6 +827,29 @@ c.symbols.push({
         period: '12h',
       },
     },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
+    },
   ],
 });
 
@@ -548,6 +870,29 @@ c.symbols.push({
       options: {
         period: '12h',
       },
+    },
+    {
+      "strategy": "dca_dipper",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "amount_currency": "12",
+        "percent_below_price": 0.1,
+        "hma_period": 12,
+        "hma_source": "low"
+      }
+    },
+    {
+      "strategy": "dip_catcher",
+      "interval": "15m",
+      "options": {
+        "period": "15m",
+        "trend_cloud_multiplier": 4,
+        "hma_high_period": 9,
+        "hma_high_candle_source": "close",
+        "hma_low_period": 9,
+        "hma_low_candle_source": "close"
+      }
     },
   ],
 });
