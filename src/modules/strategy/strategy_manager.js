@@ -33,31 +33,31 @@ module.exports = class StrategyManager {
     const recursiveReadDirSyncWithDirectoryOnly = (p, a = []) => {
       if (fs.statSync(p).isDirectory()) {
         fs.readdirSync(p)
-          .filter((f) => !f.startsWith('.') && fs.statSync(path.join(p, f)).isDirectory())
-          .map((f) => recursiveReadDirSyncWithDirectoryOnly(a[a.push(path.join(p, f)) - 1], a));
+          .filter(f => !f.startsWith('.') && fs.statSync(path.join(p, f)).isDirectory())
+          .map(f => recursiveReadDirSyncWithDirectoryOnly(a[a.push(path.join(p, f)) - 1], a));
       }
 
       return a;
     };
 
-    dirs.forEach((dir) => {
+    dirs.forEach(dir => {
       if (!fs.existsSync(dir)) {
         return;
       }
 
-      fs.readdirSync(dir).forEach((file) => {
+      fs.readdirSync(dir).forEach(file => {
         if (file.endsWith('.js')) {
-          strategies.push(new(require(`${dir}/${file.substr(0, file.length - 3)}`))());
+          strategies.push(new (require(`${dir}/${file.substr(0, file.length - 3)}`))());
         }
       });
 
       // Allow strategies to be wrapped by any folder depth:
       // "foo/bar" => "foo/bar/bar.js"
-      recursiveReadDirSyncWithDirectoryOnly(dir).forEach((folder) => {
+      recursiveReadDirSyncWithDirectoryOnly(dir).forEach(folder => {
         const filename = `${folder}/${path.basename(folder)}.js`;
 
         if (fs.existsSync(filename)) {
-          strategies.push(new(require(filename))());
+          strategies.push(new (require(filename))());
         }
       });
     });
@@ -66,93 +66,22 @@ module.exports = class StrategyManager {
   }
 
   findStrategy(strategyName) {
-    return this.getStrategies().find((strategy) => strategy.getName() === strategyName);
+    return this.getStrategies().find(strategy => strategy.getName() === strategyName);
   }
 
-  async getSentimentBinanceFuturres(symbol) {
-    const [topTraders, globalTraders] = await Promise.all([
-      fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=2'
-      ),
-      fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=2'
-      ),
-    ]);
-
-    const array_top = await topTraders.json();
-    const array_global = await globalTraders.json();
-
-    return {
-      array_top: array_top,
-      array_global: array_global,
-    };
-  }
-
-  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter) {
-    if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
-      if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
-        //nothing
-        return {
-          buy: 0,
-          sell: 0,
-          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
-          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
-          incrementLogTOP: 0,
-          incrementLogGlobal: 0,
-        };
-      } else { //increment long
-        //sell
-        return {
-          buy: 0,
-          sell: 2,
-          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
-        };
-      }
-    } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
-      //nothing
-      return {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
-    } else { //increment log TOP
-      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
-        //buy
-        return {
-          buy: 2,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
-          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
-          incrementLogGlobal: 0,
-        };
-
-      } else { //increment long
-        //nothing
-        return {
-          buy: 0,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: 0,
-          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
-          incrementLogGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALBefore,
-        };
-      }
-    }
-
-  }
-
-
+  /**
+   *
+   * @param strategyName
+   * @param context
+   * @param exchange
+   * @param symbol
+   * @param options
+   * @returns {Promise<SignalResult|undefined>}
+   */
   async executeStrategy(strategyName, context, exchange, symbol, options) {
     const results = await this.getTaResult(strategyName, exchange, symbol, options, true);
     if (!results || Object.keys(results).length === 0) {
-      return;
+      return undefined;
     }
 
     // remove candle pipe
@@ -162,37 +91,9 @@ module.exports = class StrategyManager {
 
     const strategy = this.findStrategy(strategyName);
 
-    let buy_or_sell = {};
-
-    let array_all = await this.getSentimentBinanceFuturres(symbol)
-
-    let last_top_before = array_all.array_top.slice(-2)[0]
-    let last_top_after = array_all.array_top.slice(-2)[1]
-    let last_global_before = array_all.array_global.slice(-2)[0]
-    let last_global_after = array_all.array_global.slice(-2)[1]
-
-    if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
-      buy_or_sell = {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
-    } else {
-
-      buy_or_sell = this.isBuyOrSell(
-        parseFloat(last_top_before.longShortRatio),
-        parseFloat(last_top_after.longShortRatio),
-        parseFloat(last_global_before.longShortRatio),
-        parseFloat(last_global_after.longShortRatio)
-      );
-    }
-
-    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell);
+    const strategyResult = await strategy.period(indicatorPeriod, options);
     if (typeof strategyResult !== 'undefined' && !(strategyResult instanceof SignalResult)) {
-      throw `Invalid strategy return:${strategyName}`;
+      throw new Error(`Invalid strategy return:${strategyName}`);
     }
 
     return strategyResult;
@@ -207,7 +108,7 @@ module.exports = class StrategyManager {
    * @param lastSignalEntry
    * @returns {Promise<array>}
    */
-  async executeStrategyBacktest(strategyName, exchange, symbol, options, lastSignal, lastSignalEntry, buy_or_sell) {
+  async executeStrategyBacktest(strategyName, exchange, symbol, options, lastSignal, lastSignalEntry) {
     const results = await this.getTaResult(strategyName, exchange, symbol, options);
     if (!results || Object.keys(results).length === 0) {
       return {};
@@ -221,6 +122,7 @@ module.exports = class StrategyManager {
       const amount = lastSignal === 'short' ? -1 : 1;
 
       context = StrategyContext.createFromPosition(
+        options,
         new Ticker(exchange, symbol, undefined, price, price),
         new Position(
           symbol,
@@ -229,18 +131,19 @@ module.exports = class StrategyManager {
           CommonUtil.getProfitAsPercent(lastSignal, price, lastSignalEntry),
           undefined,
           lastSignalEntry
-        )
+        ),
+        true
       );
     } else {
-      context = StrategyContext.create(new Ticker(exchange, symbol, undefined, price, price));
+      context = StrategyContext.create(options, new Ticker(exchange, symbol, undefined, price, price), true);
     }
 
     context.lastSignal = lastSignal;
 
     const indicatorPeriod = new IndicatorPeriod(context, results);
 
-    const strategy = this.getStrategies().find((strategy) => strategy.getName() === strategyName);
-    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell);
+    const strategy = this.getStrategies().find(strategy => strategy.getName() === strategyName);
+    const strategyResult = await strategy.period(indicatorPeriod, options);
 
     if (typeof strategyResult !== 'undefined' && !(strategyResult instanceof SignalResult)) {
       throw `Invalid strategy return:${strategyName}`;
@@ -248,7 +151,7 @@ module.exports = class StrategyManager {
 
     const result = {
       price: price,
-      columns: this.getCustomTableColumnsForRow(strategyName, strategyResult ? strategyResult.getDebug() : {}),
+      columns: this.getCustomTableColumnsForRow(strategyName, strategyResult ? strategyResult.getDebug() : {})
     };
 
     if (strategyResult) {
@@ -261,7 +164,7 @@ module.exports = class StrategyManager {
   async getTaResult(strategyName, exchange, symbol, options, validateLookbacks = false) {
     options = options || {};
 
-    const strategy = this.getStrategies().find((strategy) => {
+    const strategy = this.getStrategies().find(strategy => {
       return strategy.getName() === strategyName;
     });
 
@@ -274,7 +177,7 @@ module.exports = class StrategyManager {
 
     const periodGroups = {};
 
-    indicatorBuilder.all().forEach((indicator) => {
+    indicatorBuilder.all().forEach(indicator => {
       if (!periodGroups[indicator.period]) {
         periodGroups[indicator.period] = [];
       }
@@ -290,17 +193,17 @@ module.exports = class StrategyManager {
       const foreignExchanges = [
         ...new Set(
           periodGroup
-          .filter((group) => group.options.exchange && group.options.symbol)
-          .map((group) => {
-            return `${group.options.exchange}#${group.options.symbol}`;
-          })
-        ),
-      ].map((exchange) => {
+            .filter(group => group.options.exchange && group.options.symbol)
+            .map(group => {
+              return `${group.options.exchange}#${group.options.symbol}`;
+            })
+        )
+      ].map(exchange => {
         const e = exchange.split('#');
 
         return {
           name: e[0],
-          symbol: e[1],
+          symbol: e[1]
         };
       });
 
@@ -323,14 +226,15 @@ module.exports = class StrategyManager {
           validateLookbacks &&
           !this.technicalAnalysisValidator.isValidCandleStickLookback(lookbacks[exchange].slice(), period)
         ) {
-          // too noisy for now; @TODO provide a logging throttle
-          // this.logger.error('Outdated candle stick period detected: ' + JSON.stringify([period, strategyName, exchange, symbol]))
+          this.logger.info(
+            `Strategy skipped: outdated candle sticks: ${JSON.stringify([period, strategyName, exchange, symbol])}`
+          );
 
           // stop current run
           return {};
         }
 
-        const indicators = periodGroup.filter((group) => !group.options.exchange && !group.options.symbol);
+        const indicators = periodGroup.filter(group => !group.options.exchange && !group.options.symbol);
 
         const result = await ta.createIndicatorsLookback(lookbacks[exchange].slice().reverse(), indicators);
 
@@ -350,7 +254,7 @@ module.exports = class StrategyManager {
           continue;
         }
 
-        const indicators = periodGroup.filter((group) => group.options.exchange === foreignExchange.name);
+        const indicators = periodGroup.filter(group => group.options.exchange === foreignExchange.name);
         if (indicators.length === 0) {
           continue;
         }
@@ -371,7 +275,7 @@ module.exports = class StrategyManager {
   }
 
   getCustomTableColumnsForRow(strategyName, row) {
-    return this.getBacktestColumns(strategyName).map((cfg) => {
+    return this.getBacktestColumns(strategyName).map(cfg => {
       // direct value of array or callback
       const value = typeof cfg.value === 'function' ? cfg.value(row) : _.get(row, cfg.value);
 
@@ -390,7 +294,7 @@ module.exports = class StrategyManager {
           default:
             valueOutput = new Intl.NumberFormat('en-US', {
               minimumSignificantDigits: 3,
-              maximumSignificantDigits: 4,
+              maximumSignificantDigits: 4
             }).format(value);
             break;
         }
@@ -398,7 +302,7 @@ module.exports = class StrategyManager {
 
       const result = {
         value: valueOutput,
-        type: cfg.type || 'default',
+        type: cfg.type || 'default'
       };
 
       switch (cfg.type || 'default') {
@@ -422,11 +326,11 @@ module.exports = class StrategyManager {
   }
 
   getStrategyNames() {
-    return this.getStrategies().map((strategy) => strategy.getName());
+    return this.getStrategies().map(strategy => strategy.getName());
   }
 
   getBacktestColumns(strategyName) {
-    const strategy = this.getStrategies().find((strategy) => {
+    const strategy = this.getStrategies().find(strategy => {
       return strategy.getName() === strategyName;
     });
 

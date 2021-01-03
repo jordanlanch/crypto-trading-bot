@@ -1,9 +1,8 @@
 const moment = require('moment');
 const _ = require('lodash');
-const {
-  default: PQueue
-} = require('p-queue');
 const StrategyContext = require('../../dict/strategy_context');
+const Order = require('../../dict/order');
+const OrderCapital = require('../../dict/order_capital');
 
 module.exports = class TickListener {
   constructor(
@@ -15,7 +14,9 @@ module.exports = class TickListener {
     exchangeManager,
     pairStateManager,
     logger,
-    systemUtil
+    systemUtil,
+    orderExecutor,
+    orderCalculator
   ) {
     this.tickers = tickers;
     this.instances = instances;
@@ -26,6 +27,8 @@ module.exports = class TickListener {
     this.pairStateManager = pairStateManager;
     this.logger = logger;
     this.systemUtil = systemUtil;
+    this.orderExecutor = orderExecutor;
+    this.orderCalculator = orderCalculator;
 
     this.notified = {};
   }
@@ -40,10 +43,10 @@ module.exports = class TickListener {
 
     const strategyKey = strategy.strategy;
 
-    let context = StrategyContext.create(ticker);
+    let context = StrategyContext.create(strategy.options, ticker, true);
     const position = await this.exchangeManager.getPosition(symbol.exchange, symbol.symbol);
     if (position) {
-      context = StrategyContext.createFromPosition(ticker, position);
+      context = StrategyContext.createFromPosition(strategy.options, ticker, position, true);
     }
 
     const result = await this.strategyManager.executeStrategy(
@@ -66,7 +69,9 @@ module.exports = class TickListener {
       throw Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
     }
 
-    const signalWindow = moment().subtract(30, 'minutes').toDate();
+    const signalWindow = moment()
+      .subtract(30, 'minutes')
+      .toDate();
 
     if (
       this.notified[symbol.exchange + symbol.symbol + strategyKey] &&
@@ -80,10 +85,11 @@ module.exports = class TickListener {
       // log signal
       this.signalLogger.signal(
         symbol.exchange,
-        symbol.symbol, {
+        symbol.symbol,
+        {
           price: ticker.ask,
           strategy: strategyKey,
-          raw: JSON.stringify(result),
+          raw: JSON.stringify(result)
         },
         signal,
         strategyKey
@@ -101,10 +107,10 @@ module.exports = class TickListener {
 
     const strategyKey = strategy.strategy;
 
-    let context = StrategyContext.create(ticker);
+    let context = StrategyContext.create(strategy.options, ticker);
     const position = await this.exchangeManager.getPosition(symbol.exchange, symbol.symbol);
     if (position) {
-      context = StrategyContext.createFromPosition(ticker, position);
+      context = StrategyContext.createFromPosition(strategy.options, ticker, position);
     }
 
     const result = await this.strategyManager.executeStrategy(
@@ -114,8 +120,15 @@ module.exports = class TickListener {
       symbol.symbol,
       strategy.options || {}
     );
+
     if (!result) {
       return;
+    }
+
+    // handle orders inside strategy
+    const placedOrder = result.getPlaceOrder();
+    if (placedOrder.length > 0) {
+      await this.placeStrategyOrders(placedOrder, symbol);
     }
 
     const signal = result.getSignal();
@@ -127,7 +140,9 @@ module.exports = class TickListener {
       throw Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
     }
 
-    const signalWindow = moment().subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes').toDate();
+    const signalWindow = moment()
+      .subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes')
+      .toDate();
 
     const noteKey = symbol.exchange + symbol.symbol;
     if (noteKey in this.notified && this.notified[noteKey] >= signalWindow) {
@@ -141,10 +156,11 @@ module.exports = class TickListener {
     this.notifier.send(`[${signal} (${strategyKey})] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
     this.signalLogger.signal(
       symbol.exchange,
-      symbol.symbol, {
+      symbol.symbol,
+      {
         price: ticker.ask,
         strategy: strategyKey,
-        raw: JSON.stringify(result),
+        raw: JSON.stringify(result)
       },
       signal,
       strategyKey
@@ -154,32 +170,51 @@ module.exports = class TickListener {
     await this.pairStateManager.update(symbol.exchange, symbol.symbol, signal);
   }
 
+  async placeStrategyOrders(placedOrder, symbol) {
+    for (const order of placedOrder) {
+      const amount = await this.orderCalculator.calculateOrderSizeCapital(
+        symbol.exchange,
+        symbol.symbol,
+        OrderCapital.createCurrency(order.amount_currency)
+      );
+
+      const exchangeOrder = Order.createLimitPostOnlyOrder(symbol.symbol, Order.SIDE_LONG, order.price, amount);
+
+      await this.orderExecutor.executeOrderWithAmountAndPrice(symbol.exchange, exchangeOrder);
+    }
+  }
+
   async startStrategyIntervals() {
     this.logger.info(`Starting strategy intervals`);
 
-    const queue = new PQueue({
-      concurrency: this.systemUtil.getConfig('tick.pair_signal_concurrency', 10)
-    });
-
     const me = this;
 
-    const types = [{
+    const types = [
+      {
         name: 'watch',
-        items: this.instances.symbols.filter((sym) => sym.strategies && sym.strategies.length > 0),
+        items: this.instances.symbols.filter(sym => sym.strategies && sym.strategies.length > 0)
       },
       {
         name: 'trade',
         items: this.instances.symbols.filter(
-          (sym) => sym.trade && sym.trade.strategies && sym.trade.strategies.length > 0
-        ),
-      },
+          sym => sym.trade && sym.trade.strategies && sym.trade.strategies.length > 0
+        )
+      }
     ];
 
-    types.forEach((type) => {
+    types.forEach(type => {
       me.logger.info(`Strategy: "${type.name}" found "${type.items.length}" valid symbols`);
 
-      type.items.forEach((symbol) => {
-        symbol.strategies.forEach((strategy) => {
+      type.items.forEach(symbol => {
+        // map strategies
+        let strategies = [];
+        if (type.name === 'watch') {
+          strategies = symbol.strategies;
+        } else if (type.name === 'trade') {
+          strategies = symbol.trade.strategies;
+        }
+
+        strategies.forEach(strategy => {
           let myInterval = '1m';
 
           if (strategy.interval) {
@@ -211,8 +246,7 @@ module.exports = class TickListener {
             */
 
             if (type.name === 'watch') {
-              // await me.visitStrategy(strategy, symbol);
-              await me.visitTradeStrategy(strategy, symbol);
+              await me.visitStrategy(strategy, symbol);
             } else if (type.name === 'trade') {
               await me.visitTradeStrategy(strategy, symbol);
             } else {
@@ -228,11 +262,13 @@ module.exports = class TickListener {
             );
 
             // first run call
-            queue.add(strategyIntervalCallback);
+            setTimeout(async () => {
+              await strategyIntervalCallback();
+            }, 1000 + Math.floor(Math.random() * (800 - 300 + 1)) + 100);
 
             // continuous run
-            setInterval(() => {
-              queue.add(strategyIntervalCallback);
+            setInterval(async () => {
+              await strategyIntervalCallback();
             }, interval);
           }, timeoutWindow);
         });
