@@ -74,10 +74,9 @@ module.exports = {
 
         content.symbols
           .filter(
-            p =>
-              ['USDT'].includes(p.quoteAsset) &&
-              !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
-              p.status.toLowerCase() === 'trading'
+            p => ['USDT'].includes(p.quoteAsset) &&
+            !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
+            p.status.toLowerCase() === 'trading'
           )
           .forEach(pair => {
             let result = {
@@ -220,7 +219,7 @@ module.exports = {
 
         content.symbols
           .filter(p => p.status.toUpperCase() === 'TRADING')
-             .filter(
+          .filter(
             (p) =>
             !p.symbol.toUpperCase().startsWith('BTC') &&
             !p.symbol.toUpperCase().startsWith('ETH') &&
@@ -237,31 +236,48 @@ module.exports = {
           .forEach(pair => {
             let result = {
               symbol: pair.symbol,
-              periods: ['15m','1h', '2h', '4h', '6h', '12h'],
+              periods: ['15m', '1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
               state: 'trade',
               watchdogs: [{
-                    name: 'risk_reward_ratio',
-                    target_percent: 4.5,
-                    stop_percent: 2.5,
-                  }, ],
+                name: 'risk_reward_ratio',
+                target_percent: 4.5,
+                stop_percent: 2.5,
+              }, ],
               trade: {
                 currency_capital: 60,
                 strategies: [{
-                  strategy: 'trader_macd_ADA',
-                  options: {
-                    period: '12h',
+                    strategy: 'trader_macd_ADA',
+                    options: {
+                      period: '12h',
+                    },
                   },
-                },
-                {
-                  "strategy": "dip_catcher",
-                  "interval": "15m",
-                  "options": {
-                    "period": "15m"
+                  {
+                    "strategy": "dca_dipper",
+                    "interval": "15m",
+                    "options": {
+                      "period": "15m",
+                      "amount_currency": "12",
+                      "percent_below_price": 0.1,
+                      "hma_period": 12,
+                      "hma_source": "low"
+                    }
+                  },
+                  {
+                    "strategy": "dip_catcher",
+                    "interval": "15m",
+                    "options": {
+                      "period": "15m",
+                      "trend_cloud_multiplier": 4,
+                      "hma_high_period": 9,
+                      "hma_high_candle_source": "close",
+                      "hma_low_period": 9,
+                      "hma_low_candle_source": "close"
+                    }
                   }
-                } ]
+                ]
               },
-             
+
             };
             if (callback) {
               result = callback(result, pair);
