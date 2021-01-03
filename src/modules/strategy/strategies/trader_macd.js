@@ -26,13 +26,13 @@ module.exports = class TraderCustom {
       signal_period: 9,
     });
 
-    indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
+    indicatorBuilder.add('macd_2h_01', 'macd_ext', '2h', {
       fast_period: 5,
       slow_period: 34,
       signal_period: 8,
     });
 
-    indicatorBuilder.add('macd_2h_02', 'macd', '2h', {
+    indicatorBuilder.add('macd_2h_02', 'macd_ext', '2h', {
       fast_period: 6,
       slow_period: 23,
       signal_period: 10,
