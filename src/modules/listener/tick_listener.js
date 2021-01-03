@@ -1,7 +1,8 @@
 const moment = require('moment');
 const _ = require('lodash');
-const { default: PQueue } = require('p-queue');
 const StrategyContext = require('../../dict/strategy_context');
+const Order = require('../../dict/order');
+const OrderCapital = require('../../dict/order_capital');
 
 module.exports = class TickListener {
   constructor(
@@ -13,7 +14,9 @@ module.exports = class TickListener {
     exchangeManager,
     pairStateManager,
     logger,
-    systemUtil
+    systemUtil,
+    orderExecutor,
+    orderCalculator
   ) {
     this.tickers = tickers;
     this.instances = instances;
@@ -24,6 +27,8 @@ module.exports = class TickListener {
     this.pairStateManager = pairStateManager;
     this.logger = logger;
     this.systemUtil = systemUtil;
+    this.orderExecutor = orderExecutor;
+    this.orderCalculator = orderCalculator;
 
     this.notified = {};
   }
@@ -38,10 +43,10 @@ module.exports = class TickListener {
 
     const strategyKey = strategy.strategy;
 
-    let context = StrategyContext.create(ticker);
+    let context = StrategyContext.create(strategy.options, ticker, true);
     const position = await this.exchangeManager.getPosition(symbol.exchange, symbol.symbol);
     if (position) {
-      context = StrategyContext.createFromPosition(ticker, position);
+      context = StrategyContext.createFromPosition(strategy.options, ticker, position, true);
     }
 
     const result = await this.strategyManager.executeStrategy(
@@ -64,7 +69,9 @@ module.exports = class TickListener {
       throw Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
     }
 
-    const signalWindow = moment().subtract(30, 'minutes').toDate();
+    const signalWindow = moment()
+      .subtract(30, 'minutes')
+      .toDate();
 
     if (
       this.notified[symbol.exchange + symbol.symbol + strategyKey] &&
@@ -73,38 +80,7 @@ module.exports = class TickListener {
       // console.log('blocked')
     } else {
       this.notified[symbol.exchange + symbol.symbol + strategyKey] = new Date();
-      let action = '';
-      let entryPrice = ticker.ask;
-      let stop = 0;
-      let target_1 = 0;
-      let target_2 = 0;
-      let target_3 = 0;
-      let target_1_percent = 4;
-      let target_2_percent = 8;
-      let target_3_percent = 12;
-      let stop_percent = 3.5;
-      if (signal == 'long') {
-        action = 'buy';
-        target_1 = entryPrice * (1 + target_1_percent / 100);
-        target_2 = entryPrice * (1 + target_2_percent / 100);
-        target_3 = entryPrice * (1 + target_3_percent / 100);
-        stop = entryPrice * (1 - stop_percent / 100);
-        this.notifier.send(
-          `[${action}] - Strategy [${strategyKey}] \n${symbol.symbol}\nPrice [${entryPrice}]\nStop Loss [${stop}]\nTarget Profit 1 [${target_1}]\nTarget Profit 2 [${target_2}]\nTarget Profit 3 [${target_3}]`
-        );
-      } else if (signal == 'short') {
-        action = 'sell';
-        target_1 = entryPrice * (1 - target_1_percent / 100);
-        target_2 = entryPrice * (1 - target_2_percent / 100);
-        target_3 = entryPrice * (1 - target_3_percent / 100);
-        stop = entryPrice * (1 + stop_percent / 100);
-        this.notifier.send(
-          `[${action}] - Strategy [${strategyKey}]\n${symbol.symbol}\nPrice [${entryPrice}]\nStop Loss [${stop}]\nTarget Profit 1 [${target_1}]\nTarget Profit 2 [${target_2}]\nTarget Profit 3 [${target_3}]`
-        );
-      } else if (signal == 'close') {
-        action = 'close';
-        this.notifier.send(`[${action}] - Strategy [${strategyKey}]\n${symbol.symbol}\nPrice [${entryPrice}]`);
-      }
+      this.notifier.send(`[${signal} (${strategyKey})` + `] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
 
       // log signal
       this.signalLogger.signal(
@@ -113,7 +89,7 @@ module.exports = class TickListener {
         {
           price: ticker.ask,
           strategy: strategyKey,
-          raw: JSON.stringify(result),
+          raw: JSON.stringify(result)
         },
         signal,
         strategyKey
@@ -131,10 +107,10 @@ module.exports = class TickListener {
 
     const strategyKey = strategy.strategy;
 
-    let context = StrategyContext.create(ticker);
+    let context = StrategyContext.create(strategy.options, ticker);
     const position = await this.exchangeManager.getPosition(symbol.exchange, symbol.symbol);
     if (position) {
-      context = StrategyContext.createFromPosition(ticker, position);
+      context = StrategyContext.createFromPosition(strategy.options, ticker, position);
     }
 
     const result = await this.strategyManager.executeStrategy(
@@ -144,8 +120,15 @@ module.exports = class TickListener {
       symbol.symbol,
       strategy.options || {}
     );
+
     if (!result) {
       return;
+    }
+
+    // handle orders inside strategy
+    const placedOrder = result.getPlaceOrder();
+    if (placedOrder.length > 0) {
+      await this.placeStrategyOrders(placedOrder, symbol);
     }
 
     const signal = result.getSignal();
@@ -157,7 +140,9 @@ module.exports = class TickListener {
       throw Error(`Invalid signal: ${JSON.stringify(signal, strategy)}`);
     }
 
-    const signalWindow = moment().subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes').toDate();
+    const signalWindow = moment()
+      .subtract(_.get(symbol, 'trade.signal_slowdown_minutes', 15), 'minutes')
+      .toDate();
 
     const noteKey = symbol.exchange + symbol.symbol;
     if (noteKey in this.notified && this.notified[noteKey] >= signalWindow) {
@@ -175,7 +160,7 @@ module.exports = class TickListener {
       {
         price: ticker.ask,
         strategy: strategyKey,
-        raw: JSON.stringify(result),
+        raw: JSON.stringify(result)
       },
       signal,
       strategyKey
@@ -185,31 +170,51 @@ module.exports = class TickListener {
     await this.pairStateManager.update(symbol.exchange, symbol.symbol, signal);
   }
 
+  async placeStrategyOrders(placedOrder, symbol) {
+    for (const order of placedOrder) {
+      const amount = await this.orderCalculator.calculateOrderSizeCapital(
+        symbol.exchange,
+        symbol.symbol,
+        OrderCapital.createCurrency(order.amount_currency)
+      );
+
+      const exchangeOrder = Order.createLimitPostOnlyOrder(symbol.symbol, Order.SIDE_LONG, order.price, amount);
+
+      await this.orderExecutor.executeOrderWithAmountAndPrice(symbol.exchange, exchangeOrder);
+    }
+  }
+
   async startStrategyIntervals() {
     this.logger.info(`Starting strategy intervals`);
-
-    const queue = new PQueue({ concurrency: this.systemUtil.getConfig('tick.pair_signal_concurrency', 10) });
 
     const me = this;
 
     const types = [
       {
         name: 'watch',
-        items: this.instances.symbols.filter((sym) => sym.strategies && sym.strategies.length > 0),
+        items: this.instances.symbols.filter(sym => sym.strategies && sym.strategies.length > 0)
       },
       {
         name: 'trade',
         items: this.instances.symbols.filter(
-          (sym) => sym.trade && sym.trade.strategies && sym.trade.strategies.length > 0
-        ),
-      },
+          sym => sym.trade && sym.trade.strategies && sym.trade.strategies.length > 0
+        )
+      }
     ];
 
-    types.forEach((type) => {
+    types.forEach(type => {
       me.logger.info(`Strategy: "${type.name}" found "${type.items.length}" valid symbols`);
 
-      type.items.forEach((symbol) => {
-        symbol.strategies.forEach((strategy) => {
+      type.items.forEach(symbol => {
+        // map strategies
+        let strategies = [];
+        if (type.name === 'watch') {
+          strategies = symbol.strategies;
+        } else if (type.name === 'trade') {
+          strategies = symbol.trade.strategies;
+        }
+
+        strategies.forEach(strategy => {
           let myInterval = '1m';
 
           if (strategy.interval) {
@@ -257,11 +262,13 @@ module.exports = class TickListener {
             );
 
             // first run call
-            queue.add(strategyIntervalCallback);
+            setTimeout(async () => {
+              await strategyIntervalCallback();
+            }, 1000 + Math.floor(Math.random() * (800 - 300 + 1)) + 100);
 
             // continuous run
-            setInterval(() => {
-              queue.add(strategyIntervalCallback);
+            setInterval(async () => {
+              await strategyIntervalCallback();
             }, interval);
           }, timeoutWindow);
         });
