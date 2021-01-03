@@ -225,7 +225,7 @@ module.exports = {
               symbol: pair.symbol,
               periods: ['1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
-              state: 'watch',
+              state: 'trade',
               watchdogs: [{
                 name: 'risk_reward_ratio',
                 stop_percent: 3,
@@ -238,13 +238,14 @@ module.exports = {
               ],
               trade: {
                 currency_capital: 60,
+                strategies: [{
+                  strategy: 'trader_macd',
+                  options: {
+                    period: '12h',
+                  },
+                }, ]
               },
-              strategies: [{
-                strategy: 'trader_macd',
-                options: {
-                  period: '12h',
-                },
-              }, ],
+             
             };
             if (callback) {
               result = callback(result, pair);
