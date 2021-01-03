@@ -223,7 +223,7 @@ module.exports = {
           .forEach(pair => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '2h', '4h', '6h', '12h'],
+              periods: ['15m','1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
               state: 'trade',
               watchdogs: [{
@@ -243,7 +243,14 @@ module.exports = {
                   options: {
                     period: '12h',
                   },
-                }, ]
+                },
+                {
+                  "strategy": "dip_catcher",
+                  "interval": "15m",
+                  "options": {
+                    "period": "15m"
+                  }
+                } ]
               },
              
             };
