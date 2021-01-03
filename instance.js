@@ -1,5 +1,4 @@
-var c = (module.exports = {}
-});
+var c = (module.exports = {});
 
 c.symbols = [];
 
