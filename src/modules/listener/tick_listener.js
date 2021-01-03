@@ -246,7 +246,7 @@ module.exports = class TickListener {
             */
 
             if (type.name === 'watch') {
-              await me.visitStrategy(strategy, symbol);
+              await me.visitTradeStrategy(strategy, symbol);
             } else if (type.name === 'trade') {
               await me.visitTradeStrategy(strategy, symbol);
             } else {
