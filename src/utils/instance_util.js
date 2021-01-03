@@ -257,7 +257,7 @@ module.exports = {
                     "interval": "15m",
                     "options": {
                       "period": "15m",
-                      "amount_currency": "12",
+                      
                       "percent_below_price": 0.1,
                       "hma_period": 12,
                       "hma_source": "low"
