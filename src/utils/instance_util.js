@@ -225,7 +225,7 @@ module.exports = {
               symbol: pair.symbol,
               periods: ['1h', '2h', '4h', '6h', '12h'],
               exchange: 'binance_futures',
-              state: 'trade',
+              state: 'watch',
               watchdogs: [{
                 name: 'risk_reward_ratio',
                 stop_percent: 3,
