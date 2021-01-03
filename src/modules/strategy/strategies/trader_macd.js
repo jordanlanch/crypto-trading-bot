@@ -556,7 +556,7 @@ module.exports = class TraderCustom {
     //SMA & LONG
 
     //6H
-    let long6H = price >= sma2006H.slice(-1)[0];
+    let long6H = price >= sma2006H;
 
     // ema long
     if (!long6H) {
@@ -564,14 +564,14 @@ module.exports = class TraderCustom {
     }
 
     //4H
-    let long4H = price >= sma2004H.slice(-1)[0];
+    let long4H = price >= sma2004H;
 
     // ema long
     if (!long4H) {
       long4H = price >= ema2004H.slice(-1)[0];
     }
 
-    let long1D = price >= sma2006H.slice(-1)[0];
+    let long1D = price >= sma2006H;
 
     // ema long
     if (!long1D) {
