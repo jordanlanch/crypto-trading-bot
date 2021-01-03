@@ -133,7 +133,7 @@ function executeTulindIndicator(source, indicator, tulindOptions) {
 
 module.exports = {
   // indicators which source is Candles
-  sourceCandle: ['cci', 'pivot_points_high_low', 'obv', 'ao', 'mfi', 'stoch', 'vwma', 'atr', 'adx', 'volume_profile', 'volume_by_price', 'ichimoku_cloud', 'zigzag', 'wicked', 'heikin_ashi'],
+  sourceCandle: ['cci', 'pivot_points_high_low', 'obv', 'ao', 'mfi', 'stoch', 'vwma', 'atr', 'adx', 'volume_profile', 'volume_by_price', 'ichimoku_cloud', 'zigzag', 'wicked', 'heikin_ashi', 'psar', 'hma'],
 
   bb: (source, indicator) => 
     executeTulindIndicator(source, indicator, {
@@ -148,9 +148,16 @@ module.exports = {
   sma: (...args) => executeTulindIndicator(...args, { options: { length: 14 } }),
   ema: (...args) => executeTulindIndicator(...args, { options: { length: 14 } }),
   rsi: (...args) => executeTulindIndicator(...args, { options: { length: 14 } }),
-  hma: (...args) => executeTulindIndicator(...args, { options: { length: 9 } }),
   roc: (...args) => executeTulindIndicator(...args, { options: { length: 6 } }),
   atr: (...args) => executeTulindIndicator(...args, { sources: ['high', 'low', 'close'], options: { length: 14 } }),
+
+  hma: (source, indicator) => {
+    let candleSource = (indicator.options && indicator.options.source) || 'close'
+
+    return executeTulindIndicator(source, indicator, {
+      sources: [candleSource],
+      options: { length: 9 }
+    })},
 
   cci: (...args) =>
     executeTulindIndicator(...args, {
@@ -290,6 +297,28 @@ module.exports = {
       }
 
       resolve({ [indicator.key]: result });
+    });
+  },
+
+  psar: function(source, indicator) {
+    return new Promise(resolve => {
+      const { options = {} } = indicator;
+      const { step = 0.02, max = 0.2 } = options;
+
+      const input = {
+        high: [],
+        low: [],
+        step: step,
+        max: max
+      };
+
+      source.forEach(candle => {
+        input.high.push(candle.high)
+        input.low.push(candle.low)
+      })
+
+      const { PSAR } = require('technicalindicators');
+      resolve({ [indicator.key]: new PSAR(input).getResult() });
     });
   },
 

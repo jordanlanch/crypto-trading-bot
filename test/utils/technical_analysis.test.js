@@ -118,7 +118,11 @@ describe('#technical_analysis for candles', () => {
       },
       {
         indicator: 'hma',
-        key: 'hma'
+        key: 'hma',
+        options: {
+          length: 9,
+          source: 'low'
+        }
       },
       {
         indicator: 'vwma',
@@ -151,6 +155,14 @@ describe('#technical_analysis for candles', () => {
       {
         indicator: 'ichimoku_cloud',
         key: 'ichimoku_cloud'
+      },
+      {
+        indicator: 'psar',
+        key: 'psar',
+        options: {
+          step: 0.01,
+          max: 0.011
+        }
       }
     ]);
 
@@ -227,6 +239,8 @@ describe('#technical_analysis for candles', () => {
     assert.equal(result.roc[0] < 0, true);
 
     assert.equal(result.adx[0] > 0, true);
+
+    assert.equal(result.psar[0], 8144.5);
 
     const volumeByPrice = result.volume_by_price[0][0];
 
