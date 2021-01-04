@@ -242,15 +242,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_BTC',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -286,15 +284,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_ETH',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -330,15 +326,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_XRP',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -374,15 +368,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_EOS',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -418,15 +410,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_LTC',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -462,15 +452,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_ADA',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -506,15 +494,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_ETC',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -550,15 +536,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_LINK',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -594,15 +578,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_DASH',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -638,15 +620,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_XMR',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -682,15 +662,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_QTUM',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -726,15 +704,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_XTZ',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -770,15 +746,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_ZEC',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -814,15 +788,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_IOTA',
+      "interval": "15m",
       options: {
         period: '12h',
       },
@@ -858,15 +830,13 @@ c.symbols.push({
   periods: ['1h', '2h', '4h', '6h', '12h'],
   exchange: 'binance',
   state: 'watch',
-  watchdogs: [
-    {
-      name: 'stoploss_watch',
-      stop: 1.5,
-    },
-  ],
-  strategies: [
-    {
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
       strategy: 'trader_macd_NEO',
+      "interval": "15m",
       options: {
         period: '12h',
       },
