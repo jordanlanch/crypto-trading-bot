@@ -70,7 +70,7 @@ module.exports = class TickListener {
     }
 
     const signalWindow = moment()
-      .subtract(30, 'minutes')
+      .subtract(15, 'minutes')
       .toDate();
 
     if (
@@ -116,8 +116,7 @@ module.exports = class TickListener {
       // log signal
       this.signalLogger.signal(
         symbol.exchange,
-        symbol.symbol,
-        {
+        symbol.symbol, {
           price: ticker.ask,
           strategy: strategyKey,
           raw: JSON.stringify(result)
@@ -187,8 +186,7 @@ module.exports = class TickListener {
     this.notifier.send(`[${signal} (${strategyKey})] ${symbol.exchange}:${symbol.symbol} - ${ticker.ask}`);
     this.signalLogger.signal(
       symbol.exchange,
-      symbol.symbol,
-      {
+      symbol.symbol, {
         price: ticker.ask,
         strategy: strategyKey,
         raw: JSON.stringify(result)
@@ -220,8 +218,7 @@ module.exports = class TickListener {
 
     const me = this;
 
-    const types = [
-      {
+    const types = [{
         name: 'watch',
         items: this.instances.symbols.filter(sym => sym.strategies && sym.strategies.length > 0)
       },
