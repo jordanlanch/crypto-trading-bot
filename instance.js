@@ -145,7 +145,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_BCH',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -191,7 +191,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_XRP',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -237,7 +237,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_EOS',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -283,7 +283,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_LTC',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -329,7 +329,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_ADA',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -375,7 +375,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_ETC',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -421,7 +421,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_LINK',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -467,7 +467,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_DASH',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
@@ -513,7 +513,7 @@ c.init = async () => {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_XMR',
-          interval: '5m',
+          interval: '15m',
           options: {
             period: '12h',
           },
