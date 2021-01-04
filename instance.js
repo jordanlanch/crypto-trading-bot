@@ -247,36 +247,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_BTC',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_BTC',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -289,36 +265,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_ETH',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_ETH',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -331,36 +283,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_XRP',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_XRP',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -373,36 +301,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_EOS',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_EOS',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -415,36 +319,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_LTC',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_LTC',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -457,36 +337,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_ADA',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_ADA',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -499,36 +355,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_ETC',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_ETC',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -541,36 +373,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_LINK',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_LINK',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -583,36 +391,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_DASH',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_DASH',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -625,36 +409,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_XMR',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_XMR',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -667,36 +427,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_QTUM',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_QTUM',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -709,36 +445,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_XTZ',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_XTZ',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -751,36 +463,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_ZEC',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_ZEC',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -793,36 +481,12 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_IOTA',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_IOTA',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
 
 c.symbols.push({
@@ -835,34 +499,10 @@ c.symbols.push({
     stop: 1.5,
   }, ],
   strategies: [{
-      strategy: 'trader_macd_NEO',
-      "interval": "15m",
-      options: {
-        period: '12h',
-      },
+    strategy: 'trader_macd_NEO',
+    "interval": "15m",
+    options: {
+      period: '12h',
     },
-    {
-      "strategy": "dca_dipper",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "amount_currency": "12",
-        "percent_below_price": 0.1,
-        "hma_period": 12,
-        "hma_source": "low"
-      }
-    },
-    {
-      "strategy": "dip_catcher",
-      "interval": "15m",
-      "options": {
-        "period": "15m",
-        "trend_cloud_multiplier": 4,
-        "hma_high_period": 9,
-        "hma_high_candle_source": "close",
-        "hma_low_period": 9,
-        "hma_low_candle_source": "close"
-      }
-    },
-  ],
+  }, ],
 });
