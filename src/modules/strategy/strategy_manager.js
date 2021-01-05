@@ -104,7 +104,7 @@ module.exports = class StrategyManager {
 
         if ((longShortRatioGLOBALAfter - longShortRatioGLOBALBefore) > 0.19) {
           return {
-            buy: 2,
+            buy: 3,
             sell: 0,
             incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
             incremetShortGlobal: 0,
@@ -115,7 +115,7 @@ module.exports = class StrategyManager {
         //sell
         return {
           buy: 0,
-          sell: 2,
+          sell: 3,
           incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
           incremetShortGlobal: 0,
           incrementLogTOP: 0,
@@ -138,7 +138,7 @@ module.exports = class StrategyManager {
         if ((longShortRatioGLOBALBefore - longShortRatioGLOBALAfter) > 0.19) {
           return {
             buy: 0,
-            sell: 2,
+            sell: 3,
             incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
             incremetShortGlobal: 0,
             incrementLogTOP: 0,
@@ -148,7 +148,7 @@ module.exports = class StrategyManager {
 
         //buy
         return {
-          buy: 2,
+          buy: 3,
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
