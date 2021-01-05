@@ -219,24 +219,24 @@ module.exports = {
 
         content.symbols
           .filter(p => p.status.toUpperCase() === 'TRADING')
-          .filter(
-            (p) =>
-            !p.symbol.toUpperCase().startsWith('BTC') &&
-            !p.symbol.toUpperCase().startsWith('ETH') &&
-            !p.symbol.toUpperCase().startsWith('BCH') &&
-            !p.symbol.toUpperCase().startsWith('XRP') &&
-            !p.symbol.toUpperCase().startsWith('EOS') &&
-            !p.symbol.toUpperCase().startsWith('ADA') &&
-            !p.symbol.toUpperCase().startsWith('ETC') &&
-            !p.symbol.toUpperCase().startsWith('LINK') &&
-            !p.symbol.toUpperCase().startsWith('DASH') &&
-            !p.symbol.toUpperCase().startsWith('XMR') &&
-            !p.symbol.toUpperCase().startsWith('LTC')
-          )
+          // .filter(
+          //   (p) =>
+          //   !p.symbol.toUpperCase().startsWith('BTC') &&
+          //   !p.symbol.toUpperCase().startsWith('ETH') &&
+          //   !p.symbol.toUpperCase().startsWith('BCH') &&
+          //   !p.symbol.toUpperCase().startsWith('XRP') &&
+          //   !p.symbol.toUpperCase().startsWith('EOS') &&
+          //   !p.symbol.toUpperCase().startsWith('ADA') &&
+          //   !p.symbol.toUpperCase().startsWith('ETC') &&
+          //   !p.symbol.toUpperCase().startsWith('LINK') &&
+          //   !p.symbol.toUpperCase().startsWith('DASH') &&
+          //   !p.symbol.toUpperCase().startsWith('XMR') &&
+          //   !p.symbol.toUpperCase().startsWith('LTC')
+          // )
           .forEach(pair => {
             let result = {
               symbol: pair.symbol,
-              periods: ['1h', '2h', '4h', '6h', '12h'],
+              periods: ['1h', '2h', '4h', '6h'],
               exchange: 'binance_futures',
               state: 'trade',
               watchdogs: [{
@@ -250,7 +250,7 @@ module.exports = {
                     strategy: 'trader_macd_ADA',
                     "interval": "5m",
                     options: {
-                      period: '12h',
+                      period: '6h',
                     },
                   },
                   // {
