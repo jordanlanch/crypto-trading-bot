@@ -48,7 +48,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -93,7 +93,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -138,7 +138,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -184,7 +184,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -230,7 +230,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -276,7 +276,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -322,7 +322,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -368,7 +368,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -414,7 +414,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -460,7 +460,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
@@ -506,7 +506,7 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 2.9,
+      target_percent: 2.5,
       stop_percent: 1.7,
     }, ],
     trade: {
