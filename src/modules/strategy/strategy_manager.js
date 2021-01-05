@@ -101,6 +101,17 @@ module.exports = class StrategyManager {
           incrementLogGlobal: 0,
         };
       } else { //increment long
+
+        if ((longShortRatioGLOBALAfter - longShortRatioGLOBALBefore) > 0.19) {
+          return {
+            buy: 2,
+            sell: 0,
+            incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+            incremetShortGlobal: 0,
+            incrementLogTOP: 0,
+            incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
+          };
+        }
         //sell
         return {
           buy: 0,
@@ -123,6 +134,18 @@ module.exports = class StrategyManager {
       };
     } else { //increment log TOP
       if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+
+        if ((longShortRatioGLOBALBefore - longShortRatioGLOBALAfter) > 0.19) {
+          return {
+            buy: 0,
+            sell: 2,
+            incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+            incremetShortGlobal: 0,
+            incrementLogTOP: 0,
+            incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
+          };
+        }
+
         //buy
         return {
           buy: 2,
