@@ -48,8 +48,8 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
@@ -93,8 +93,8 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
@@ -138,14 +138,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_BCH',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -184,14 +184,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_XRP',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -230,14 +230,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_EOS',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -276,14 +276,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_LTC',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -322,14 +322,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_ADA',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -368,14 +368,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_ETC',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -414,14 +414,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_LINK',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -460,14 +460,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_DASH',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -506,14 +506,14 @@ c.init = async () => {
     state: 'trade',
     watchdogs: [{
       name: 'risk_reward_ratio',
-      target_percent: 3.4,
-      stop_percent: 1.7,
+      target_percent: 2.4,
+      stop_percent: 1.4,
     }, ],
     trade: {
       currency_capital: 60,
       strategies: [{
           strategy: 'trader_macd_XMR',
-          interval: '15m',
+          interval: '10m',
           options: {
             period: '12h',
           },
@@ -584,7 +584,7 @@ c.init = () => {
             z.forEach((pair) => {
                 let cfg = {
                     'symbol': pair,
-                    'periods': ['1m', '15m', '1h'],
+                    'periods': ['1m', '10m', '1h'],
                     'exchange': 'binance',
                     'state': 'trade',
                     'watchdogs': [
@@ -635,7 +635,7 @@ c.init = () => {
 // y.forEach((pair) => {
 //     c.symbols.push({
 //         'symbol': pair,
-//         'periods': ['1m', '15m', '1h'],
+//         'periods': ['1m', '10m', '1h'],
 //         'exchange': 'bitmex',
 //         'state': 'trade',
 //         'extra': {
@@ -684,7 +684,7 @@ c.init = () => {
 // l.forEach((pair) => {
 //     c.symbols.push({
 //         'symbol': pair,
-//         'periods': ['1m', '15m', '1h'],
+//         'periods': ['1m', '10m', '1h'],
 //         'exchange': 'bitmex_testnet',
 //         'state': 'trade',
 //         'watchdogs': [
@@ -726,7 +726,7 @@ c.init = () => {
 // z.forEach((pair) => {
 //     c.symbols.push({
 //         'symbol': pair,
-//         'periods': ['1m', '15m', '1h'],
+//         'periods': ['1m', '10m', '1h'],
 //         'exchange': 'binance',
 //         'state': 'trade',
 //         'strategies': [

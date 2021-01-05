@@ -241,8 +241,8 @@ module.exports = {
               state: 'trade',
               watchdogs: [{
                 name: 'risk_reward_ratio',
-                target_percent: 3.4,
-                stop_percent: 1.7,
+                target_percent: 2.4,
+                stop_percent: 1.4,
               }, ],
               trade: {
                 currency_capital: 60,
