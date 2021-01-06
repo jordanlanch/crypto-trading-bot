@@ -37,19 +37,19 @@ module.exports = class Http {
   }
 
   start() {
-    twig.extendFilter('price_format', function (value) {
+    twig.extendFilter('price_format', function(value) {
       if (parseFloat(value) < 1) {
         return Intl.NumberFormat('en-US', {
           useGrouping: false,
           minimumFractionDigits: 2,
-          maximumFractionDigits: 6,
+          maximumFractionDigits: 6
         }).format(value);
       }
 
       return Intl.NumberFormat('en-US', {
         useGrouping: false,
         minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        maximumFractionDigits: 2
       }).format(value);
     });
 
@@ -58,29 +58,29 @@ module.exports = class Http {
       .update(String(Math.floor(Date.now() / 1000)))
       .digest('hex')
       .substring(0, 8);
-    twig.extendFunction('asset_version', function () {
+    twig.extendFunction('asset_version', function() {
       return assetVersion;
     });
 
-    const desks = this.systemUtil.getConfig('desks', []).map((desk) => desk.name);
-    twig.extendFunction('desks', function () {
+    const desks = this.systemUtil.getConfig('desks', []).map(desk => desk.name);
+    twig.extendFunction('desks', function() {
       return desks;
     });
 
-    twig.extendFunction('node_version', function () {
+    twig.extendFunction('node_version', function() {
       return process.version;
     });
 
-    twig.extendFunction('memory_usage', function () {
+    twig.extendFunction('memory_usage', function() {
       return Math.round((process.memoryUsage().heapUsed / 1024 / 1024) * 100) / 100;
     });
 
     const up = new Date();
-    twig.extendFunction('uptime', function () {
+    twig.extendFunction('uptime', function() {
       return moment(up).toNow(true);
     });
 
-    twig.extendFilter('format_json', function (value) {
+    twig.extendFilter('format_json', function(value) {
       return JSON.stringify(value, null, '\t');
     });
 
@@ -89,7 +89,7 @@ module.exports = class Http {
     app.set('views', `${this.projectDir}/templates`);
     app.set('twig options', {
       allow_async: true,
-      strict_variables: false,
+      strict_variables: false
     });
 
     app.use(express.urlencoded({ limit: '12mb', extended: true, parameterLimit: 50000 }));
@@ -125,7 +125,7 @@ module.exports = class Http {
     app.get('/backtest', async (req, res) => {
       res.render('../templates/backtest.html.twig', {
         strategies: this.backtest.getBacktestStrategies(),
-        pairs: await this.backtest.getBacktestPairs(),
+        pairs: await this.backtest.getBacktestPairs()
       });
     });
 
@@ -172,19 +172,25 @@ module.exports = class Http {
 
     app.get('/tradingview/:symbol', (req, res) => {
       res.render('../templates/tradingview.html.twig', {
-        symbol: this.buildTradingViewSymbol(req.params.symbol),
+        symbol: this.buildTradingViewSymbol(req.params.symbol)
       });
     });
 
     app.get('/signals', async (req, res) => {
       res.render('../templates/signals.html.twig', {
-        signals: await this.signalHttp.getSignals(Math.floor(Date.now() / 1000) - 60 * 60 * 48),
+        signals: await this.signalHttp.getSignals(Math.floor(Date.now() / 1000) - 60 * 60 * 48)
       });
     });
 
     app.get('/pairs', async (req, res) => {
+      const pairs = await this.pairsHttp.getTradePairs();
+
       res.render('../templates/pairs.html.twig', {
-        pairs: await this.pairsHttp.getTradePairs(),
+        pairs: pairs,
+        stats: {
+          positions: pairs.filter(p => p.has_position === true).length,
+          trading: pairs.filter(p => p.is_trading === true).length
+        }
       });
     });
 
@@ -196,7 +202,7 @@ module.exports = class Http {
       res.render('../templates/desks.html.twig', {
         desk: this.systemUtil.getConfig('desks')[req.params.desk],
         interval: req.query.interval || undefined,
-        id: req.params.desk,
+        id: req.params.desk
       });
     });
 
@@ -213,8 +219,10 @@ module.exports = class Http {
     app.get('/tools/candles', async (req, res) => {
       const options = {
         pairs: await this.candleExportHttp.getPairs(),
-        start: moment().subtract(7, 'days').toDate(),
-        end: new Date(),
+        start: moment()
+          .subtract(7, 'days')
+          .toDate(),
+        end: new Date()
       };
 
       if (req.query.pair && req.query.period && req.query.period && req.query.start && req.query.end) {
@@ -228,7 +236,7 @@ module.exports = class Http {
         );
 
         if (req.query.metadata) {
-          candles.map((c) => {
+          candles.map(c => {
             c.exchange = exchange;
             c.symbol = symbol;
             c.period = req.query.period;
@@ -292,7 +300,7 @@ module.exports = class Http {
 
     app.get('/orders', async (req, res) => {
       res.render('../templates/orders/index.html.twig', {
-        pairs: this.ordersHttp.getPairs(),
+        pairs: this.ordersHttp.getPairs()
       });
     });
 
@@ -311,8 +319,8 @@ module.exports = class Http {
         tradingview: this.buildTradingViewSymbol(`${tradingview[0]}:${tradingview[1]}`),
         form: {
           price: ticker ? ticker.bid : undefined,
-          type: 'limit',
-        },
+          type: 'limit'
+        }
       });
     });
 
@@ -350,8 +358,8 @@ module.exports = class Http {
         alert: {
           title: success ? 'Order Placed' : 'Place Error',
           type: success ? 'success' : 'danger',
-          message: message,
-        },
+          message: message
+        }
       });
     });
 
@@ -380,7 +388,7 @@ module.exports = class Http {
         const exchangeName = exchange.getName();
 
         const myPositions = await exchange.getPositions();
-        myPositions.forEach((position) => {
+        myPositions.forEach(position => {
           // simply converting of asset to currency value
           let currencyValue;
           if (
@@ -396,15 +404,15 @@ module.exports = class Http {
           positions.push({
             exchange: exchangeName,
             position: position,
-            currency: currencyValue,
+            currency: currencyValue
           });
         });
 
         const myOrders = await exchange.getOrders();
-        myOrders.forEach((order) => {
+        myOrders.forEach(order => {
           const items = {
             exchange: exchange.getName(),
-            order: order,
+            order: order
           };
 
           const ticker = this.tickers.get(exchange.getName(), order.symbol);
@@ -418,7 +426,7 @@ module.exports = class Http {
 
       res.json({
         orders: orders.sort((a, b) => a.order.symbol.localeCompare(b.order.symbol)),
-        positions: positions.sort((a, b) => a.position.symbol.localeCompare(b.position.symbol)),
+        positions: positions.sort((a, b) => a.position.symbol.localeCompare(b.position.symbol))
       });
     });
 
