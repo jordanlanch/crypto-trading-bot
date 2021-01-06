@@ -47,10 +47,10 @@ module.exports = class Backtest {
   async getSentimentBinanceFuturres(symbol) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=15m&limit=500'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=500'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=15m&limit=500'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=500'
       ),
     ]);
 
