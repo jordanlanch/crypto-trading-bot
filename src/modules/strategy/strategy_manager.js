@@ -95,35 +95,27 @@ module.exports = class StrategyManager {
         return {
           buy: 0,
           sell: 0,
-          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
-          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
+          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
+          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
           incrementLogTOP: 0,
           incrementLogGlobal: 0,
         };
       } else { //increment long
 
-        if ((longShortRatioGLOBALAfter - longShortRatioGLOBALBefore) > 0.19) {
-          return {
-            buy: 3,
-            sell: 0,
-            incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
-            incremetShortGlobal: 0,
-            incrementLogTOP: 0,
-            incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
-          };
-        }
         //sell
         return {
           buy: 0,
           sell: 3,
-          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
           incremetShortGlobal: 0,
           incrementLogTOP: 0,
-          incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
+          incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
         };
+
       }
     } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
       //nothing
+
       return {
         buy: 0,
         sell: 0,
@@ -135,36 +127,27 @@ module.exports = class StrategyManager {
     } else { //increment log TOP
       if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
 
-        if ((longShortRatioGLOBALBefore - longShortRatioGLOBALAfter) > 0.19) {
-          return {
-            buy: 0,
-            sell: 3,
-            incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
-            incremetShortGlobal: 0,
-            incrementLogTOP: 0,
-            incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
-          };
-        }
-
         //buy
         return {
           buy: 3,
           sell: 0,
           incremetShortTOP: 0,
-          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
-          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
+          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
+          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
           incrementLogGlobal: 0,
         };
 
-      } else { //increment long
+
+      } else { //increment GLOBAL long
         //nothing
+
         return {
           buy: 0,
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: 0,
-          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
-          incrementLogGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALBefore,
+          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
+          incrementLogGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALBefore),
         };
       }
     }
@@ -214,14 +197,14 @@ module.exports = class StrategyManager {
     } else {
 
       buy_or_sell = this.isBuyOrSell(
-        parseFloat(last_top_before.longShortRatio),
-        parseFloat(last_top_after.longShortRatio),
-        parseFloat(last_global_before.longShortRatio),
-        parseFloat(last_global_after.longShortRatio)
+        parseFloat(last_top_before.longShortRatio).toFixed(2),
+        parseFloat(last_top_after.longShortRatio).toFixed(2),
+        parseFloat(last_global_before.longShortRatio).toFixed(2),
+        parseFloat(last_global_after.longShortRatio).toFixed(2)
       );
     }
 
-    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell);
+    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell, symbol);
     if (typeof strategyResult !== 'undefined' && !(strategyResult instanceof SignalResult)) {
       throw new Error(`Invalid strategy return:${strategyName}`);
     }
@@ -273,7 +256,7 @@ module.exports = class StrategyManager {
     const indicatorPeriod = new IndicatorPeriod(context, results);
 
     const strategy = this.getStrategies().find(strategy => strategy.getName() === strategyName);
-    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell);
+    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell, symbol);
 
     if (typeof strategyResult !== 'undefined' && !(strategyResult instanceof SignalResult)) {
       throw `Invalid strategy return:${strategyName}`;
