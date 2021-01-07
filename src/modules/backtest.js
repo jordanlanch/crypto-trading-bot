@@ -47,10 +47,10 @@ module.exports = class Backtest {
   async getSentimentBinanceFuturres(symbol) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=500'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=1h&limit=500'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=500'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=1h&limit=500'
       ),
     ]);
 
@@ -70,53 +70,70 @@ module.exports = class Backtest {
         return {
           buy: 0,
           sell: 0,
-          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
-          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
+          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
+          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
           incrementLogTOP: 0,
           incrementLogGlobal: 0,
         };
       } else { //increment long
+
         //sell
         return {
           buy: 0,
-          sell: 2,
-          incremetShortTOP: longShortRatioTOPBefore - longShortRatioTOPAfter,
+          sell: 3,
+          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
           incremetShortGlobal: 0,
           incrementLogTOP: 0,
-          incrementLogGlobal: longShortRatioGLOBALAfter - longShortRatioGLOBALBefore,
+          incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
         };
+
       }
     } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
       //nothing
-      return {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
-    } else { //increment log TOP
-      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
-        //buy
+      if (longShortRatioTOPAfter >= 1) {
         return {
-          buy: 2,
+          buy: 3,
           sell: 0,
           incremetShortTOP: 0,
-          incremetShortGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALAfter,
-          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
+          incremetShortGlobal: 0,
+          incrementLogTOP: 0,
+          incrementLogGlobal: 0,
+        };
+      } else {
+        return {
+          buy: 0,
+          sell: 3,
+          incremetShortTOP: 0,
+          incremetShortGlobal: 0,
+          incrementLogTOP: 0,
+          incrementLogGlobal: 0,
+        };
+      }
+
+    } else { //increment log TOP
+      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+
+        //buy
+        return {
+          buy: 3,
+          sell: 0,
+          incremetShortTOP: 0,
+          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
+          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
           incrementLogGlobal: 0,
         };
 
-      } else { //increment long
+
+      } else { //increment GLOBAL long
         //nothing
+
         return {
           buy: 0,
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: 0,
-          incrementLogTOP: longShortRatioTOPAfter - longShortRatioTOPBefore,
-          incrementLogGlobal: longShortRatioGLOBALBefore - longShortRatioGLOBALBefore,
+          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
+          incrementLogGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALBefore),
         };
       }
     }
