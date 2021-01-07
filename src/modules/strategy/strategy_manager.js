@@ -72,10 +72,10 @@ module.exports = class StrategyManager {
   async getSentimentBinanceFuturres(symbol) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=30m&limit=2'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=1h&limit=2'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=30m&limit=2'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=1h&limit=2'
       ),
     ]);
 
@@ -115,15 +115,26 @@ module.exports = class StrategyManager {
       }
     } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
       //nothing
+      if (longShortRatioTOPAfter >= 1) {
+        return {
+          buy: 3,
+          sell: 0,
+          incremetShortTOP: 0,
+          incremetShortGlobal: 0,
+          incrementLogTOP: 0,
+          incrementLogGlobal: 0,
+        };
+      } else {
+        return {
+          buy: 0,
+          sell: 3,
+          incremetShortTOP: 0,
+          incremetShortGlobal: 0,
+          incrementLogTOP: 0,
+          incrementLogGlobal: 0,
+        };
+      }
 
-      return {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
     } else { //increment log TOP
       if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
 
