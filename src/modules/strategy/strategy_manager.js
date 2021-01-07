@@ -191,10 +191,10 @@ module.exports = class StrategyManager {
 
     let array_all = await this.getSentimentBinanceFuturres(symbol)
 
-    let last_top_before = array_all.array_top.slice(-2)[0]
-    let last_top_after = array_all.array_top.slice(-2)[1]
-    let last_global_before = array_all.array_global.slice(-2)[0]
-    let last_global_after = array_all.array_global.slice(-2)[1]
+    let last_top_before = array_all.array_top[0]
+    let last_top_after = array_all.array_top[1]
+    let last_global_before = array_all.array_global[0]
+    let last_global_after = array_all.array_global[1]
 
     if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
       buy_or_sell = {
