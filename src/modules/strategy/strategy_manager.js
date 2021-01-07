@@ -75,7 +75,7 @@ module.exports = class StrategyManager {
         'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=1h&limit=2'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=&limit=2'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=1h&limit=2'
       ),
     ]);
 
