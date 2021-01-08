@@ -239,11 +239,22 @@ module.exports = {
               periods: ['1h', '2h', '4h', '6h'],
               exchange: 'binance_futures',
               state: 'trade',
-              watchdogs: [{
-                name: 'risk_reward_ratio',
-                target_percent: 4,
-                stop_percent: 2,
-              }, ],
+              watchdogs: [
+                {
+                  'name': 'trailing_stop',
+                  'target_percent': 3,
+                  'stop_percent': 1
+              }
+                
+                
+              //   {
+              //   name: 'risk_reward_ratio',
+              //   target_percent: 4,
+              //   stop_percent: 2,
+              // },
+            
+            
+            ],
               trade: {
                 currency_capital: 60,
                 strategies: [{
