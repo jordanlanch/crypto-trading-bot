@@ -241,6 +241,10 @@ module.exports = {
               state: 'trade',
               watchdogs: [
                 {
+                  'name': 'stoploss',
+                  'percent': 2,
+              },
+                {
                   'name': 'trailing_stop',
                   'target_percent': 3,
                   'stop_percent': 1
