@@ -242,14 +242,14 @@ module.exports = {
               watchdogs: [
                 {
                 name: 'risk_reward_ratio',
-                target_percent: 6,
-                stop_percent: 3,
+                target_percent: 4,
+                stop_percent: 2,
               }, ],
               trade: {
                 currency_capital: 60,
                 strategies: [{
                     strategy: 'custom_all',
-                    "interval": "30m",
+                    "interval": "15m",
                     options: {
                       period: '6h',
                     },
