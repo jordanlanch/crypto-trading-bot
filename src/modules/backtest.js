@@ -44,13 +44,13 @@ module.exports = class Backtest {
     });
   }
 
-  async getSentimentBinanceFuturres(symbol) {
+  async getSentimentBinanceFuturres(symbol, period) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=1h&limit=500'
+        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
       ),
       fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=1h&limit=500'
+        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
       ),
     ]);
 
@@ -63,9 +63,9 @@ module.exports = class Backtest {
     };
   }
 
-  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter) {
+  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter, weight) {
     if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
-      if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
+      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
         //nothing
         return {
           buy: 0,
@@ -80,7 +80,7 @@ module.exports = class Backtest {
         //sell
         return {
           buy: 0,
-          sell: 3,
+          sell: weight,
           incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
           incremetShortGlobal: 0,
           incrementLogTOP: 0,
@@ -90,32 +90,41 @@ module.exports = class Backtest {
       }
     } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
       //nothing
-      if (longShortRatioTOPAfter >= 1) {
-        return {
-          buy: 3,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: 0,
-        };
-      } else {
-        return {
-          buy: 0,
-          sell: 3,
-          incremetShortTOP: 0,
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: 0,
-        };
-      }
+      // if (longShortRatioTOPAfter >= 1) {
+      //   return {
+      //     buy: weight,
+      //     sell: 0,
+      //     incremetShortTOP: 0,
+      //     incremetShortGlobal: 0,
+      //     incrementLogTOP: 0,
+      //     incrementLogGlobal: 0,
+      //   };
+      // } else {
+      //   return {
+      //     buy: 0,
+      //     sell: weight,
+      //     incremetShortTOP: 0,
+      //     incremetShortGlobal: 0,
+      //     incrementLogTOP: 0,
+      //     incrementLogGlobal: 0,
+      //   };
+      // }
+
+      return {
+        buy: 0,
+        sell: 0,
+        incremetShortTOP: 0,
+        incremetShortGlobal: 0,
+        incrementLogTOP: 0,
+        incrementLogGlobal: 0,
+      };
 
     } else { //increment log TOP
-      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+      if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
 
         //buy
         return {
-          buy: 3,
+          buy: weight,
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
@@ -138,6 +147,45 @@ module.exports = class Backtest {
       }
     }
 
+  }
+
+  getSentimentByCurrent(new_current_30, array_top, array_global, weight) {
+
+    let buy_or_sell = {};
+
+    let array_last_current_top = array_top.filter((t) => new_current_30 >= t.timestamp);
+    let array_last_current_global = array_global.filter((t) => new_current_30 >= t.timestamp);
+    // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
+    // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
+
+
+    let last_top_before = array_last_current_top.slice(-2)[0]
+    // console.log('last_top_before -->' + JSON.stringify(last_top_before));
+    let last_top_after = array_last_current_top.slice(-2)[1]
+    let last_global_before = array_last_current_global.slice(-2)[0]
+    let last_global_after = array_last_current_global.slice(-2)[1]
+
+    if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
+      buy_or_sell = {
+        buy: 0,
+        sell: 0,
+        incremetShortTOP: 0,
+        incremetShortGlobal: 0,
+        incrementLogTOP: 0,
+        incrementLogGlobal: 0,
+      };
+    } else {
+
+      buy_or_sell = this.isBuyOrSell(
+        Math.abs(parseFloat(last_top_before.longShortRatio).toFixed(2)),
+        Math.abs(parseFloat(last_top_after.longShortRatio).toFixed(2)),
+        Math.abs(parseFloat(last_global_before.longShortRatio).toFixed(2)),
+        Math.abs(parseFloat(last_global_after.longShortRatio).toFixed(2)),
+        weight
+      );
+    }
+
+    return buy_or_sell
   }
 
   getBacktestResult(tickIntervalInMinutes, hours, strategy, candlePeriod, exchange, pair, options, initial_capital) {
@@ -189,9 +237,17 @@ module.exports = class Backtest {
         signal: undefined,
       };
 
-      let array_all = await this.getSentimentBinanceFuturres(pair)
-      let array_top = array_all.array_top;
-      let array_global = array_all.array_global;
+      let array_all_1h = await this.getSentimentBinanceFuturres(pair, '1h')
+      let array_top_1h = array_all_1h.array_top;
+      let array_globa_1h = array_all_1h.array_global;
+
+      let array_all_30m = await this.getSentimentBinanceFuturres(pair, '30m')
+      let array_top_30m = array_all_30m.array_top;
+      let array_globa_30m = array_all_30m.array_global;
+
+      let array_all_15m = await this.getSentimentBinanceFuturres(pair, '15m')
+      let array_top_15m = array_all_15m.array_top;
+      let array_globa_15m = array_all_15m.array_global;
       // console.log('array_top -->' + JSON.stringify(array_top));
       // console.log('array_global -->' + JSON.stringify(array_global));
 
@@ -203,39 +259,12 @@ module.exports = class Backtest {
         let new_current_30 = new_current - 1800000; // - 30 min
         // console.log('new_current--<' + new_current)
         // console.log('new_current1800000--<' + new_current_30)
+        let buy_or_sells = []
 
-        let buy_or_sell = {};
-
-        let array_last_current_top = array_top.filter((t) => new_current_30 >= t.timestamp);
-        let array_last_current_global = array_global.filter((t) => new_current_30 >= t.timestamp);
-        // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
-        // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
-
-
-        let last_top_before = array_last_current_top.slice(-2)[0]
-        // console.log('last_top_before -->' + JSON.stringify(last_top_before));
-        let last_top_after = array_last_current_top.slice(-2)[1]
-        let last_global_before = array_last_current_global.slice(-2)[0]
-        let last_global_after = array_last_current_global.slice(-2)[1]
-
-        if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
-          buy_or_sell = {
-            buy: 0,
-            sell: 0,
-            incremetShortTOP: 0,
-            incremetShortGlobal: 0,
-            incrementLogTOP: 0,
-            incrementLogGlobal: 0,
-          };
-        } else {
-
-          buy_or_sell = this.isBuyOrSell(
-            parseFloat(last_top_before.longShortRatio).toFixed(2),
-            parseFloat(last_top_after.longShortRatio).toFixed(2),
-            parseFloat(last_global_before.longShortRatio).toFixed(2),
-            parseFloat(last_global_after.longShortRatio).toFixed(2)
-          );
-        }
+        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_1h, array_globa_1h, 1.5))
+        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_30m, array_globa_30m, 1.25))
+        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_15m, array_globa_15m, 1))
+        
 
         const strategyManager = new StrategyManager({}, mockedRepository, {}, this.projectDir);
 
@@ -246,7 +275,7 @@ module.exports = class Backtest {
           options,
           lastSignal.signal,
           lastSignal.price,
-          buy_or_sell
+          buy_or_sells
         );
         item.time = current;
 
