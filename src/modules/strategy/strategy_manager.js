@@ -229,15 +229,15 @@ module.exports = class StrategyManager {
 
     const strategy = this.findStrategy(strategyName);
 
-    let array_all_1h = await this.getSentimentBinanceFuturres(pair, '1h')
+    let array_all_1h = await this.getSentimentBinanceFuturres(symbol, '1h')
     let array_top_1h = array_all_1h.array_top;
     let array_globa_1h = array_all_1h.array_global;
 
-    let array_all_30m = await this.getSentimentBinanceFuturres(pair, '30m')
+    let array_all_30m = await this.getSentimentBinanceFuturres(symbol, '30m')
     let array_top_30m = array_all_30m.array_top;
     let array_globa_30m = array_all_30m.array_global;
 
-    let array_all_15m = await this.getSentimentBinanceFuturres(pair, '15m')
+    let array_all_15m = await this.getSentimentBinanceFuturres(symbol, '15m')
     let array_top_15m = array_all_15m.array_top;
     let array_globa_15m = array_all_15m.array_global;
 
