@@ -347,13 +347,14 @@ module.exports = {
               ],
               trade: {
                 currency_capital: 200,
+                strategies: [{
+                  strategy: 'trader_macd',
+                  options: {
+                    period: '12h',
+                  },
+                }, ],
               },
-              strategies: [{
-                strategy: 'trader_macd',
-                options: {
-                  period: '12h',
-                },
-              }, ],
+              
             };
 
             if (callback) {
