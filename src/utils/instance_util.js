@@ -350,7 +350,7 @@ module.exports = {
                 strategies: [{
                   strategy: 'trader_macd',
                   options: {
-                    period: '12h',
+                    period: '6h',
                   },
                 }, ],
               },
