@@ -348,7 +348,7 @@ module.exports = {
               trade: {
                 currency_capital: 200,
                 strategies: [{
-                  strategy: 'trader_macd',
+                  strategy: 'custom_all',
                   options: {
                     period: '6h',
                   },
