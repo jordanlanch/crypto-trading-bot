@@ -546,10 +546,10 @@ c.init = async () => {
   // });
 
   // Binance futures
-  c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
+//   c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
 
   // Bitfinex USD margin pairs
-  // c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
+  c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
 
   // Bybit USD pairs
   // c.symbols.push(...(await InstanceUtil.bybitInit()));

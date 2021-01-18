@@ -302,13 +302,58 @@ module.exports = {
 
         const content = JSON.parse(body);
 
+        
         content
-          .filter(p => p.margin === true && p.pair.endsWith('usd') && !p.pair.startsWith('USD'))
-          .forEach(pair => {
+          .filter(
+            (p) =>
+            p.margin === true &&
+            p.pair.endsWith('usd') &&
+            !p.pair.startsWith('ust')
+          )
+          .filter(
+            (p) =>
+            // console.log('pair-->'+p.pair)
+            p.pair.startsWith('ada')  ||
+            p.pair.startsWith('bsv') ||
+            p.pair.startsWith('btc')  ||
+            p.pair.startsWith('dot')  ||
+            p.pair.startsWith('eos') ||
+            p.pair.startsWith('eth')  ||
+            p.pair.startsWith('xrp')  ||
+            p.pair.startsWith('ltc')  ||
+            p.pair.startsWith('uni')  ||
+            p.pair.startsWith('xmr')  ||
+            p.pair.startsWith('xtz')
+          )
+          .forEach((pair) => {
+            // console.log(pair)
             let result = {
               symbol: pair.pair.toUpperCase(),
-              periods: ['1m', '15m', '1h'],
-              exchange: 'bitfinex'
+              periods: ['1h', '4h', '6h'],
+              exchange: 'bitfinex',
+              extra: {
+                bitfinex_leverage: 2,
+              },
+              state: 'trade',
+              watchdogs: [{
+                  name: 'risk_reward_ratio',
+                  stop_percent: 2,
+                },
+                {
+                  name: 'trailing_stop',
+                  target_percent: 2,
+                  stop_percent: 1,
+                },
+              ],
+              trade: {
+                currency_capital: 200,
+              },
+              strategies: [{
+                strategy: 'trader_macd',
+                options: {
+                  period: '12h',
+                },
+              }, ],
             };
 
             if (callback) {

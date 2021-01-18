@@ -26,22 +26,10 @@ module.exports = class TraderCustom {
       signal_period: 9,
     });
 
-    indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
-      fast_period: 5,
-      slow_period: 34,
-      signal_period: 8,
-    });
-
-    indicatorBuilder.add('macd_2h_02', 'macd', '2h', {
-      fast_period: 6,
-      slow_period: 23,
-      signal_period: 10,
-    });
-
     indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
-      fast_period: 12,
-      slow_period: 26,
-      signal_period: 9,
+      fast_period: 20,
+      slow_period: 39,
+      signal_period: 12,
     });
 
     indicatorBuilder.add('macd_4h_02', 'macd_ext', '4h', {
@@ -139,15 +127,12 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('rsi1h', 'rsi', '1h');
   }
 
-  period(indicatorPeriod, options, buy_or_sells, symbol) {
+  period(indicatorPeriod, options, symbol) {
     return this.trader_custom(
       symbol,
-      buy_or_sells,
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_1h_01'),
       indicatorPeriod.getIndicator('macd_1h_02'),
-      indicatorPeriod.getIndicator('macd_2h_01'),
-      indicatorPeriod.getIndicator('macd_2h_02'),
       indicatorPeriod.getIndicator('macd_4h_01'),
       indicatorPeriod.getIndicator('macd_4h_02'),
       indicatorPeriod.getIndicator('macd_6h'),
@@ -180,12 +165,9 @@ module.exports = class TraderCustom {
 
   async trader_custom(
     symbol,
-    buy_or_sells,
     price,
     macd1H01Full,
     macd1H02Full,
-    macd2H01Full,
-    macd2H02Full,
     macd4H01Full,
     macd4H02Full,
     macd6HFull,
@@ -461,8 +443,6 @@ module.exports = class TraderCustom {
     const cci4H = cci4HFull.slice(0, -1);
     const macd1H01 = macd1H01Full.slice(0, -1);
     const macd1H02 = macd1H02Full.slice(0, -1);
-    const macd2H01 = macd2H01Full.slice(0, -1);
-    const macd2H02 = macd2H02Full.slice(0, -1);
     const macd4H01 = macd4H01Full.slice(0, -1);
     const macd4H02 = macd4H02Full.slice(0, -1);
     const macd6H = macd6HFull.slice(0, -1);
@@ -510,8 +490,6 @@ module.exports = class TraderCustom {
     let debug = {
       macd1H01: 0,
       // macd1H02: 0,
-      macd2H01: 0,
-      // macd2H02: 0,
       macd4H01: 0,
       // macd4H02: 0,
       macd6H: 0,
@@ -541,46 +519,30 @@ module.exports = class TraderCustom {
       rsi1H: 0,
       sell: 0,
       buy: 0,
-      last_signal: lastSignal,
-      sentiment_1h: 0,
-      incremetShortTOP_1h: 0,
-      incremetShortGlobal_1h: 0,
-      incrementLogTOP_1h: 0,
-      incrementLogGlobal_1h: 0,
-      sentiment_30m: 0,
-      incremetShortTOP_30m: 0,
-      incremetShortGlobal_30m: 0,
-      incrementLogTOP_30m: 0,
-      incrementLogGlobal_30m: 0,
-      sentiment_15m: 0,
-      incremetShortTOP_15m: 0,
-      incremetShortGlobal_15m: 0,
-      incrementLogTOP_15m: 0,
-      incrementLogGlobal_15m: 0,
+      last_signal: lastSignal
     };
     /*
     levels signals
     */
-    let count_ovb6H = 1.5;
-    let count_ovb4H = 1;
-    let count_ovb1H = 0.75;
+    let count_ovb6H = 1.75;
+    let count_ovb4H = 1.5;
+    let count_ovb1H = 1;
 
-    let count_cci6H = 1.5;
-    let count_cci4H = 1;
-    let count_cci1H = 0.75;
+    let count_cci6H = 1.75;
+    let count_cci4H = 1.5;
+    let count_cci1H = 1;
 
-    let count_macd6H = 1.5;
-    let count_macd4H = 1;
-    let count_macd2H = 1;
-    let count_macd1H = 0.75;
+    let count_macd6H = 1.75;
+    let count_macd4H = 1.5;
+    let count_macd1H = 1;
 
-    let count_ao6H = 1.5;
-    let count_ao4H = 1;
-    let count_ao1H = 0.75;
+    let count_ao6H = 1.75;
+    let count_ao4H = 1.5;
+    let count_ao1H = 1;
 
-    let count_rsi6H = 1.5;
-    let count_rsi4H = 1;
-    let count_rsi1H = 0.75;
+    let count_rsi6H = 1.75;
+    let count_rsi4H = 1.5;
+    let count_rsi1H = 1;
 
     //SMA & LONG
 
@@ -612,105 +574,106 @@ module.exports = class TraderCustom {
     //map by symbol
 
     let parameters_by_symbol = [{
-        symbol: 'ADAUSDT',
+        symbol: 'ADAUSD',
         parameters: {
           triggerMultiplier_6h: 1.099,
           triggerTimeWindows_6h: 1,
-          triggerMultiplier_4h: 1.024,
+          triggerMultiplier_4h: 1.023,
           triggerTimeWindows_4h: 2,
           triggerMultiplier_1h: 1.035,
           triggerTimeWindows_1h: 6,
         }
-      }, {
-        symbol: 'BTCUSDT',
+      },
+      {
+        symbol: 'BSVUSD',
         parameters: {
           triggerMultiplier_6h: 1.027,
           triggerTimeWindows_6h: 2,
           triggerMultiplier_4h: 1.02,
           triggerTimeWindows_4h: 2.5,
           triggerMultiplier_1h: 1.028,
-          triggerTimeWindows_1h: 4,
+          triggerTimeWindows_1h: 2,
         }
       },
       {
-        symbol: 'BCHUSDT',
+        symbol: 'BTCUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.027,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 2.5,
+          triggerMultiplier_1h: 1.028,
+          triggerTimeWindows_1h: 1.5,
+        }
+      },
+      {
+        symbol: 'DOTUSD',
         parameters: {
           triggerMultiplier_6h: 1.038,
-          triggerTimeWindows_6h: 1.5,
-          triggerMultiplier_4h: 1.047,
-          triggerTimeWindows_4h: 3,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.093,
+          triggerTimeWindows_4h: 1,
           triggerMultiplier_1h: 1.035,
-          triggerTimeWindows_1h: 6,
+          triggerTimeWindows_1h: 2,
         }
       },
       {
-        symbol: 'DASHUSDT',
+        symbol: 'EOSUSD',
         parameters: {
-          triggerMultiplier_6h: 1.024,
-          triggerTimeWindows_6h: 2,
-          triggerMultiplier_4h: 1.018,
-          triggerTimeWindows_4h: 1.5,
-          triggerMultiplier_1h: 1.313,
+          triggerMultiplier_6h: 1.217,
+          triggerTimeWindows_6h: 3,
+          triggerMultiplier_4h: 0.9972,
+          triggerTimeWindows_4h: 4,
+          triggerMultiplier_1h: 1.058,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'ETHUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.021,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.064,
+          triggerTimeWindows_4h: 4,
+          triggerMultiplier_1h: 1.058,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'XRPUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.021,
+          triggerTimeWindows_6h: 3,
+          triggerMultiplier_4h: 1.064,
+          triggerTimeWindows_4h: 4,
+          triggerMultiplier_1h: 1.058,
           triggerTimeWindows_1h: 3,
         }
       },
       {
-        symbol: 'EOSUSDT',
-        parameters: {
-          triggerMultiplier_6h: 1.217,
-          triggerTimeWindows_6h: 3,
-          triggerMultiplier_4h: 1.22,
-          triggerTimeWindows_4h: 4,
-          triggerMultiplier_1h: 1.058,
-          triggerTimeWindows_1h: 2,
-        }
-      },
-      {
-        symbol: 'ETCUSDT',
-        parameters: {
-          triggerMultiplier_6h: 1.683,
-          triggerTimeWindows_6h: 4,
-          triggerMultiplier_4h: 0.9408,
-          triggerTimeWindows_4h: 3.5,
-          triggerMultiplier_1h: 1.058,
-          triggerTimeWindows_1h: 2,
-        }
-      },
-      {
-        symbol: 'ETHUSDT',
-        parameters: {
-          triggerMultiplier_6h: 1.025,
-          triggerTimeWindows_6h: 3,
-          triggerMultiplier_4h: 1.064,
-          triggerTimeWindows_4h: 4,
-          triggerMultiplier_1h: 1.058,
-          triggerTimeWindows_1h: 2,
-        }
-      },
-      {
-        symbol: 'LINKSDT',
-        parameters: {
-          triggerMultiplier_6h: 1.102,
-          triggerTimeWindows_6h: 5,
-          triggerMultiplier_4h: 1.07,
-          triggerTimeWindows_4h: 10,
-          triggerMultiplier_1h: 1.11,
-          triggerTimeWindows_1h: 2,
-        }
-      },
-      {
-        symbol: 'LTCUSDT',
+        symbol: 'LTCUSD',
         parameters: {
           triggerMultiplier_6h: 1.036,
-          triggerTimeWindows_6h: 5.5,
+          triggerTimeWindows_6h: 1,
           triggerMultiplier_4h: 1.064,
-          triggerTimeWindows_4h: 5,
-          triggerMultiplier_1h: 1.11,
+          triggerTimeWindows_4h: 2,
+          triggerMultiplier_1h: 0.9881,
           triggerTimeWindows_1h: 2,
         }
       },
       {
-        symbol: 'XMRUSDT',
+        symbol: 'UNIUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.761,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.018,
+          triggerTimeWindows_4h: 2,
+          triggerMultiplier_1h: 0.9675,
+          triggerTimeWindows_1h: 3,
+        }
+      },
+      {
+        symbol: 'XMRUSD',
         parameters: {
           triggerMultiplier_6h: 1.038,
           triggerTimeWindows_6h: 2,
@@ -720,38 +683,49 @@ module.exports = class TraderCustom {
           triggerTimeWindows_1h: 1,
         }
       },
+      {
+        symbol: 'XTZUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.027,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 2.5,
+          triggerMultiplier_1h: 1.028,
+          triggerTimeWindows_1h: 2,
+        }
+      },
     ]
+    // console.log('symbol-->'+symbol)
     let parameters = parameters_by_symbol.filter(s => s.symbol === symbol)[0]
     if (parameters == [] || parameters == undefined) {
       parameters = parameters_by_symbol[0]
     }
-    // console.log('buy_or_sells-->'+JSON.stringify(buy_or_sells))
-    count_signals_buy += buy_or_sells[0].buy;
-    count_signals_sell += buy_or_sells[0].sell;
-    debug.sentiment_1h += buy_or_sells[0].buy;
-    debug.sentiment_1h -= buy_or_sells[0].sell;
-    debug.incrementLogGlobal_1h = buy_or_sells[0].incrementLogGlobal;
-    debug.incremetShortTOP_1h = buy_or_sells[0].incremetShortTOP;
-    debug.incrementLogTOP_1h = buy_or_sells[0].incrementLogTOP;
-    debug.incremetShortGlobal_1h = buy_or_sells[0].incremetShortGlobal;
+    // count_signals_buy += buy_or_sells[0].buy;
+    // count_signals_sell += buy_or_sells[0].sell;
+    // debug.sentiment_1h += buy_or_sells[0].buy;
+    // debug.sentiment_1h -= buy_or_sells[0].sell;
+    // debug.incrementLogGlobal_1h = buy_or_sells[0].incrementLogGlobal;
+    // debug.incremetShortTOP_1h = buy_or_sells[0].incremetShortTOP;
+    // debug.incrementLogTOP_1h = buy_or_sells[0].incrementLogTOP;
+    // debug.incremetShortGlobal_1h = buy_or_sells[0].incremetShortGlobal;
 
-    count_signals_buy += buy_or_sells[1].buy;
-    count_signals_sell += buy_or_sells[1].sell;
-    debug.sentiment_30m += buy_or_sells[1].buy;
-    debug.sentiment_30m -= buy_or_sells[1].sell;
-    debug.incrementLogGlobal_30m = buy_or_sells[1].incrementLogGlobal;
-    debug.incremetShortTOP_30m = buy_or_sells[1].incremetShortTOP;
-    debug.incrementLogTOP_30m = buy_or_sells[1].incrementLogTOP;
-    debug.incremetShortGlobal_30m = buy_or_sells[1].incremetShortGlobal;
+    // count_signals_buy += buy_or_sells[1].buy;
+    // count_signals_sell += buy_or_sells[1].sell;
+    // debug.sentiment_30m += buy_or_sells[1].buy;
+    // debug.sentiment_30m -= buy_or_sells[1].sell;
+    // debug.incrementLogGlobal_30m = buy_or_sells[1].incrementLogGlobal;
+    // debug.incremetShortTOP_30m = buy_or_sells[1].incremetShortTOP;
+    // debug.incrementLogTOP_30m = buy_or_sells[1].incrementLogTOP;
+    // debug.incremetShortGlobal_30m = buy_or_sells[1].incremetShortGlobal;
 
-    count_signals_buy += buy_or_sells[2].buy;
-    count_signals_sell += buy_or_sells[2].sell;
-    debug.sentiment_15m += buy_or_sells[2].buy;
-    debug.sentiment_15m -= buy_or_sells[2].sell;
-    debug.incrementLogGlobal_15m = buy_or_sells[2].incrementLogGlobal;
-    debug.incremetShortTOP_15m = buy_or_sells[2].incremetShortTOP;
-    debug.incrementLogTOP_15m = buy_or_sells[2].incrementLogTOP;
-    debug.incremetShortGlobal_15m = buy_or_sells[2].incremetShortGlobal;
+    // count_signals_buy += buy_or_sells[2].buy;
+    // count_signals_sell += buy_or_sells[2].sell;
+    // debug.sentiment_15m += buy_or_sells[2].buy;
+    // debug.sentiment_15m -= buy_or_sells[2].sell;
+    // debug.incrementLogGlobal_15m = buy_or_sells[2].incrementLogGlobal;
+    // debug.incremetShortTOP_15m = buy_or_sells[2].incremetShortTOP;
+    // debug.incrementLogTOP_15m = buy_or_sells[2].incrementLogTOP;
+    // debug.incremetShortGlobal_15m = buy_or_sells[2].incremetShortGlobal;
 
 
     //obv 6H, 4H, 1H
@@ -853,20 +827,6 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_macd.sell;
     debug.macd4H01 += resolve_macd.buy;
     debug.macd4H01 -= resolve_macd.sell;
-    debug = resolve_macd.debug;
-
-    // resolve_macd = this.resolve_macd(debug, long1H, macd2H02, count_macd2H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd2H02 += resolve_macd.buy;
-    // debug.macd2H02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
-
-    resolve_macd = this.resolve_macd(debug, long1H, macd2H01, count_macd2H);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd2H01 += resolve_macd.buy;
-    debug.macd2H01 -= resolve_macd.sell;
     debug = resolve_macd.debug;
 
     resolve_macd = this.resolve_macd(debug, long1H, macd1H01, count_macd1H);
@@ -973,84 +933,6 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
-        label: 'sentiment_1h',
-        value: 'sentiment_1h',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incrementLogGlobal_1h',
-        value: 'incrementLogGlobal_1h',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incremetShortTOP_1h',
-        value: 'incremetShortTOP_1h',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incrementLogTOP_1h',
-        value: 'incrementLogTOP_1h',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'sentiment_30m',
-        value: 'sentiment_30m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incrementLogGlobal_30m',
-        value: 'incrementLogGlobal_30m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incremetShortTOP_30m',
-        value: 'incremetShortTOP_30m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incrementLogTOP_30m',
-        value: 'incrementLogTOP_30m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'sentiment_15m',
-        value: 'sentiment_15m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incrementLogGlobal_15m',
-        value: 'incrementLogGlobal_15m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incremetShortTOP_15m',
-        value: 'incremetShortTOP_15m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incrementLogTOP_15m',
-        value: 'incrementLogTOP_15m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
-        label: 'incremetShortGlobal_15m',
-        value: 'incremetShortGlobal_15m',
-        type: 'cross',
-        range: 'sma200',
-      },
-      {
         label: 'cci6H',
         value: 'cci6H',
         type: 'cross',
@@ -1146,19 +1028,6 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      // {
-      //   label: 'macd2H02',
-      //   value: 'macd2H02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
-      {
-        label: 'macd2H01',
-        value: 'macd2H01',
-        type: 'cross',
-        type: 'sma200',
-      },
-
       {
         label: 'cci1H',
         value: 'cci1H',

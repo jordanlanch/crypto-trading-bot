@@ -44,149 +44,149 @@ module.exports = class Backtest {
     });
   }
 
-  async getSentimentBinanceFuturres(symbol, period) {
-    const [topTraders, globalTraders] = await Promise.all([
-      fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
-      ),
-      fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
-      ),
-    ]);
+  // async getSentimentBinanceFuturres(symbol, period) {
+  //   const [topTraders, globalTraders] = await Promise.all([
+  //     fetch(
+  //       'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
+  //     ),
+  //     fetch(
+  //       'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
+  //     ),
+  //   ]);
 
-    const array_top = await topTraders.json();
-    const array_global = await globalTraders.json();
+  //   const array_top = await topTraders.json();
+  //   const array_global = await globalTraders.json();
 
-    return {
-      array_top: array_top,
-      array_global: array_global,
-    };
-  }
+  //   return {
+  //     array_top: array_top,
+  //     array_global: array_global,
+  //   };
+  // }
 
-  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter, weight) {
-    if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
-      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
-        //nothing
-        return {
-          buy: 0,
-          sell: 0,
-          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
-          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
-          incrementLogTOP: 0,
-          incrementLogGlobal: 0,
-        };
-      } else { //increment long
+  // isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter, weight) {
+  //   if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
+  //     if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
+  //       //nothing
+  //       return {
+  //         buy: 0,
+  //         sell: 0,
+  //         incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
+  //         incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
+  //         incrementLogTOP: 0,
+  //         incrementLogGlobal: 0,
+  //       };
+  //     } else { //increment long
 
-        //sell
-        return {
-          buy: 0,
-          sell: weight,
-          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
-        };
+  //       //sell
+  //       return {
+  //         buy: 0,
+  //         sell: weight,
+  //         incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
+  //         incremetShortGlobal: 0,
+  //         incrementLogTOP: 0,
+  //         incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
+  //       };
 
-      }
-    } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
-      //nothing
-      // if (longShortRatioTOPAfter >= 1) {
-      //   return {
-      //     buy: weight,
-      //     sell: 0,
-      //     incremetShortTOP: 0,
-      //     incremetShortGlobal: 0,
-      //     incrementLogTOP: 0,
-      //     incrementLogGlobal: 0,
-      //   };
-      // } else {
-      //   return {
-      //     buy: 0,
-      //     sell: weight,
-      //     incremetShortTOP: 0,
-      //     incremetShortGlobal: 0,
-      //     incrementLogTOP: 0,
-      //     incrementLogGlobal: 0,
-      //   };
-      // }
+  //     }
+  //   } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
+  //     //nothing
+  //     // if (longShortRatioTOPAfter >= 1) {
+  //     //   return {
+  //     //     buy: weight,
+  //     //     sell: 0,
+  //     //     incremetShortTOP: 0,
+  //     //     incremetShortGlobal: 0,
+  //     //     incrementLogTOP: 0,
+  //     //     incrementLogGlobal: 0,
+  //     //   };
+  //     // } else {
+  //     //   return {
+  //     //     buy: 0,
+  //     //     sell: weight,
+  //     //     incremetShortTOP: 0,
+  //     //     incremetShortGlobal: 0,
+  //     //     incrementLogTOP: 0,
+  //     //     incrementLogGlobal: 0,
+  //     //   };
+  //     // }
 
-      return {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
+  //     return {
+  //       buy: 0,
+  //       sell: 0,
+  //       incremetShortTOP: 0,
+  //       incremetShortGlobal: 0,
+  //       incrementLogTOP: 0,
+  //       incrementLogGlobal: 0,
+  //     };
 
-    } else { //increment log TOP
-      if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
+  //   } else { //increment log TOP
+  //     if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
 
-        //buy
-        return {
-          buy: weight,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
-          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
-          incrementLogGlobal: 0,
-        };
-
-
-      } else { //increment GLOBAL long
-        //nothing
-
-        return {
-          buy: 0,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: 0,
-          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
-          incrementLogGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALBefore),
-        };
-      }
-    }
-
-  }
-
-  getSentimentByCurrent(new_current_30, array_top, array_global, weight) {
-
-    let buy_or_sell = {};
-
-    let array_last_current_top = array_top.filter((t) => new_current_30 >= t.timestamp);
-    let array_last_current_global = array_global.filter((t) => new_current_30 >= t.timestamp);
-    // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
-    // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
+  //       //buy
+  //       return {
+  //         buy: weight,
+  //         sell: 0,
+  //         incremetShortTOP: 0,
+  //         incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
+  //         incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
+  //         incrementLogGlobal: 0,
+  //       };
 
 
-    let last_top_before = array_last_current_top.slice(-2)[0]
-    // console.log('last_top_before -->' + JSON.stringify(last_top_before));
-    let last_top_after = array_last_current_top.slice(-2)[1]
-    let last_global_before = array_last_current_global.slice(-2)[0]
-    let last_global_after = array_last_current_global.slice(-2)[1]
+  //     } else { //increment GLOBAL long
+  //       //nothing
 
-    if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
-      buy_or_sell = {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
-    } else {
+  //       return {
+  //         buy: 0,
+  //         sell: 0,
+  //         incremetShortTOP: 0,
+  //         incremetShortGlobal: 0,
+  //         incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
+  //         incrementLogGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALBefore),
+  //       };
+  //     }
+  //   }
 
-      buy_or_sell = this.isBuyOrSell(
-        Math.abs(parseFloat(last_top_before.longShortRatio).toFixed(2)),
-        Math.abs(parseFloat(last_top_after.longShortRatio).toFixed(2)),
-        Math.abs(parseFloat(last_global_before.longShortRatio).toFixed(2)),
-        Math.abs(parseFloat(last_global_after.longShortRatio).toFixed(2)),
-        weight
-      );
-    }
+  // }
 
-    return buy_or_sell
-  }
+  // getSentimentByCurrent(new_current_30, array_top, array_global, weight) {
+
+  //   let buy_or_sell = {};
+
+  //   let array_last_current_top = array_top.filter((t) => new_current_30 >= t.timestamp);
+  //   let array_last_current_global = array_global.filter((t) => new_current_30 >= t.timestamp);
+  //   // console.log('array_last_current_top -->' + JSON.stringify(array_last_current_top));
+  //   // console.log('array_last_current_global -->' + JSON.stringify(array_last_current_global));
+
+
+  //   let last_top_before = array_last_current_top.slice(-2)[0]
+  //   // console.log('last_top_before -->' + JSON.stringify(last_top_before));
+  //   let last_top_after = array_last_current_top.slice(-2)[1]
+  //   let last_global_before = array_last_current_global.slice(-2)[0]
+  //   let last_global_after = array_last_current_global.slice(-2)[1]
+
+  //   if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
+  //     buy_or_sell = {
+  //       buy: 0,
+  //       sell: 0,
+  //       incremetShortTOP: 0,
+  //       incremetShortGlobal: 0,
+  //       incrementLogTOP: 0,
+  //       incrementLogGlobal: 0,
+  //     };
+  //   } else {
+
+  //     buy_or_sell = this.isBuyOrSell(
+  //       Math.abs(parseFloat(last_top_before.longShortRatio).toFixed(2)),
+  //       Math.abs(parseFloat(last_top_after.longShortRatio).toFixed(2)),
+  //       Math.abs(parseFloat(last_global_before.longShortRatio).toFixed(2)),
+  //       Math.abs(parseFloat(last_global_after.longShortRatio).toFixed(2)),
+  //       weight
+  //     );
+  //   }
+
+  //   return buy_or_sell
+  // }
 
   getBacktestResult(tickIntervalInMinutes, hours, strategy, candlePeriod, exchange, pair, options, initial_capital) {
     return new Promise(async (resolve) => {
@@ -237,33 +237,33 @@ module.exports = class Backtest {
         signal: undefined,
       };
 
-      let array_all_1h = await this.getSentimentBinanceFuturres(pair, '1h')
-      let array_top_1h = array_all_1h.array_top;
-      let array_globa_1h = array_all_1h.array_global;
+      // let array_all_1h = await this.getSentimentBinanceFuturres(pair, '1h')
+      // let array_top_1h = array_all_1h.array_top;
+      // let array_globa_1h = array_all_1h.array_global;
 
-      let array_all_30m = await this.getSentimentBinanceFuturres(pair, '30m')
-      let array_top_30m = array_all_30m.array_top;
-      let array_globa_30m = array_all_30m.array_global;
+      // let array_all_30m = await this.getSentimentBinanceFuturres(pair, '30m')
+      // let array_top_30m = array_all_30m.array_top;
+      // let array_globa_30m = array_all_30m.array_global;
 
-      let array_all_15m = await this.getSentimentBinanceFuturres(pair, '15m')
-      let array_top_15m = array_all_15m.array_top;
-      let array_globa_15m = array_all_15m.array_global;
+      // let array_all_15m = await this.getSentimentBinanceFuturres(pair, '15m')
+      // let array_top_15m = array_all_15m.array_top;
+      // let array_globa_15m = array_all_15m.array_global;
       // console.log('array_top -->' + JSON.stringify(array_top));
       // console.log('array_global -->' + JSON.stringify(array_global));
 
 
       const end = moment().unix();
       while (current < end) {
-        let current_str = '' + current + '000';
-        let new_current = parseInt(current_str, 10); // - 30 min
-        let new_current_30 = new_current - 1800000; // - 30 min
-        // console.log('new_current--<' + new_current)
-        // console.log('new_current1800000--<' + new_current_30)
-        let buy_or_sells = []
+        // let current_str = '' + current + '000';
+        // let new_current = parseInt(current_str, 10); // - 30 min
+        // let new_current_30 = new_current - 1800000; // - 30 min
+        // // console.log('new_current--<' + new_current)
+        // // console.log('new_current1800000--<' + new_current_30)
+        // let buy_or_sells = []
 
-        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_1h, array_globa_1h, 1.5))
-        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_30m, array_globa_30m, 1.25))
-        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_15m, array_globa_15m, 1))
+        // buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_1h, array_globa_1h, 1.5))
+        // buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_30m, array_globa_30m, 1.25))
+        // buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_15m, array_globa_15m, 1))
         
 
         const strategyManager = new StrategyManager({}, mockedRepository, {}, this.projectDir);
@@ -274,8 +274,7 @@ module.exports = class Backtest {
           pair,
           options,
           lastSignal.signal,
-          lastSignal.price,
-          buy_or_sells
+          lastSignal.price
         );
         item.time = current;
 
