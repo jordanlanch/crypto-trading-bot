@@ -341,7 +341,7 @@ module.exports = {
                 },
                 {
                   name: 'trailing_stop',
-                  target_percent: 2,
+                  target_percent: 1.5,
                   stop_percent: 1,
                 },
               ],
