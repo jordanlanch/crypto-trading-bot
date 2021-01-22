@@ -127,9 +127,10 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('rsi1h', 'rsi', '1h');
   }
 
-  period(indicatorPeriod, options, symbol) {
+  period(indicatorPeriod, options, buy_or_sells, symbol) {
     return this.trader_custom(
       symbol,
+      buy_or_sells,
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_1h_01'),
       indicatorPeriod.getIndicator('macd_1h_02'),
@@ -165,6 +166,7 @@ module.exports = class TraderCustom {
 
   async trader_custom(
     symbol,
+    buy_or_sells,
     price,
     macd1H01Full,
     macd1H02Full,
@@ -519,7 +521,22 @@ module.exports = class TraderCustom {
       rsi1H: 0,
       sell: 0,
       buy: 0,
-      last_signal: lastSignal
+      last_signal: lastSignal,
+      sentiment_1h: 0,
+      incremetShortTOP_1h: 0,
+      incremetShortGlobal_1h: 0,
+      incrementLogTOP_1h: 0,
+      incrementLogGlobal_1h: 0,
+      sentiment_30m: 0,
+      incremetShortTOP_30m: 0,
+      incremetShortGlobal_30m: 0,
+      incrementLogTOP_30m: 0,
+      incrementLogGlobal_30m: 0,
+      sentiment_15m: 0,
+      incremetShortTOP_15m: 0,
+      incremetShortGlobal_15m: 0,
+      incrementLogTOP_15m: 0,
+      incrementLogGlobal_15m: 0,
     };
     /*
     levels signals
@@ -700,32 +717,32 @@ module.exports = class TraderCustom {
     if (parameters == [] || parameters == undefined) {
       parameters = parameters_by_symbol[0]
     }
-    // count_signals_buy += buy_or_sells[0].buy;
-    // count_signals_sell += buy_or_sells[0].sell;
-    // debug.sentiment_1h += buy_or_sells[0].buy;
-    // debug.sentiment_1h -= buy_or_sells[0].sell;
-    // debug.incrementLogGlobal_1h = buy_or_sells[0].incrementLogGlobal;
-    // debug.incremetShortTOP_1h = buy_or_sells[0].incremetShortTOP;
-    // debug.incrementLogTOP_1h = buy_or_sells[0].incrementLogTOP;
-    // debug.incremetShortGlobal_1h = buy_or_sells[0].incremetShortGlobal;
+    count_signals_buy += buy_or_sells[0].buy;
+    count_signals_sell += buy_or_sells[0].sell;
+    debug.sentiment_1h += buy_or_sells[0].buy;
+    debug.sentiment_1h -= buy_or_sells[0].sell;
+    debug.incrementLogGlobal_1h = buy_or_sells[0].incrementLogGlobal;
+    debug.incremetShortTOP_1h = buy_or_sells[0].incremetShortTOP;
+    debug.incrementLogTOP_1h = buy_or_sells[0].incrementLogTOP;
+    debug.incremetShortGlobal_1h = buy_or_sells[0].incremetShortGlobal;
 
-    // count_signals_buy += buy_or_sells[1].buy;
-    // count_signals_sell += buy_or_sells[1].sell;
-    // debug.sentiment_30m += buy_or_sells[1].buy;
-    // debug.sentiment_30m -= buy_or_sells[1].sell;
-    // debug.incrementLogGlobal_30m = buy_or_sells[1].incrementLogGlobal;
-    // debug.incremetShortTOP_30m = buy_or_sells[1].incremetShortTOP;
-    // debug.incrementLogTOP_30m = buy_or_sells[1].incrementLogTOP;
-    // debug.incremetShortGlobal_30m = buy_or_sells[1].incremetShortGlobal;
+    count_signals_buy += buy_or_sells[1].buy;
+    count_signals_sell += buy_or_sells[1].sell;
+    debug.sentiment_30m += buy_or_sells[1].buy;
+    debug.sentiment_30m -= buy_or_sells[1].sell;
+    debug.incrementLogGlobal_30m = buy_or_sells[1].incrementLogGlobal;
+    debug.incremetShortTOP_30m = buy_or_sells[1].incremetShortTOP;
+    debug.incrementLogTOP_30m = buy_or_sells[1].incrementLogTOP;
+    debug.incremetShortGlobal_30m = buy_or_sells[1].incremetShortGlobal;
 
-    // count_signals_buy += buy_or_sells[2].buy;
-    // count_signals_sell += buy_or_sells[2].sell;
-    // debug.sentiment_15m += buy_or_sells[2].buy;
-    // debug.sentiment_15m -= buy_or_sells[2].sell;
-    // debug.incrementLogGlobal_15m = buy_or_sells[2].incrementLogGlobal;
-    // debug.incremetShortTOP_15m = buy_or_sells[2].incremetShortTOP;
-    // debug.incrementLogTOP_15m = buy_or_sells[2].incrementLogTOP;
-    // debug.incremetShortGlobal_15m = buy_or_sells[2].incremetShortGlobal;
+    count_signals_buy += buy_or_sells[2].buy;
+    count_signals_sell += buy_or_sells[2].sell;
+    debug.sentiment_15m += buy_or_sells[2].buy;
+    debug.sentiment_15m -= buy_or_sells[2].sell;
+    debug.incrementLogGlobal_15m = buy_or_sells[2].incrementLogGlobal;
+    debug.incremetShortTOP_15m = buy_or_sells[2].incremetShortTOP;
+    debug.incrementLogTOP_15m = buy_or_sells[2].incrementLogTOP;
+    debug.incremetShortGlobal_15m = buy_or_sells[2].incremetShortGlobal;
 
 
     //obv 6H, 4H, 1H
@@ -931,6 +948,84 @@ module.exports = class TraderCustom {
         value: 'buy',
         type: 'cross',
         type: 'sma200',
+      },
+      {
+        label: 'sentiment_1h',
+        value: 'sentiment_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal_1h',
+        value: 'incrementLogGlobal_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP_1h',
+        value: 'incremetShortTOP_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP_1h',
+        value: 'incrementLogTOP_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'sentiment_30m',
+        value: 'sentiment_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal_30m',
+        value: 'incrementLogGlobal_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP_30m',
+        value: 'incremetShortTOP_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP_30m',
+        value: 'incrementLogTOP_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'sentiment_15m',
+        value: 'sentiment_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal_15m',
+        value: 'incrementLogGlobal_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP_15m',
+        value: 'incremetShortTOP_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP_15m',
+        value: 'incrementLogTOP_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal_15m',
+        value: 'incremetShortGlobal_15m',
+        type: 'cross',
+        range: 'sma200',
       },
       {
         label: 'cci6H',
