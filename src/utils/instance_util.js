@@ -314,7 +314,7 @@ module.exports = {
             (p) =>
             // console.log('pair-->'+p.pair)
             p.pair.startsWith('ada')  ||
-            p.pair.startsWith('bsv') ||
+            p.pair.startsWith('trx') ||
             p.pair.startsWith('btc')  ||
             p.pair.startsWith('dot')  ||
             p.pair.startsWith('eos') ||

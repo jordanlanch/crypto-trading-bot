@@ -45,6 +45,7 @@ module.exports = class Backtest {
   }
 
   async getSentimentBinanceFuturres(symbol, period) {
+    symbol = symbol.replace('USD', 'USDT');
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
         'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
@@ -76,16 +77,31 @@ module.exports = class Backtest {
           incrementLogGlobal: 0,
         };
       } else { //increment long
+        let abs_incremetShortTOP = Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter)
+        let abs_incrementLogGlobal = Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore)
 
-        //sell
-        return {
-          buy: 0,
-          sell: weight,
-          incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
-        };
+        if (abs_incrementLogGlobal / abs_incremetShortTOP > 6) {
+          //buy
+          return {
+            buy: weight,
+            sell: 0,
+            incremetShortTOP: abs_incremetShortTOP,
+            incremetShortGlobal: 0,
+            incrementLogTOP: 0,
+            incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
+          };
+        } else {
+
+          //sell
+          return {
+            buy: 0,
+            sell: weight,
+            incremetShortTOP: abs_incremetShortTOP,
+            incremetShortGlobal: 0,
+            incrementLogTOP: 0,
+            incrementLogGlobal: Math.abs(longShortRatioGLOBALAfter - longShortRatioGLOBALBefore),
+          };
+        }
 
       }
     } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
@@ -121,17 +137,33 @@ module.exports = class Backtest {
 
     } else { //increment log TOP
       if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
+        let abs_incremetShortGlobal = Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter)
 
-        //buy
-        return {
-          buy: weight,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
-          incrementLogTOP: Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore),
-          incrementLogGlobal: 0,
-        };
+        let abs_incrementLogTOP = Math.abs(longShortRatioTOPAfter - longShortRatioTOPBefore)
 
+        if(abs_incremetShortGlobal / abs_incrementLogTOP > 6){
+           //sell
+           return {
+            buy: 0,
+            sell: weight,
+            incremetShortTOP: 0,
+            incremetShortGlobal: abs_incremetShortGlobal,
+            incrementLogTOP: abs_incrementLogTOP,
+            incrementLogGlobal: 0,
+          };
+        }else{
+          //buy
+          return {
+            buy: weight,
+            sell: 0,
+            incremetShortTOP: 0,
+            incremetShortGlobal: abs_incremetShortGlobal,
+            incrementLogTOP: abs_incrementLogTOP,
+            incrementLogGlobal: 0,
+          };
+        }
+
+       
 
       } else { //increment GLOBAL long
         //nothing
@@ -261,10 +293,10 @@ module.exports = class Backtest {
         // console.log('new_current1800000--<' + new_current_30)
         let buy_or_sells = []
 
-        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_1h, array_globa_1h, 1.5))
-        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_30m, array_globa_30m, 1.25))
+        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_1h, array_globa_1h, 1.75))
+        buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_30m, array_globa_30m, 1.5))
         buy_or_sells.push(this.getSentimentByCurrent(new_current_30, array_top_15m, array_globa_15m, 1))
-        
+
 
         const strategyManager = new StrategyManager({}, mockedRepository, {}, this.projectDir);
 

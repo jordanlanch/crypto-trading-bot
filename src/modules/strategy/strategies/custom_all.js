@@ -595,14 +595,14 @@ module.exports = class TraderCustom {
         parameters: {
           triggerMultiplier_6h: 1.099,
           triggerTimeWindows_6h: 1,
-          triggerMultiplier_4h: 1.023,
+          triggerMultiplier_4h: 1.024,
           triggerTimeWindows_4h: 2,
           triggerMultiplier_1h: 1.035,
           triggerTimeWindows_1h: 6,
         }
       },
       {
-        symbol: 'BSVUSD',
+        symbol: 'TRXUSD',
         parameters: {
           triggerMultiplier_6h: 1.027,
           triggerTimeWindows_6h: 2,
@@ -619,7 +619,7 @@ module.exports = class TraderCustom {
           triggerTimeWindows_6h: 2,
           triggerMultiplier_4h: 1.02,
           triggerTimeWindows_4h: 2.5,
-          triggerMultiplier_1h: 1.028,
+          triggerMultiplier_1h: 1.031,
           triggerTimeWindows_1h: 1.5,
         }
       },
@@ -639,9 +639,9 @@ module.exports = class TraderCustom {
         parameters: {
           triggerMultiplier_6h: 1.217,
           triggerTimeWindows_6h: 3,
-          triggerMultiplier_4h: 0.9972,
+          triggerMultiplier_4h: 0.93,
           triggerTimeWindows_4h: 4,
-          triggerMultiplier_1h: 1.058,
+          triggerMultiplier_1h: 0.9837,
           triggerTimeWindows_1h: 2,
         }
       },
@@ -650,7 +650,7 @@ module.exports = class TraderCustom {
         parameters: {
           triggerMultiplier_6h: 1.021,
           triggerTimeWindows_6h: 1,
-          triggerMultiplier_4h: 1.064,
+          triggerMultiplier_4h: 1.071,
           triggerTimeWindows_4h: 4,
           triggerMultiplier_1h: 1.058,
           triggerTimeWindows_1h: 2,
@@ -670,18 +670,18 @@ module.exports = class TraderCustom {
       {
         symbol: 'LTCUSD',
         parameters: {
-          triggerMultiplier_6h: 1.036,
+          triggerMultiplier_6h: 1.038,
           triggerTimeWindows_6h: 1,
           triggerMultiplier_4h: 1.064,
           triggerTimeWindows_4h: 2,
-          triggerMultiplier_1h: 0.9881,
+          triggerMultiplier_1h: 0.9957,
           triggerTimeWindows_1h: 2,
         }
       },
       {
         symbol: 'UNIUSD',
         parameters: {
-          triggerMultiplier_6h: 1.761,
+          triggerMultiplier_6h: 1.41,
           triggerTimeWindows_6h: 1,
           triggerMultiplier_4h: 1.018,
           triggerTimeWindows_4h: 2,
@@ -974,6 +974,12 @@ module.exports = class TraderCustom {
         range: 'sma200',
       },
       {
+        label: 'incremetShortGlobal_1h',
+        value: 'incremetShortGlobal_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
         label: 'sentiment_30m',
         value: 'sentiment_30m',
         type: 'cross',
@@ -994,6 +1000,12 @@ module.exports = class TraderCustom {
       {
         label: 'incrementLogTOP_30m',
         value: 'incrementLogTOP_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal_30m',
+        value: 'incremetShortGlobal_30m',
         type: 'cross',
         range: 'sma200',
       },
