@@ -314,16 +314,10 @@ module.exports = {
             (p) =>
             // console.log('pair-->'+p.pair)
             p.pair.startsWith('ada')  ||
-            p.pair.startsWith('trx') ||
-            p.pair.startsWith('btc')  ||
             p.pair.startsWith('dot')  ||
-            p.pair.startsWith('eos') ||
             p.pair.startsWith('eth')  ||
             p.pair.startsWith('xrp')  ||
-            p.pair.startsWith('ltc')  ||
-            p.pair.startsWith('uni')  ||
-            p.pair.startsWith('xmr')  ||
-            p.pair.startsWith('xtz')
+            p.pair.startsWith('ltc')  
           )
           .forEach((pair) => {
             // console.log(pair)
