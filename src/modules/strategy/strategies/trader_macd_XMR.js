@@ -2,7 +2,11 @@ const SignalResult = require('../dict/signal_result');
 
 module.exports = class TraderCustom {
   getName() {
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     return 'trader_macd_XMR';
+=======
+    return 'custom_all';
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
   }
 
   buildIndicator(indicatorBuilder, options) {
@@ -14,18 +18,27 @@ module.exports = class TraderCustom {
       length: 5,
     });
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     indicatorBuilder.add('macd_12h_01', 'macd_ext', '12h', {
+=======
+    indicatorBuilder.add('macd_1h_01', 'macd_ext', '1h', {
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       fast_period: 6,
       slow_period: 25,
       signal_period: 10,
     });
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     indicatorBuilder.add('macd_12h_02', 'macd_ext', '12h', {
+=======
+    indicatorBuilder.add('macd_1h_02', 'macd_ext', '1h', {
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       fast_period: 12,
       slow_period: 26,
       signal_period: 9,
     });
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
       fast_period: 5,
       slow_period: 34,
@@ -42,6 +55,12 @@ module.exports = class TraderCustom {
       fast_period: 6,
       slow_period: 19,
       signal_period: 9,
+=======
+    indicatorBuilder.add('macd_4h_01', 'macd_ext', '4h', {
+      fast_period: 20,
+      slow_period: 39,
+      signal_period: 12,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     });
 
     indicatorBuilder.add('macd_4h_02', 'macd_ext', '4h', {
@@ -80,6 +99,10 @@ module.exports = class TraderCustom {
 
     indicatorBuilder.add('rsi6H', 'rsi', '6h');
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
+=======
+
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     indicatorBuilder.add('ema2006H', 'ema', '6h', {
       length: 200,
     });
@@ -90,7 +113,11 @@ module.exports = class TraderCustom {
     //4h
 
     indicatorBuilder.add('cci4H', 'cci', '4h', {
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
       length: 10,
+=======
+      length: 30,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     });
 
     indicatorBuilder.add('macd_4h', 'macd_ext', '4h', {
@@ -134,9 +161,16 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('rsi12h', 'rsi', '12h');
   }
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
   period(indicatorPeriod, options, buy_or_sell) {
     return this.trader_custom(
       buy_or_sell,
+=======
+  period(indicatorPeriod, options, buy_or_sells, symbol) {
+    return this.trader_custom(
+      symbol,
+      buy_or_sells,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_12h_01'),
       indicatorPeriod.getIndicator('macd_12h_02'),
@@ -172,7 +206,12 @@ module.exports = class TraderCustom {
   }
 
   async trader_custom(
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     buy_or_sell,
+=======
+    symbol,
+    buy_or_sells,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     price,
     macd1D01Full,
     macd1D02Full,
@@ -441,10 +480,15 @@ module.exports = class TraderCustom {
     const cci6H = cci6HFull.slice(0, -1);
     const cci1D = cci1DFull.slice(0, -1);
     const cci4H = cci4HFull.slice(0, -1);
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     const macd1D01 = macd1D01Full.slice(0, -1);
     const macd1D02 = macd1D02Full.slice(0, -1);
     const macd2H01 = macd2H01Full.slice(0, -1);
     const macd2H02 = macd2H02Full.slice(0, -1);
+=======
+    const macd1H01 = macd1H01Full.slice(0, -1);
+    const macd1H02 = macd1H02Full.slice(0, -1);
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     const macd4H01 = macd4H01Full.slice(0, -1);
     const macd4H02 = macd4H02Full.slice(0, -1);
     const macd6H = macd6HFull.slice(0, -1);
@@ -489,10 +533,15 @@ module.exports = class TraderCustom {
     let count_signals_sell = 0;
 
     let debug = {
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
       macd1D01: 0,
       // macd1D02: 0,
       macd2H01: 0,
       // macd2H02: 0,
+=======
+      macd1H01: 0,
+      // macd1H02: 0,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       macd4H01: 0,
       // macd4H02: 0,
       macd6H: 0,
@@ -510,10 +559,17 @@ module.exports = class TraderCustom {
       highest_overage_obv_4h: 0,
       current_average_obv_4h: 0,
       difference_obv_4h: 0,
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
       obv1D: 0,
       highest_overage_obv_12h: 0,
       current_average_obv_12h: 0,
       difference_obv_12h: 0,
+=======
+      obv1H: 0,
+      highest_overage_obv_1h: 0,
+      current_average_obv_1h: 0,
+      difference_obv_1h: 0,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       ao6H: 0,
       ao4H: 0,
       ao1D: 0,
@@ -523,15 +579,34 @@ module.exports = class TraderCustom {
       sell: 0,
       buy: 0,
       last_signal: lastSignal,
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
       sentiment: 0,
       incremetShortTOP: 0,
       incremetShortGlobal: 0,
       incrementLogTOP: 0,
       incrementLogGlobal: 0,
+=======
+      sentiment_1h: 0,
+      incremetShortTOP_1h: 0,
+      incremetShortGlobal_1h: 0,
+      incrementLogTOP_1h: 0,
+      incrementLogGlobal_1h: 0,
+      sentiment_30m: 0,
+      incremetShortTOP_30m: 0,
+      incremetShortGlobal_30m: 0,
+      incrementLogTOP_30m: 0,
+      incrementLogGlobal_30m: 0,
+      sentiment_15m: 0,
+      incremetShortTOP_15m: 0,
+      incremetShortGlobal_15m: 0,
+      incrementLogTOP_15m: 0,
+      incrementLogGlobal_15m: 0,
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     };
     /*
     levels signals
     */
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     let count_ovb1D = 2;
     let count_ovb6H = 1.5;
     let count_ovb4H = 1;
@@ -552,6 +627,27 @@ module.exports = class TraderCustom {
     let count_rsi1D = 2;
     let count_rsi6H = 1.5;
     let count_rsi4H = 1;
+=======
+    let count_ovb6H = 1.75;
+    let count_ovb4H = 1.5;
+    let count_ovb1H = 1;
+
+    let count_cci6H = 1.75;
+    let count_cci4H = 1.5;
+    let count_cci1H = 1;
+
+    let count_macd6H = 1.75;
+    let count_macd4H = 1.5;
+    let count_macd1H = 1;
+
+    let count_ao6H = 1.75;
+    let count_ao4H = 1.5;
+    let count_ao1H = 1;
+
+    let count_rsi6H = 1.75;
+    let count_rsi4H = 1.5;
+    let count_rsi1H = 1;
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
 
     //SMA & LONG
 
@@ -580,6 +676,7 @@ module.exports = class TraderCustom {
 
     // //sma & ema 6H, 4H, 1D
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     count_signals_buy += buy_or_sell.buy;
     count_signals_sell += buy_or_sell.sell;
     debug.sentiment += buy_or_sell.buy;
@@ -592,6 +689,168 @@ module.exports = class TraderCustom {
     //obv 6H, 4H, 1D
     //01 16 -1.248
     let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.038, 2);
+=======
+    //map by symbol
+
+    let parameters_by_symbol = [{
+        symbol: 'ADAUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.099,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.024,
+          triggerTimeWindows_4h: 2,
+          triggerMultiplier_1h: 1.035,
+          triggerTimeWindows_1h: 6,
+        }
+      },
+      {
+        symbol: 'TRXUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.027,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 2.5,
+          triggerMultiplier_1h: 1.028,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'BTCUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.027,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 2.5,
+          triggerMultiplier_1h: 1.031,
+          triggerTimeWindows_1h: 1.5,
+        }
+      },
+      {
+        symbol: 'DOTUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.038,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.093,
+          triggerTimeWindows_4h: 1,
+          triggerMultiplier_1h: 1.035,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'EOSUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.217,
+          triggerTimeWindows_6h: 3,
+          triggerMultiplier_4h: 0.93,
+          triggerTimeWindows_4h: 4,
+          triggerMultiplier_1h: 0.9837,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'ETHUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.021,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.071,
+          triggerTimeWindows_4h: 4,
+          triggerMultiplier_1h: 1.058,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'XRPUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.021,
+          triggerTimeWindows_6h: 3,
+          triggerMultiplier_4h: 1.064,
+          triggerTimeWindows_4h: 4,
+          triggerMultiplier_1h: 1.058,
+          triggerTimeWindows_1h: 3,
+        }
+      },
+      {
+        symbol: 'LTCUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.038,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.064,
+          triggerTimeWindows_4h: 2,
+          triggerMultiplier_1h: 0.9957,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+      {
+        symbol: 'UNIUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.41,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_4h: 1.018,
+          triggerTimeWindows_4h: 2,
+          triggerMultiplier_1h: 0.9675,
+          triggerTimeWindows_1h: 3,
+        }
+      },
+      {
+        symbol: 'XMRUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.038,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.106,
+          triggerTimeWindows_4h: 5,
+          triggerMultiplier_1h: 1.08,
+          triggerTimeWindows_1h: 1,
+        }
+      },
+      {
+        symbol: 'XTZUSD',
+        parameters: {
+          triggerMultiplier_6h: 1.027,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 2.5,
+          triggerMultiplier_1h: 1.028,
+          triggerTimeWindows_1h: 2,
+        }
+      },
+    ]
+    // console.log('symbol-->'+symbol)
+    let parameters = parameters_by_symbol.filter(s => s.symbol === symbol)[0]
+    if (parameters == [] || parameters == undefined) {
+      parameters = parameters_by_symbol[0]
+    }
+    count_signals_buy += buy_or_sells[0].buy;
+    count_signals_sell += buy_or_sells[0].sell;
+    debug.sentiment_1h += buy_or_sells[0].buy;
+    debug.sentiment_1h -= buy_or_sells[0].sell;
+    debug.incrementLogGlobal_1h = buy_or_sells[0].incrementLogGlobal;
+    debug.incremetShortTOP_1h = buy_or_sells[0].incremetShortTOP;
+    debug.incrementLogTOP_1h = buy_or_sells[0].incrementLogTOP;
+    debug.incremetShortGlobal_1h = buy_or_sells[0].incremetShortGlobal;
+
+    count_signals_buy += buy_or_sells[1].buy;
+    count_signals_sell += buy_or_sells[1].sell;
+    debug.sentiment_30m += buy_or_sells[1].buy;
+    debug.sentiment_30m -= buy_or_sells[1].sell;
+    debug.incrementLogGlobal_30m = buy_or_sells[1].incrementLogGlobal;
+    debug.incremetShortTOP_30m = buy_or_sells[1].incremetShortTOP;
+    debug.incrementLogTOP_30m = buy_or_sells[1].incrementLogTOP;
+    debug.incremetShortGlobal_30m = buy_or_sells[1].incremetShortGlobal;
+
+    count_signals_buy += buy_or_sells[2].buy;
+    count_signals_sell += buy_or_sells[2].sell;
+    debug.sentiment_15m += buy_or_sells[2].buy;
+    debug.sentiment_15m -= buy_or_sells[2].sell;
+    debug.incrementLogGlobal_15m = buy_or_sells[2].incrementLogGlobal;
+    debug.incremetShortTOP_15m = buy_or_sells[2].incremetShortTOP;
+    debug.incrementLogTOP_15m = buy_or_sells[2].incrementLogTOP;
+    debug.incremetShortGlobal_15m = buy_or_sells[2].incremetShortGlobal;
+
+
+    //obv 6H, 4H, 1H
+    //01 16 -1.248
+    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, parameters.parameters.triggerMultiplier_6h, parameters.parameters.triggerTimeWindows_6h);
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv6H += resolve_obv.buy;
@@ -603,7 +862,11 @@ module.exports = class TraderCustom {
 
     //1.014 20 3 am
     //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.106, 1.5);
+=======
+    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, parameters.parameters.triggerMultiplier_4h, parameters.parameters.triggerTimeWindows_4h);
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
@@ -613,6 +876,7 @@ module.exports = class TraderCustom {
     debug.difference_obv_4h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.08, 1);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
@@ -621,6 +885,16 @@ module.exports = class TraderCustom {
     debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
     debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
     debug.difference_obv_12h -= resolve_obv.difference_obv;
+=======
+    resolve_obv = this.resolve_obv(debug, obv1H, count_ovb1H, parameters.parameters.triggerMultiplier_1h, parameters.parameters.triggerTimeWindows_1h);
+    count_signals_buy += resolve_obv.buy;
+    count_signals_sell += resolve_obv.sell;
+    debug.obv1H += resolve_obv.buy;
+    debug.obv1H -= resolve_obv.sell;
+    debug.highest_overage_obv_1h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_1h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_1h -= resolve_obv.difference_obv;
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     debug = resolve_obv.debug;
 
     //CCI 6H, 4H, 1D
@@ -677,6 +951,7 @@ module.exports = class TraderCustom {
     debug = resolve_macd.debug;
 
     // resolve_macd = this.resolve_macd(debug, long4H, macd4H02, count_macd4H);
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     // count_signals_buy += resolve_macd.buy;
     // count_signals_sell += resolve_macd.sell;
     // debug.macd4H02 += resolve_macd.buy;
@@ -691,17 +966,27 @@ module.exports = class TraderCustom {
     debug = resolve_macd.debug;
 
     // resolve_macd = this.resolve_macd(debug, long1D, macd2H02, count_macd2H);
+=======
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     // count_signals_buy += resolve_macd.buy;
     // count_signals_sell += resolve_macd.sell;
-    // debug.macd2H02 += resolve_macd.buy;
-    // debug.macd2H02 -= resolve_macd.sell;
+    // debug.macd4H02 += resolve_macd.buy;
+    // debug.macd4H02 -= resolve_macd.sell;
     // debug = resolve_macd.debug;
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     resolve_macd = this.resolve_macd(debug, long1D, macd2H01, count_macd2H);
     count_signals_buy += resolve_macd.buy;
     count_signals_sell += resolve_macd.sell;
     debug.macd2H01 += resolve_macd.buy;
     debug.macd2H01 -= resolve_macd.sell;
+=======
+    resolve_macd = this.resolve_macd(debug, long4H, macd4H01, count_macd4H);
+    count_signals_buy += resolve_macd.buy;
+    count_signals_sell += resolve_macd.sell;
+    debug.macd4H01 += resolve_macd.buy;
+    debug.macd4H01 -= resolve_macd.sell;
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     debug = resolve_macd.debug;
 
     resolve_macd = this.resolve_macd(debug, long1D, macd1D01, count_macd1D);
@@ -734,7 +1019,11 @@ module.exports = class TraderCustom {
     debug.ao4H -= resolve_ao.sell;
     debug = resolve_ao.debug;
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
     resolve_ao = this.resolve_ao(debug, long1D, ao1D, count_ao1D);
+=======
+    resolve_ao = this.resolve_ao(debug, long1H, ao1H, count_ao1H);
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao1D += resolve_ao.buy;
@@ -808,6 +1097,7 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
         label: 'macd2H01',
         value: 'macd2H01',
         type: 'cross',
@@ -816,6 +1106,100 @@ module.exports = class TraderCustom {
       {
         label: 'sentiment',
         value: 'sentiment',
+=======
+        label: 'sentiment_1h',
+        value: 'sentiment_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal_1h',
+        value: 'incrementLogGlobal_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP_1h',
+        value: 'incremetShortTOP_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP_1h',
+        value: 'incrementLogTOP_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal_1h',
+        value: 'incremetShortGlobal_1h',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'sentiment_30m',
+        value: 'sentiment_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal_30m',
+        value: 'incrementLogGlobal_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP_30m',
+        value: 'incremetShortTOP_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP_30m',
+        value: 'incrementLogTOP_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal_30m',
+        value: 'incremetShortGlobal_30m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'sentiment_15m',
+        value: 'sentiment_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal_15m',
+        value: 'incrementLogGlobal_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP_15m',
+        value: 'incremetShortTOP_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP_15m',
+        value: 'incrementLogTOP_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal_15m',
+        value: 'incremetShortGlobal_15m',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'cci6H',
+        value: 'cci6H',
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
         type: 'cross',
         range: 'sma200',
       },
@@ -855,12 +1239,39 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
+=======
+      {
+        label: 'difference_obv_6h',
+        value: 'difference_obv_6h',
+        type: 'cross',
+        type: 'sma200',
+      },
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       {
         label: 'difference_obv_12h',
         value: 'difference_obv_12h',
         type: 'cross',
         type: 'sma200',
       },
+      // {
+      //   label: 'macd6H01',
+      //   value: 'macd6H01',
+      //   type: 'cross',
+      //   type: 'sma200',
+      // },
+      // {
+      //   label: 'macd6H02',
+      //   value: 'macd6H02',
+      //   type: 'cross',
+      //   type: 'sma200',
+      // },
+      // {
+      //   label: 'macd6H03',
+      //   value: 'macd6H03',
+      //   type: 'cross',
+      //   type: 'sma200',
+      // },
       {
         label: 'cci1D',
         value: 'cci1D',
@@ -904,8 +1315,25 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
         label: 'difference_obv_6h',
         value: 'difference_obv_6h',
+=======
+        label: 'difference_obv_4h',
+        value: 'difference_obv_4h',
+        type: 'cross',
+        type: 'sma200',
+      },
+      // {
+      //   label: 'macd4H02',
+      //   value: 'macd4H02',
+      //   type: 'cross',
+      //   type: 'sma200',
+      // },
+      {
+        label: 'macd4H01',
+        value: 'macd4H01',
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
         type: 'cross',
         type: 'sma200',
       },
@@ -958,8 +1386,19 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
         label: 'difference_obv_4h',
         value: 'difference_obv_4h',
+=======
+        label: 'difference_obv_1h',
+        value: 'difference_obv_1h',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'cci1H',
+        value: 'cci1H',
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
         type: 'cross',
         type: 'sma200',
       },
@@ -975,6 +1414,12 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
+      // {
+      //   label: 'macd1H02',
+      //   value: 'macd1H02',
+      //   type: 'cross',
+      //   type: 'sma200',
+      // },
       {
         label: 'rsi4H',
         value: 'rsi4H',
@@ -1017,6 +1462,10 @@ module.exports = class TraderCustom {
     if (currentAverage_obv >= highestOverage_obv) {
       const difference_obv = Math.abs(currentAverage_obv / highestOverage_obv);
 
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
+=======
+
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
       if (difference_obv >= triggerMultiplier) {
         return {
           buy: count_ovb,
@@ -1024,7 +1473,11 @@ module.exports = class TraderCustom {
           debug: debug,
           highestOverage_obv: highestOverage_obv,
           currentAverage_obv: currentAverage_obv,
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
           difference_obv: difference_obv,
+=======
+          difference_obv: difference_obv
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
         };
       } else {
         return {
@@ -1033,7 +1486,11 @@ module.exports = class TraderCustom {
           debug: debug,
           highestOverage_obv: highestOverage_obv,
           currentAverage_obv: currentAverage_obv,
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
           difference_obv: difference_obv,
+=======
+          difference_obv: difference_obv
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
         };
       }
     }
@@ -1043,7 +1500,11 @@ module.exports = class TraderCustom {
       debug: debug,
       highestOverage_obv: highestOverage_obv,
       currentAverage_obv: currentAverage_obv,
+<<<<<<< HEAD:src/modules/strategy/strategies/trader_macd_XMR.js
       difference_obv: 0,
+=======
+      difference_obv: 0
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e:src/modules/strategy/strategies/custom_all.js
     };
   }
 
@@ -1161,6 +1622,7 @@ module.exports = class TraderCustom {
       debug: debug
     };
   }
+
 
   resolve_rsi(debug, rsi, count_rsi, min, max) {
     const before_rsi = rsi.slice(-2)[0];

@@ -85,7 +85,11 @@ $(function () {
       })
       .on('mouseenter', function enter(d) {
         let date_ok = new Date(d.date)
+<<<<<<< HEAD
         date_ok.setHours(date_ok.getHours() + 5);
+=======
+        date_ok.setHours( date_ok.getHours() + 5 );
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
         valueText.style('display', 'inline');
         valueText.text(`Trade: ${d3.timeFormat('%y-%m-%d %H:%M')(date_ok)}, ${d.type}, ${d3.format(',.2f')(d.price)}`);
       })
@@ -253,9 +257,15 @@ $(function () {
     const trades = [];
 
     const data = candles
+<<<<<<< HEAD
       .map(function (d) {
         let date_ok = new Date(d.date)
         date_ok.setHours(date_ok.getHours() + 5);
+=======
+      .map(function(d) {
+        let date_ok = new Date(d.date)
+        date_ok.setHours( date_ok.getHours() + 5 );
+>>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
         if (d.signals && d.signals.length > 0) {
           d.signals.forEach(function (trade) {
             trades.push({

@@ -565,26 +565,12 @@ module.exports = class Binance {
       }
     }
 
-    // get balances and same them internally; allows to take open positions
-    // Format we get: balances: {'EOS': {"available": 12, "locked": 8}}
-    if (event.eventType && event.eventType === 'account' && 'balances' in event) {
-      const balances = [];
-
-      for (const asset in event.balances) {
-        const balance = event.balances[asset];
-
-        if (parseFloat(balance.available) + parseFloat(balance.locked) > 0) {
-          balances.push({
-            available: parseFloat(balance.available) + parseFloat(balance.locked),
-            locked: parseFloat(balance.locked),
-            asset: asset
-          });
-        }
-      }
-
-      this.balances = balances;
-
-      this.throttler.addTask('binance_sync_balances', this.syncBalances.bind(this), 5000);
+    // force balance update via api because:
+    // - "account": old api (once full update)
+    // - "outboundAccountPosition" given only delta
+    // - "balanceUpdate" given not balances
+    if (event.eventType && ['outboundAccountPosition', 'account', 'balanceUpdate'].includes(event.eventType)) {
+      this.throttler.addTask('binance_sync_balances', this.syncBalances.bind(this), 300);
     }
   }
 
