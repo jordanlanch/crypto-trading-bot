@@ -546,7 +546,7 @@ c.init = async () => {
 //   c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
 
   // Bitfinex USD margin pairs
-  c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
+  // c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
 
   // Bybit USD pairs
   // c.symbols.push(...(await InstanceUtil.bybitInit()));
@@ -742,7 +742,7 @@ c.init = () => {
 
 c.symbols.push({
   symbol: 'BTCUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
+  periods: ['1h', '2h', '4h', '6h', '12h','1d'],
   exchange: 'binance',
   state: 'watch',
   watchdogs: [{

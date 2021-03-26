@@ -69,15 +69,6 @@ module.exports = class StrategyManager {
     return this.getStrategies().find(strategy => strategy.getName() === strategyName);
   }
 
-<<<<<<< HEAD
-  async getSentimentBinanceFuturres(symbol) {
-    const [topTraders, globalTraders] = await Promise.all([
-      fetch(
-        'https://fapi.binance.com/futures/data/topLongShortPositionRatio?symbol=' + symbol + '&period=1h&limit=2'
-      ),
-      fetch(
-        'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=1h&limit=2'
-=======
   async getSentimentBinanceFuturres(symbol, period) {
     const [topTraders, globalTraders] = await Promise.all([
       fetch(
@@ -85,7 +76,6 @@ module.exports = class StrategyManager {
       ),
       fetch(
         'https://fapi.binance.com/futures/data/globalLongShortAccountRatio?symbol=' + symbol + '&period=' + period + '&limit=500'
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
       ),
     ]);
 
@@ -98,15 +88,9 @@ module.exports = class StrategyManager {
     };
   }
 
-<<<<<<< HEAD
-  isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter) {
-    if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
-      if (longShortRatioGLOBALBefore > longShortRatioGLOBALAfter) { //increment short Global
-=======
   isBuyOrSell(longShortRatioTOPBefore, longShortRatioTOPAfter, longShortRatioGLOBALBefore, longShortRatioGLOBALAfter, weight) {
     if (longShortRatioTOPBefore > longShortRatioTOPAfter) { //increment short TOP
       if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
         //nothing
         return {
           buy: 0,
@@ -121,11 +105,7 @@ module.exports = class StrategyManager {
         //sell
         return {
           buy: 0,
-<<<<<<< HEAD
-          sell: 3,
-=======
           sell: weight,
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
           incremetShortTOP: Math.abs(longShortRatioTOPBefore - longShortRatioTOPAfter),
           incremetShortGlobal: 0,
           incrementLogTOP: 0,
@@ -135,34 +115,6 @@ module.exports = class StrategyManager {
       }
     } else if (longShortRatioTOPBefore == longShortRatioTOPAfter) { //constant
       //nothing
-<<<<<<< HEAD
-      if (longShortRatioTOPAfter >= 1) {
-        return {
-          buy: 3,
-          sell: 0,
-          incremetShortTOP: 0,
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: 0,
-        };
-      } else {
-        return {
-          buy: 0,
-          sell: 3,
-          incremetShortTOP: 0,
-          incremetShortGlobal: 0,
-          incrementLogTOP: 0,
-          incrementLogGlobal: 0,
-        };
-      }
-
-    } else { //increment log TOP
-      if (longShortRatioGLOBALBefore >= longShortRatioGLOBALAfter) { //increment short Global
-
-        //buy
-        return {
-          buy: 3,
-=======
       // if (longShortRatioTOPAfter >= 1) {
       //   return {
       //     buy: weight,
@@ -198,7 +150,6 @@ module.exports = class StrategyManager {
         //buy
         return {
           buy: weight,
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
           sell: 0,
           incremetShortTOP: 0,
           incremetShortGlobal: Math.abs(longShortRatioGLOBALBefore - longShortRatioGLOBALAfter),
@@ -223,8 +174,6 @@ module.exports = class StrategyManager {
 
   }
 
-<<<<<<< HEAD
-=======
   getSentimentByCurrent(array_top, array_global, weight) {
 
     let buy_or_sell = {};
@@ -257,7 +206,6 @@ module.exports = class StrategyManager {
     return buy_or_sell
   }
 
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
 
   /**
    *
@@ -281,37 +229,6 @@ module.exports = class StrategyManager {
 
     const strategy = this.findStrategy(strategyName);
 
-<<<<<<< HEAD
-    let buy_or_sell = {};
-
-    let array_all = await this.getSentimentBinanceFuturres(symbol)
-
-    let last_top_before = array_all.array_top.slice(-2)[0]
-    let last_top_after = array_all.array_top.slice(-2)[1]
-    let last_global_before = array_all.array_global.slice(-2)[0]
-    let last_global_after = array_all.array_global.slice(-2)[1]
-
-    if (last_top_before === undefined || last_top_after === undefined || last_global_before === undefined || last_global_after === undefined) {
-      buy_or_sell = {
-        buy: 0,
-        sell: 0,
-        incremetShortTOP: 0,
-        incremetShortGlobal: 0,
-        incrementLogTOP: 0,
-        incrementLogGlobal: 0,
-      };
-    } else {
-
-      buy_or_sell = this.isBuyOrSell(
-        parseFloat(last_top_before.longShortRatio),
-        parseFloat(last_top_after.longShortRatio),
-        parseFloat(last_global_before.longShortRatio),
-        parseFloat(last_global_after.longShortRatio)
-      );
-    }
-
-    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell);
-=======
     let array_all_1h = await this.getSentimentBinanceFuturres(symbol, '1h')
     let array_top_1h = array_all_1h.array_top;
     let array_globa_1h = array_all_1h.array_global;
@@ -332,7 +249,6 @@ module.exports = class StrategyManager {
   
 
     const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sells, symbol);
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
     if (typeof strategyResult !== 'undefined' && !(strategyResult instanceof SignalResult)) {
       throw new Error(`Invalid strategy return:${strategyName}`);
     }
@@ -349,11 +265,7 @@ module.exports = class StrategyManager {
    * @param lastSignalEntry
    * @returns {Promise<array>}
    */
-<<<<<<< HEAD
-  async executeStrategyBacktest(strategyName, exchange, symbol, options, lastSignal, lastSignalEntry, buy_or_sell) {
-=======
   async executeStrategyBacktest(strategyName, exchange, symbol, options, lastSignal, lastSignalEntry, buy_or_sells) {
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
     const results = await this.getTaResult(strategyName, exchange, symbol, options);
     if (!results || Object.keys(results).length === 0) {
       return {};
@@ -388,11 +300,7 @@ module.exports = class StrategyManager {
     const indicatorPeriod = new IndicatorPeriod(context, results);
 
     const strategy = this.getStrategies().find(strategy => strategy.getName() === strategyName);
-<<<<<<< HEAD
-    const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sell);
-=======
     const strategyResult = await strategy.period(indicatorPeriod, options, buy_or_sells, symbol);
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
 
     if (typeof strategyResult !== 'undefined' && !(strategyResult instanceof SignalResult)) {
       throw `Invalid strategy return:${strategyName}`;

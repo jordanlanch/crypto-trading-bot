@@ -7,13 +7,8 @@ describe('#system util test', function () {
       root: 'test123',
       root2: undefined,
       webserver: {
-<<<<<<< HEAD
         test: 8090
       }
-=======
-        test: 8080,
-      },
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
     });
 
     assert.equal(systemUtil.getConfig('webserver.test'), 8090);

@@ -74,24 +74,13 @@ module.exports = {
 
         content.symbols
           .filter(
-<<<<<<< HEAD
-            p =>
-              ['USDT'].includes(p.quoteAsset) &&
-              !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
-              p.status.toLowerCase() === 'trading'
-=======
             p => ['USDT'].includes(p.quoteAsset) &&
             !['USDC', 'PAX', 'USDS', 'TUSD', 'BUSD'].includes(p.baseAsset) &&
             p.status.toLowerCase() === 'trading'
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
           )
           .forEach(pair => {
             let result = {
               symbol: pair.symbol,
-<<<<<<< HEAD
-              periods: ['1m', '15m', '1h'],
-              exchange: 'binance'
-=======
               periods: ['1h', '4h', '6h', '12h'],
               exchange: 'binance',
               state: 'trade',
@@ -104,7 +93,6 @@ module.exports = {
                   period: '12h',
                 },
               }, ],
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
             };
 
             if (callback) {
@@ -231,14 +219,6 @@ module.exports = {
 
         content.symbols
           .filter(p => p.status.toUpperCase() === 'TRADING')
-<<<<<<< HEAD
-          .forEach(pair => {
-            let result = {
-              symbol: pair.symbol,
-              periods: ['1m', '15m', '1h'],
-              exchange: 'binance_futures'
-            };
-=======
           // .filter(
           //   (p) =>
           //   !p.symbol.toUpperCase().startsWith('BTC') &&
@@ -299,7 +279,6 @@ module.exports = {
                   // }
                 ]
               },
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
 
             };
             if (callback) {
@@ -325,14 +304,6 @@ module.exports = {
 
         
         content
-<<<<<<< HEAD
-          .filter(p => p.margin === true && p.pair.endsWith('usd') && !p.pair.startsWith('USD'))
-          .forEach(pair => {
-            let result = {
-              symbol: pair.pair.toUpperCase(),
-              periods: ['1m', '15m', '1h'],
-              exchange: 'bitfinex'
-=======
           .filter(
             (p) =>
             p.margin === true &&
@@ -378,7 +349,6 @@ module.exports = {
                 }, ],
               },
               
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
             };
 
             if (callback) {
@@ -424,8 +394,4 @@ module.exports = {
       });
     });
   }
-<<<<<<< HEAD
 };
-=======
-};
->>>>>>> 572ee16d2e6585ff006f6e0652bd508c310a607e
