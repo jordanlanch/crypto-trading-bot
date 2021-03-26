@@ -715,297 +715,297 @@ c.init = () => {
 //         ]
 //     })
 // })
-// let z = ['NEOUSDT'];
+let z = ['BTCUSDT'];
 
-// z.forEach((pair) => {
-//   c.symbols.push({
-//     symbol: pair,
-//     periods: ['1h', '2h', '4h', '6h', '12h'],
-//     exchange: 'binance',
-//     state: 'watch',
-//     watchdogs: [
-//       {
-//         name: 'stoploss_watch',
-//         stop: 1.5,
-//       },
-//     ],
-//     strategies: [
-//       {
-//         strategy: 'trader_macd',
-//         options: {
-//           period: '12h',
-//         },
-//       },
-//     ],
-//   });
+z.forEach((pair) => {
+  c.symbols.push({
+    symbol: pair,
+    periods: ['1h', '2h', '4h', '6h', '12h'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [
+      {
+        name: 'stoploss_watch',
+        stop: 1.5,
+      },
+    ],
+    strategies: [
+      {
+        strategy: 'custom_all',
+        options: {
+          period: '4h',
+        },
+      },
+    ],
+  });
+});
+
+// c.symbols.push({
+//   symbol: 'BTCUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h','1d'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'custom_all',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
 // });
 
-c.symbols.push({
-  symbol: 'BTCUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h','1d'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_BTC',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'ETHUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_ETH',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'ETHUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_ETH',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'XRPUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_XRP',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'XRPUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_XRP',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'EOSUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_EOS',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'EOSUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_EOS',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'LTCUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_LTC',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'LTCUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_LTC',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'ADAUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_ADA',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'ADAUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_ADA',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'ETCUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_ETC',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'ETCUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_ETC',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'LINKUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_LINK',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'LINKUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_LINK',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'DASHUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_DASH',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'DASHUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_DASH',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'XMRUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_XMR',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'XMRUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_XMR',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'QTUMUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_QTUM',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'QTUMUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_QTUM',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'XTZUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_XTZ',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'XTZUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_XTZ',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'ZECUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_ZEC',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'ZECUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_ZEC',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'IOTAUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_IOTA',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
 
-c.symbols.push({
-  symbol: 'IOTAUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_IOTA',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
-
-c.symbols.push({
-  symbol: 'NEOUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'trader_macd_NEO',
-    "interval": "15m",
-    options: {
-      period: '12h',
-    },
-  }, ],
-});
+// c.symbols.push({
+//   symbol: 'NEOUSDT',
+//   periods: ['1h', '2h', '4h', '6h', '12h'],
+//   exchange: 'binance',
+//   state: 'watch',
+//   watchdogs: [{
+//     name: 'stoploss_watch',
+//     stop: 1.5,
+//   }, ],
+//   strategies: [{
+//     strategy: 'trader_macd_NEO',
+//     "interval": "15m",
+//     options: {
+//       period: '12h',
+//     },
+//   }, ],
+// });
