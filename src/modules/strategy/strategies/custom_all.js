@@ -16,9 +16,9 @@ module.exports = class TraderCustom {
 
 
     indicatorBuilder.add('macd_6h', 'macd_ext', '6h', {
-      fast_period: 9,
-      slow_period: 26,
-      signal_period: 11,
+      fast_period: 5, //9
+      slow_period: 39,  //26
+      signal_period: 7, //11
     });
 
     indicatorBuilder.add('macd_6H_01', 'macd_ext', '6h', {
@@ -57,11 +57,39 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('ema1006H', 'ema', '6h', {
       length: 100,
     });
-    
+
+
+    indicatorBuilder.add('hma_high6h', 'hma', '6h', {
+      length: 12,
+      source: 'high'
+    });
+
+    // line for long entry or short exit
+    indicatorBuilder.add('hma_low6h', 'hma', '6h', {
+      length: 12,
+      source: 'low'
+    });
+
+    // basic price normalizer
+    indicatorBuilder.add('hma6h', 'hma', '6h', {
+      length: 9
+    });
+
+    // our main direction
+    const trendCloudMultiplier_6h = 4;
+    indicatorBuilder.add('cloud6h', 'ichimoku_cloud', '6h', {
+      conversionPeriod: 9 * trendCloudMultiplier_6h,
+      basePeriod: 26 * trendCloudMultiplier_6h,
+      spanPeriod: 52 * trendCloudMultiplier_6h,
+      displacement: 26 * trendCloudMultiplier_6h
+    });
+
+    indicatorBuilder.add('bb6h', 'bb', '6h');
+
 
     //4h
 
-    
+
 
     indicatorBuilder.add('cci4H', 'cci', '4h', {
       length: 14,
@@ -71,7 +99,7 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('obv4h', 'obv', '4h');
 
     indicatorBuilder.add('ao4h', 'ao', '4h');
-    
+
 
 
     indicatorBuilder.add('sma2004H', 'sma', '4h', {
@@ -107,6 +135,34 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('rsi4h', 'rsi', '4h');
 
 
+    indicatorBuilder.add('hma_high4h', 'hma', '4h', {
+      length: 12,
+      source: 'high'
+    });
+
+    // line for long entry or short exit
+    indicatorBuilder.add('hma_low4h', 'hma', '4h', {
+      length: 12,
+      source: 'low'
+    });
+
+    // basic price normalizer
+    indicatorBuilder.add('hma4h', 'hma', '4h', {
+      length: 9
+    });
+
+    // our main direction
+    const trendCloudMultiplier_4h = 4;
+    indicatorBuilder.add('cloud4h', 'ichimoku_cloud', '4h', {
+      conversionPeriod: 9 * trendCloudMultiplier_4h,
+      basePeriod: 26 * trendCloudMultiplier_4h,
+      spanPeriod: 52 * trendCloudMultiplier_4h,
+      displacement: 26 * trendCloudMultiplier_4h
+    });
+
+    indicatorBuilder.add('bb4h', 'bb', '4h');
+
+
     //12h
 
     indicatorBuilder.add('macd_12h_01', 'macd_ext', '12h', {
@@ -137,6 +193,34 @@ module.exports = class TraderCustom {
     });
 
     indicatorBuilder.add('rsi12h', 'rsi', '12h');
+
+
+    indicatorBuilder.add('hma_high12h', 'hma', '12h', {
+      length: 14,
+      source: 'high'
+    });
+
+    // line for long entry or short exit
+    indicatorBuilder.add('hma_low12h', 'hma', '12h', {
+      length: 14,
+      source: 'low'
+    });
+
+    // basic price normalizer
+    indicatorBuilder.add('hma12h', 'hma', '12h', {
+      length: 9
+    });
+
+    // our main direction
+    const trendCloudMultiplier_12h = 4;
+    indicatorBuilder.add('cloud12h', 'ichimoku_cloud', '12h', {
+      conversionPeriod: 9 * trendCloudMultiplier_12h,
+      basePeriod: 26 * trendCloudMultiplier_12h,
+      spanPeriod: 52 * trendCloudMultiplier_12h,
+      displacement: 26 * trendCloudMultiplier_12h
+    });
+
+    indicatorBuilder.add('bb12h', 'bb', '12h');
   }
 
   period(indicatorPeriod, options, buy_or_sells, symbol) {
@@ -172,6 +256,21 @@ module.exports = class TraderCustom {
       indicatorPeriod.getIndicator('sma20012h'),
       indicatorPeriod.getIndicator('ema20012h'),
       indicatorPeriod.getIndicator('rsi12h'),
+      indicatorPeriod.getIndicator('hma6h'),
+      indicatorPeriod.getIndicator('hma_low6h'),
+      indicatorPeriod.getIndicator('hma_high6h'),
+      indicatorPeriod.getIndicator('bb6h'),
+      indicatorPeriod.getIndicator('cloud6h'),
+      indicatorPeriod.getIndicator('hma4h'),
+      indicatorPeriod.getIndicator('hma_low4h'),
+      indicatorPeriod.getIndicator('hma_high4h'),
+      indicatorPeriod.getIndicator('bb4h'),
+      indicatorPeriod.getIndicator('cloud4h'),
+      indicatorPeriod.getIndicator('hma12h'),
+      indicatorPeriod.getIndicator('hma_low12h'),
+      indicatorPeriod.getIndicator('hma_high12h'),
+      indicatorPeriod.getIndicator('bb12h'),
+      indicatorPeriod.getIndicator('cloud12h'),
       indicatorPeriod.getLastSignal()
     );
   }
@@ -208,6 +307,21 @@ module.exports = class TraderCustom {
     sma20012hFull,
     ema20012hFull,
     rsi12hFull,
+    hma6hFull,
+    hma_low6hFull,
+    hma_high6hFull,
+    bb6hFull,
+    cloud6hFull,
+    hma4hFull,
+    hma_low4hFull,
+    hma_high4hFull,
+    bb4hFull,
+    cloud4hFull,
+    hma12hFull,
+    hma_low12hFull,
+    hma_high12hFull,
+    bb12hFull,
+    cloud12hFull,
     lastSignal
   ) {
     // console.log('******Entra*****  1  **********--->');
@@ -296,6 +410,23 @@ module.exports = class TraderCustom {
     // if (!rsi12hFull) {
     //   console.log('rsi12hFull-->' + rsi12hFull);
     // }
+
+    // if (!hma6hFull) {
+    //   console.log('hma6hFull-->' + hma6hFull);
+    // }
+    // if (!hma_low6hFull) {
+    //   console.log('hma_low6hFull-->' + hma_low6hFull);
+    // }
+    // if (!hma_high6hFull) {
+    //   console.log('hma_high6hFull-->' + hma_high6hFull);
+    // }
+    // if (!bb6hFull) {
+    //   console.log('bb6hFull-->' + bb6hFull);
+    // }
+    // if (!cloud6hFull) {
+    //   console.log('cloud6hFull-->' + cloud6hFull);
+    // }
+
 
     // if (cci6HFull.length <= 0) {
     //   console.log(' cci6HFull.length <= 0-->');
@@ -473,6 +604,24 @@ module.exports = class TraderCustom {
     const rsi4H = rsi4HFull.slice(0, -1);
     const rsi12h = rsi12hFull.slice(0, -1);
 
+    const hma6H = hma6hFull.slice(-2);
+    const hmaLow6H = hma_low6hFull.slice(-2);
+    const hmaHigh6H = hma_high6hFull.slice(-2);
+    const bb6H = bb6hFull.slice(-2);
+    const cloud6H = cloud6hFull.slice(-1);
+
+    const hma4H = hma4hFull.slice(-2);
+    const hmaLow4H = hma_low4hFull.slice(-2);
+    const hmaHigh4H = hma_high4hFull.slice(-2);
+    const bb4H = bb4hFull.slice(-2);
+    const cloud4H = cloud4hFull.slice(-1);
+
+    const hma12H = hma12hFull.slice(-2);
+    const hmaLow12H = hma_low12hFull.slice(-2);
+    const hmaHigh12H = hma_high12hFull.slice(-2);
+    const bb12H = bb12hFull.slice(-2);
+    const cloud12H = cloud12hFull.slice(-1);
+
     // console.log('***************************rsi6H***************--->' + rsi6H);
 
     // const debug = {
@@ -531,6 +680,9 @@ module.exports = class TraderCustom {
       rsi6H: 0,
       rsi4H: 0,
       rsi12h: 0,
+      dip6H: 0,
+      dip4H: 0,
+      dip12H: 0,
       sell: 0,
       buy: 0,
       last_signal: lastSignal,
@@ -573,6 +725,10 @@ module.exports = class TraderCustom {
     let count_rsi4H = 1.5;
     let count_rsi12h = 1;
 
+    let count_dip6H = 1.75;
+    let count_dip4H = 1.5;
+    let count_dip12H = 1;
+
     //SMA & LONG
 
     //6H
@@ -605,12 +761,12 @@ module.exports = class TraderCustom {
     let parameters_by_symbol = [{
         symbol: 'ADAUSDT',
         parameters: {
+          triggerMultiplier_4h: 1.015,
+          triggerTimeWindows_4h: 1,
           triggerMultiplier_6h: 1.099,
           triggerTimeWindows_6h: 1,
-          triggerMultiplier_4h: 1.024,
-          triggerTimeWindows_4h: 2,
-          triggerMultiplier_12h: 1.035,
-          triggerTimeWindows_12h: 6,
+          triggerMultiplier_12h: 1.008,
+          triggerTimeWindows_12h: 1,
         }
       },
       {
@@ -897,7 +1053,7 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 12h
 
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 20, 80);
+    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 30, 70);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
@@ -905,19 +1061,41 @@ module.exports = class TraderCustom {
 
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
+    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 30, 70);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
     debug.rsi4H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, 20, 80);
+    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, 25, 70);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi12h += resolve_rsi.buy;
     debug.rsi12h -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
+
+
+    let resolve_dip = this.resolve_dip(debug, lastSignal, hma6H, hmaLow6H, hmaHigh6H, bb6H, cloud6H, count_dip6H)
+    count_signals_buy += resolve_dip.buy;
+    count_signals_sell += resolve_dip.sell;
+    debug.dip6H += resolve_dip.buy;
+    debug.dip6H -= resolve_dip.sell;
+    debug = resolve_dip.debug;
+
+    resolve_dip = this.resolve_dip(debug, lastSignal, hma4H, hmaLow4H, hmaHigh4H, bb4H, cloud4H, count_dip4H)
+    count_signals_buy += resolve_dip.buy;
+    count_signals_sell += resolve_dip.sell;
+    debug.dip4H += resolve_dip.buy;
+    debug.dip4H -= resolve_dip.sell;
+    debug = resolve_dip.debug;
+
+    resolve_dip = this.resolve_dip(debug, lastSignal, hma12H, hmaLow12H, hmaHigh12H, bb12H, cloud12H, count_dip12H)
+    count_signals_buy += resolve_dip.buy;
+    count_signals_sell += resolve_dip.sell;
+    debug.dip12H += resolve_dip.buy;
+    debug.dip12H -= resolve_dip.sell;
+    debug = resolve_dip.debug;
 
     // console.log('******price***************--->' + price);
     // console.log('************count_signals_buy***************--->' + count_signals_buy);
@@ -1004,6 +1182,12 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
+        label: 'dip4H',
+        value: 'dip4H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
         label: 'cci6H',
         value: 'cci6H',
         type: 'cross',
@@ -1057,7 +1241,12 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      
+      {
+        label: 'dip6H',
+        value: 'dip6H',
+        type: 'cross',
+        type: 'sma200',
+      },
       {
         label: 'cci12h',
         value: 'cci12h',
@@ -1103,6 +1292,12 @@ module.exports = class TraderCustom {
       {
         label: 'ao12h',
         value: 'ao12h',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'dip12H',
+        value: 'dip12H',
         type: 'cross',
         type: 'sma200',
       },
@@ -1307,5 +1502,58 @@ module.exports = class TraderCustom {
       sell: 0,
       debug: debug
     };
+  }
+
+  resolve_dip(debug, lastSignal, hma, hmaLow, hmaHigh, bb, cloud, count_dip) {
+
+    if (!cloud[0] || !hma[0]) {
+      return {
+        buy: 0,
+        sell: 0,
+        debug: debug
+      };
+    }
+
+    // follow the main trend with entries
+    const isLong = hma[0] > cloud[0].spanB;
+
+    if (hmaLow[0] > bb[0].lower && hmaLow[1] < bb[1].lower) {
+      if (!lastSignal && isLong) {
+        return {
+          buy: count_dip,
+          sell: 0,
+          debug: debug
+        };
+      } else if (lastSignal) {
+        return {
+          buy: 0,
+          sell: count_dip,
+          debug: debug
+        };
+      }
+    }
+
+    if (hmaHigh[0] < bb[0].upper && hmaHigh[1] > bb[1].upper) {
+      if (!lastSignal && !isLong) {
+        return {
+          buy: 0,
+          sell: count_dip,
+          debug: debug
+        };
+      } else if (lastSignal) {
+        return {
+          buy: count_dip,
+          sell: 0,
+          debug: debug
+        };
+      }
+    }
+
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
+
   }
 };

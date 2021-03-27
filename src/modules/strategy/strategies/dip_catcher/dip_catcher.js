@@ -32,7 +32,7 @@ module.exports = class DipCatcher {
       displacement: 26 * trendCloudMultiplier
     });
 
-    indicatorBuilder.add('bb', 'bb', '15m');
+    indicatorBuilder.add('bb', 'bb', options.period);
   }
 
   period(indicatorPeriod) {
@@ -41,6 +41,7 @@ module.exports = class DipCatcher {
     const hma = indicatorPeriod.getIndicator('hma').slice(-2);
     const hmaLow = indicatorPeriod.getIndicator('hma_low').slice(-2);
     const hmaHigh = indicatorPeriod.getIndicator('hma_high').slice(-2);
+    console.log('bollinger*****************************'+indicatorPeriod.getIndicator('bb'))
     const bb = indicatorPeriod.getIndicator('bb').slice(-2);
     const cloud = indicatorPeriod.getIndicator('cloud').slice(-1);
 

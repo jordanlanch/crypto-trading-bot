@@ -5,6 +5,7 @@ module.exports = class DipCatcherCustom {
     return 'dip_catcher_custom';
   }
 
+  
   buildIndicator(indicatorBuilder, options) {
     // line for short entry or long exit
     indicatorBuilder.add('hma_high', 'hma', options.period, {
@@ -32,10 +33,10 @@ module.exports = class DipCatcherCustom {
       displacement: 26 * trendCloudMultiplier
     });
 
-    indicatorBuilder.add('bb', 'bb', '15m');
+    indicatorBuilder.add('bb', 'bb', options.period);
   }
 
-  period(indicatorPeriod, options, buy_or_sell) {
+  period(indicatorPeriod) {
     const currentValues = indicatorPeriod.getLatestIndicators();
 
     const hma = indicatorPeriod.getIndicator('hma').slice(-2);
@@ -47,22 +48,6 @@ module.exports = class DipCatcherCustom {
     const emptySignal = SignalResult.createEmptySignal(currentValues);
 
     if (!cloud[0] || !hma[0]) {
-      if (buy_or_sell.buy == 2) {
-        emptySignal.addDebug('incrementLogGlobal', buy_or_sell.incrementLogGlobal);
-        emptySignal.addDebug('incremetShortTOP', buy_or_sell.incremetShortTOP);
-        emptySignal.addDebug('incrementLogTOP', buy_or_sell.incrementLogTOP);
-        emptySignal.addDebug('incremetShortGlobal', buy_or_sell.incremetShortGlobal);
-
-        emptySignal.setSignal('long');
-      }
-      if (buy_or_sell.sell == 2) {
-        emptySignal.addDebug('incrementLogGlobal', buy_or_sell.incrementLogGlobal);
-        emptySignal.addDebug('incremetShortTOP', buy_or_sell.incremetShortTOP);
-        emptySignal.addDebug('incrementLogTOP', buy_or_sell.incrementLogTOP);
-        emptySignal.addDebug('incremetShortGlobal', buy_or_sell.incremetShortGlobal);
-
-        emptySignal.setSignal('long');
-      }
       return emptySignal;
     }
 

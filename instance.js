@@ -715,7 +715,7 @@ c.init = () => {
 //         ]
 //     })
 // })
-let z = ['BTCUSDT'];
+let z = ['ADAUSDT','BTCUSDT'];
 
 z.forEach((pair) => {
   c.symbols.push({

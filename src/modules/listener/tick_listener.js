@@ -327,4 +327,5 @@ module.exports = class TickListener {
     const number = Math.ceil(new Date().getTime() / interval) * interval;
     return new Date(number).getTime() - new Date().getTime();
   }
+  
 };
