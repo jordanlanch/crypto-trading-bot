@@ -543,7 +543,7 @@ c.init = async () => {
   // });
 
   // Binance futures
-//   c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
+  //   c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
 
   // Bitfinex USD margin pairs
   // c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
@@ -715,48 +715,112 @@ c.init = () => {
 //         ]
 //     })
 // })
-let z = ['ADAUSDT','BTCUSDT'];
+// let z = ['ADAUSDT', 'BTCUSDT'];
 
-z.forEach((pair) => {
-  c.symbols.push({
-    symbol: pair,
-    periods: ['1h', '2h', '4h', '6h', '12h'],
-    exchange: 'binance',
-    state: 'watch',
-    watchdogs: [
-      {
-        name: 'stoploss_watch',
-        stop: 1.5,
-      },
-    ],
-    strategies: [
-      {
-        strategy: 'custom_all',
-        options: {
-          period: '4h',
-        },
-      },
-    ],
-  });
+// z.forEach((pair) => {
+//   c.symbols.push({
+//     symbol: pair,
+//     periods: ['1h', '2h', '4h', '6h', '12h'],
+//     exchange: 'binance',
+//     state: 'watch',
+//     watchdogs: [{
+//       name: 'stoploss_watch',
+//       stop: 1.5,
+//     }, ],
+//     strategies: [{
+//       strategy: 'custom_all',
+//       options: {
+//         period: '4h',
+//       },
+//     }, ],
+//   });
+// });
+
+c.symbols.push({
+  symbol: 'BTCUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h', '1d'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'custom_all',
+    "interval": "15m",
+    options: {
+      cci4H_length: 16,
+      macd_4h_fast_period: 6,
+      macd_4h_slow_period: 13,
+      macd_4h_signal_period: 9,
+      hma_high4h_length: 16,
+      hma_low4h_length: 16,
+      hma4h_length: 9,
+      trendCloudMultiplier_4h: 4,
+
+      cci6H_length: 20,
+      macd_6h_fast_period: 9,
+      macd_6h_slow_period: 26,
+      macd_6h_signal_period: 11,
+      hma_high6h_length: 12,
+      hma_low6h_length: 12,
+      hma6h_length: 9,
+      trendCloudMultiplier_6h: 4,
+
+      cci12h_length: 12,
+      macd_12h_01_fast_period: 6,
+      macd_12h_01_slow_period: 13,
+      macd_12h_01_signal_period: 9,
+      hma_high12h_length: 12,
+      hma_low12h_length: 12,
+      hma12h_length: 9,
+      trendCloudMultiplier_12h: 4,
+    },
+  }, ],
 });
 
-// c.symbols.push({
-//   symbol: 'BTCUSDT',
-//   periods: ['1h', '2h', '4h', '6h', '12h','1d'],
-//   exchange: 'binance',
-//   state: 'watch',
-//   watchdogs: [{
-//     name: 'stoploss_watch',
-//     stop: 1.5,
-//   }, ],
-//   strategies: [{
-//     strategy: 'custom_all',
-//     "interval": "15m",
-//     options: {
-//       period: '12h',
-//     },
-//   }, ],
-// });
+c.symbols.push({
+  symbol: 'ADAUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'custom_all',
+    "interval": "15m",
+    options: {
+      cci4H_length: 25,
+      macd_4h_fast_period: 6,
+      macd_4h_slow_period: 13,
+      macd_4h_signal_period: 9,
+      hma_high4h_length: 20,
+      hma_low4h_length: 20,
+      hma4h_length: 9,
+      trendCloudMultiplier_4h: 4,
+
+      cci6H_length: 12,
+      macd_6h_fast_period: 9,
+      macd_6h_slow_period: 26,
+      macd_6h_signal_period: 11,
+      hma_high6h_length: 12,
+      hma_low6h_length: 12,
+      hma6h_length: 9,
+      trendCloudMultiplier_6h: 4,
+
+      cci12h_length: 12,
+      macd_12h_01_fast_period: 6,
+      macd_12h_01_slow_period: 13,
+      macd_12h_01_signal_period: 9,
+      hma_high12h_length: 12,
+      hma_low12h_length: 12,
+      hma12h_length: 9,
+      trendCloudMultiplier_12h: 4,
+    },
+  }, ],
+});
 
 // c.symbols.push({
 //   symbol: 'ETHUSDT',
@@ -768,10 +832,35 @@ z.forEach((pair) => {
 //     stop: 1.5,
 //   }, ],
 //   strategies: [{
-//     strategy: 'trader_macd_ETH',
+//     strategy: 'custom_all',
 //     "interval": "15m",
 //     options: {
-//       period: '12h',
+//       cci4H_length: 25,
+//       macd_4h_fast_period: 6,
+//       macd_4h_slow_period: 26,
+//       macd_4h_signal_period: 9,
+//       hma_high4h_length: 20,
+//       hma_low4h_length: 20,
+//       hma4h_length: 9,
+//       trendCloudMultiplier_4h: 4,
+
+//       cci6H_length: 12,
+//       macd_6h_fast_period: 9,
+//       macd_6h_slow_period: 26,
+//       macd_6h_signal_period: 11,
+//       hma_high6h_length: 12,
+//       hma_low6h_length: 12,
+//       hma6h_length: 9,
+//       trendCloudMultiplier_6h: 4,
+
+//       cci12h_length: 20,
+//       macd_12h_01_fast_period: 9,
+//       macd_12h_01_slow_period: 26,
+//       macd_12h_01_signal_period: 11,
+//       hma_high12h_length: 10,
+//       hma_low12h_length: 10,
+//       hma12h_length: 9,
+//       trendCloudMultiplier_12h: 2,
 //     },
 //   }, ],
 // });
@@ -830,23 +919,7 @@ z.forEach((pair) => {
 //   }, ],
 // });
 
-// c.symbols.push({
-//   symbol: 'ADAUSDT',
-//   periods: ['1h', '2h', '4h', '6h', '12h'],
-//   exchange: 'binance',
-//   state: 'watch',
-//   watchdogs: [{
-//     name: 'stoploss_watch',
-//     stop: 1.5,
-//   }, ],
-//   strategies: [{
-//     strategy: 'trader_macd_ADA',
-//     "interval": "15m",
-//     options: {
-//       period: '12h',
-//     },
-//   }, ],
-// });
+
 
 // c.symbols.push({
 //   symbol: 'ETCUSDT',

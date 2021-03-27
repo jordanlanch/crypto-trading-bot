@@ -11,14 +11,14 @@ module.exports = class TraderCustom {
     // }
     //6H
     indicatorBuilder.add('cci6H', 'cci', '6h', {
-      length: 12,
+      length: options.cci6H_length || 16,
     });
 
 
     indicatorBuilder.add('macd_6h', 'macd_ext', '6h', {
-      fast_period: 5, //9
-      slow_period: 39,  //26
-      signal_period: 7, //11
+      fast_period: options.macd_6h_fast_period || 9, //9
+      slow_period: options.macd_6h_slow_period || 26, //26
+      signal_period: options.macd_6h_signal_period || 11, //11
     });
 
     indicatorBuilder.add('macd_6H_01', 'macd_ext', '6h', {
@@ -60,23 +60,23 @@ module.exports = class TraderCustom {
 
 
     indicatorBuilder.add('hma_high6h', 'hma', '6h', {
-      length: 12,
+      length: options.hma_high6h_length || 14,
       source: 'high'
     });
 
     // line for long entry or short exit
     indicatorBuilder.add('hma_low6h', 'hma', '6h', {
-      length: 12,
+      length: options.hma_low6h_length || 14,
       source: 'low'
     });
 
     // basic price normalizer
     indicatorBuilder.add('hma6h', 'hma', '6h', {
-      length: 9
+      length: options.hma6h_length || 9
     });
 
     // our main direction
-    const trendCloudMultiplier_6h = 4;
+    const trendCloudMultiplier_6h = options.trendCloudMultiplier_6h || 5;
     indicatorBuilder.add('cloud6h', 'ichimoku_cloud', '6h', {
       conversionPeriod: 9 * trendCloudMultiplier_6h,
       basePeriod: 26 * trendCloudMultiplier_6h,
@@ -92,7 +92,7 @@ module.exports = class TraderCustom {
 
 
     indicatorBuilder.add('cci4H', 'cci', '4h', {
-      length: 14,
+      length: options.cci4H_length || 16,
     });
 
 
@@ -103,7 +103,7 @@ module.exports = class TraderCustom {
 
 
     indicatorBuilder.add('sma2004H', 'sma', '4h', {
-      length: 55,
+      length: 200,
     });
     indicatorBuilder.add('ema2004H', 'ema', '4h', {
       length: 200,
@@ -127,32 +127,32 @@ module.exports = class TraderCustom {
 
 
     indicatorBuilder.add('macd_4h', 'macd_ext', '4h', {
-      fast_period: 6,
-      slow_period: 13,
-      signal_period: 9,
+      fast_period: options.macd_4h_fast_period || 6,
+      slow_period: options.macd_4h_slow_period || 13,
+      signal_period: options.macd_4h_signal_period || 9,
     });
 
     indicatorBuilder.add('rsi4h', 'rsi', '4h');
 
 
     indicatorBuilder.add('hma_high4h', 'hma', '4h', {
-      length: 12,
+      length: options.hma_high4h_length || 14,
       source: 'high'
     });
 
     // line for long entry or short exit
     indicatorBuilder.add('hma_low4h', 'hma', '4h', {
-      length: 12,
+      length: options.hma_low4h_length || 14,
       source: 'low'
     });
 
     // basic price normalizer
     indicatorBuilder.add('hma4h', 'hma', '4h', {
-      length: 9
+      length: options.hma4h_length || 9
     });
 
     // our main direction
-    const trendCloudMultiplier_4h = 4;
+    const trendCloudMultiplier_4h = options.trendCloudMultiplier_4h || 5;
     indicatorBuilder.add('cloud4h', 'ichimoku_cloud', '4h', {
       conversionPeriod: 9 * trendCloudMultiplier_4h,
       basePeriod: 26 * trendCloudMultiplier_4h,
@@ -164,11 +164,14 @@ module.exports = class TraderCustom {
 
 
     //12h
+    indicatorBuilder.add('cci12h', 'cci', '12h', {
+      length: options.cci12h_length || 14,
+    });
 
     indicatorBuilder.add('macd_12h_01', 'macd_ext', '12h', {
-      fast_period: 6,
-      slow_period: 25,
-      signal_period: 10,
+      fast_period: options.macd_12h_01_fast_period || 6,
+      slow_period: options.macd_12h_01_slow_period || 25,
+      signal_period: options.macd_12h_01_signal_period || 10,
     });
 
     indicatorBuilder.add('macd_12h_02', 'macd_ext', '12h', {
@@ -177,16 +180,13 @@ module.exports = class TraderCustom {
       signal_period: 9,
     });
 
-    indicatorBuilder.add('cci12h', 'cci', '12h', {
-      length: 14,
-    });
 
     indicatorBuilder.add('obv12h', 'obv', '12h');
 
     indicatorBuilder.add('ao12h', 'ao', '12h');
 
     indicatorBuilder.add('sma20012h', 'sma', '6h', {
-      length: 100,
+      length: 200,
     });
     indicatorBuilder.add('ema20012h', 'ema', '12h', {
       length: 200,
@@ -196,23 +196,23 @@ module.exports = class TraderCustom {
 
 
     indicatorBuilder.add('hma_high12h', 'hma', '12h', {
-      length: 14,
+      length: options.hma_high12h_length || 14,
       source: 'high'
     });
 
     // line for long entry or short exit
     indicatorBuilder.add('hma_low12h', 'hma', '12h', {
-      length: 14,
+      length: options.hma_low12h_length || 14,
       source: 'low'
     });
 
     // basic price normalizer
     indicatorBuilder.add('hma12h', 'hma', '12h', {
-      length: 9
+      length: options.hma12h_length || 9
     });
 
     // our main direction
-    const trendCloudMultiplier_12h = 4;
+    const trendCloudMultiplier_12h = options.trendCloudMultiplier_12h || 4;
     indicatorBuilder.add('cloud12h', 'ichimoku_cloud', '12h', {
       conversionPeriod: 9 * trendCloudMultiplier_12h,
       basePeriod: 26 * trendCloudMultiplier_12h,
@@ -705,29 +705,29 @@ module.exports = class TraderCustom {
     /*
     levels signals
     */
-    let count_ovb6H = 1.75;
-    let count_ovb4H = 1.5;
-    let count_ovb12h = 1;
+    let count_ovb4H = 1;
+    let count_ovb6H = 1.5;
+    let count_ovb12h = 2;
 
-    let count_cci6H = 1.75;
-    let count_cci4H = 1.5;
-    let count_cci12h = 1;
+    let count_cci4H = 1;
+    let count_cci6H = 1.5;
+    let count_cci12h = 2;
 
-    let count_macd6H = 1.75;
-    let count_macd4H = 1.5;
-    let count_macd12h = 1;
+    let count_macd4H = 1;
+    let count_macd6H = 1.5;
+    let count_macd12h = 2;
 
-    let count_ao6H = 1.75;
-    let count_ao4H = 1.5;
-    let count_ao12h = 1;
+    let count_ao4H = 1;
+    let count_ao6H = 1.5;
+    let count_ao12h = 2;
 
-    let count_rsi6H = 1.75;
-    let count_rsi4H = 1.5;
-    let count_rsi12h = 1;
+    let count_rsi4H = 1;
+    let count_rsi6H = 1.5;
+    let count_rsi12h = 2;
 
-    let count_dip6H = 1.75;
-    let count_dip4H = 1.5;
-    let count_dip12H = 1;
+    let count_dip4H = 1;
+    let count_dip6H = 1.5;
+    let count_dip12H = 2;
 
     //SMA & LONG
 
@@ -816,12 +816,12 @@ module.exports = class TraderCustom {
       {
         symbol: 'ETHUSDT',
         parameters: {
+          triggerMultiplier_4h: 1.071,
+          triggerTimeWindows_4h: 1,
           triggerMultiplier_6h: 1.021,
           triggerTimeWindows_6h: 1,
-          triggerMultiplier_4h: 1.071,
-          triggerTimeWindows_4h: 4,
           triggerMultiplier_12h: 1.058,
-          triggerTimeWindows_12h: 2,
+          triggerTimeWindows_12h: 1,
         }
       },
       {
@@ -1053,7 +1053,7 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 12h
 
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 30, 70);
+    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 25, 75);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
@@ -1061,14 +1061,14 @@ module.exports = class TraderCustom {
 
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 30, 70);
+    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 25, 75);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
     debug.rsi4H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, 25, 70);
+    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, 25, 75);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi12h += resolve_rsi.buy;
@@ -1266,12 +1266,6 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
-        label: 'cci12h',
-        value: 'cci12h',
-        type: 'cross',
-        type: 'sma200',
-      },
-      {
         label: 'macd12h01',
         value: 'macd12h01',
         type: 'cross',
@@ -1306,7 +1300,32 @@ module.exports = class TraderCustom {
 
   getOptions() {
     return {
-      period: '4h',
+      cci4H_length: 25,
+      macd_4h_fast_period: 6,
+      macd_4h_slow_period: 26,
+      macd_4h_signal_period: 9,
+      hma_high4h_length: 20,
+      hma_low4h_length: 20,
+      hma4h_length: 9,
+      trendCloudMultiplier_4h: 4,
+
+      cci6H_length: 12,
+      macd_6h_fast_period: 9,
+      macd_6h_slow_period: 26,
+      macd_6h_signal_period: 11,
+      hma_high6h_length: 12,
+      hma_low6h_length: 12,
+      hma6h_length: 9,
+      trendCloudMultiplier_6h: 4,
+
+      cci12h_length: 20,
+      macd_12h_01_fast_period: 9,
+      macd_12h_01_slow_period: 26,
+      macd_12h_01_signal_period: 11,
+      hma_high12h_length: 10,
+      hma_low12h_length: 10,
+      hma12h_length: 9,
+      trendCloudMultiplier_12h: 2,
     };
   }
 
@@ -1518,32 +1537,20 @@ module.exports = class TraderCustom {
     const isLong = hma[0] > cloud[0].spanB;
 
     if (hmaLow[0] > bb[0].lower && hmaLow[1] < bb[1].lower) {
-      if (!lastSignal && isLong) {
+      if (isLong) {
         return {
           buy: count_dip,
           sell: 0,
-          debug: debug
-        };
-      } else if (lastSignal) {
-        return {
-          buy: 0,
-          sell: count_dip,
           debug: debug
         };
       }
     }
 
     if (hmaHigh[0] < bb[0].upper && hmaHigh[1] > bb[1].upper) {
-      if (!lastSignal && !isLong) {
+      if (!isLong) {
         return {
           buy: 0,
           sell: count_dip,
-          debug: debug
-        };
-      } else if (lastSignal) {
-        return {
-          buy: count_dip,
-          sell: 0,
           debug: debug
         };
       }
