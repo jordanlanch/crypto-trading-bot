@@ -271,6 +271,7 @@ module.exports = class TraderCustom {
       indicatorPeriod.getIndicator('hma_high12h'),
       indicatorPeriod.getIndicator('bb12h'),
       indicatorPeriod.getIndicator('cloud12h'),
+      options,
       indicatorPeriod.getLastSignal()
     );
   }
@@ -322,6 +323,7 @@ module.exports = class TraderCustom {
     hma_high12hFull,
     bb12hFull,
     cloud12hFull,
+    options,
     lastSignal
   ) {
     // console.log('******Entra*****  1  **********--->');
@@ -758,28 +760,7 @@ module.exports = class TraderCustom {
 
     //map by symbol
 
-    let parameters_by_symbol = [{
-        symbol: 'ADAUSDT',
-        parameters: {
-          triggerMultiplier_4h: 1.015,
-          triggerTimeWindows_4h: 1,
-          triggerMultiplier_6h: 1.099,
-          triggerTimeWindows_6h: 1,
-          triggerMultiplier_12h: 1.008,
-          triggerTimeWindows_12h: 1,
-        }
-      },
-      {
-        symbol: 'TRXUSDT',
-        parameters: {
-          triggerMultiplier_6h: 1.027,
-          triggerTimeWindows_6h: 2,
-          triggerMultiplier_4h: 1.02,
-          triggerTimeWindows_4h: 2.5,
-          triggerMultiplier_12h: 1.028,
-          triggerTimeWindows_12h: 2,
-        }
-      },
+    let parameters_by_symbol = [
       {
         symbol: 'BTCUSDT',
         parameters: {
@@ -791,6 +772,43 @@ module.exports = class TraderCustom {
           triggerTimeWindows_12h: 1.5,
         }
       },
+      {
+      
+        symbol: 'ADAUSDT',
+        parameters: {
+          triggerMultiplier_4h: 1.015,
+          triggerTimeWindows_4h: 1,
+          triggerMultiplier_6h: 1.099,
+          triggerTimeWindows_6h: 1,
+          triggerMultiplier_12h: 1.008,
+          triggerTimeWindows_12h: 1,
+        }
+      },
+      {
+        symbol: 'XRPUSDT',
+        parameters: {
+          triggerMultiplier_4h: 1.011,
+          triggerTimeWindows_4h: 1,
+          triggerMultiplier_6h: 1.019,
+          triggerTimeWindows_6h: 1.5,
+          triggerMultiplier_12h: 1.027,
+          triggerTimeWindows_12h: 1.5,
+        }
+      },
+
+      
+      {
+        symbol: 'TRXUSDT',
+        parameters: {
+          triggerMultiplier_6h: 1.027,
+          triggerTimeWindows_6h: 2,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 2.5,
+          triggerMultiplier_12h: 1.028,
+          triggerTimeWindows_12h: 2,
+        }
+      },
+     
       {
         symbol: 'DOTUSDT',
         parameters: {
@@ -805,12 +823,12 @@ module.exports = class TraderCustom {
       {
         symbol: 'EOSUSDT',
         parameters: {
-          triggerMultiplier_6h: 1.217,
-          triggerTimeWindows_6h: 3,
+          triggerMultiplier_6h: 1.041,
+          triggerTimeWindows_6h: 1,
           triggerMultiplier_4h: 0.93,
-          triggerTimeWindows_4h: 4,
-          triggerMultiplier_12h: 0.9837,
-          triggerTimeWindows_12h: 2,
+          triggerTimeWindows_4h: 2,
+          triggerMultiplier_12h: 1.075,
+          triggerTimeWindows_12h: 1,
         }
       },
       {
@@ -824,17 +842,7 @@ module.exports = class TraderCustom {
           triggerTimeWindows_12h: 1,
         }
       },
-      {
-        symbol: 'XRPUSDT',
-        parameters: {
-          triggerMultiplier_6h: 1.021,
-          triggerTimeWindows_6h: 3,
-          triggerMultiplier_4h: 1.064,
-          triggerTimeWindows_4h: 4,
-          triggerMultiplier_12h: 1.058,
-          triggerTimeWindows_12h: 3,
-        }
-      },
+      
       {
         symbol: 'LTCUSDT',
         parameters: {
@@ -1053,7 +1061,7 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 12h
 
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 25, 75);
+    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, options.rsi_min_6h, options.rsi_max_6h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
@@ -1061,14 +1069,14 @@ module.exports = class TraderCustom {
 
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 25, 75);
+    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, options.rsi_min_4h, options.rsi_max_4h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
     debug.rsi4H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, 25, 75);
+    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, options.rsi_min_12h, options.rsi_max_12h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi12h += resolve_rsi.buy;
@@ -1302,12 +1310,14 @@ module.exports = class TraderCustom {
     return {
       cci4H_length: 25,
       macd_4h_fast_period: 6,
-      macd_4h_slow_period: 26,
+      macd_4h_slow_period: 13,
       macd_4h_signal_period: 9,
       hma_high4h_length: 20,
       hma_low4h_length: 20,
       hma4h_length: 9,
       trendCloudMultiplier_4h: 4,
+      rsi_min_4h: 25,
+      rsi_max_4h: 75,
 
       cci6H_length: 12,
       macd_6h_fast_period: 9,
@@ -1317,15 +1327,19 @@ module.exports = class TraderCustom {
       hma_low6h_length: 12,
       hma6h_length: 9,
       trendCloudMultiplier_6h: 4,
+      rsi_min_6h: 25,
+      rsi_max_6h: 75,
 
-      cci12h_length: 20,
-      macd_12h_01_fast_period: 9,
-      macd_12h_01_slow_period: 26,
-      macd_12h_01_signal_period: 11,
-      hma_high12h_length: 10,
-      hma_low12h_length: 10,
+      cci12h_length: 12,
+      macd_12h_01_fast_period: 6,
+      macd_12h_01_slow_period: 13,
+      macd_12h_01_signal_period: 9,
+      hma_high12h_length: 12,
+      hma_low12h_length: 12,
       hma12h_length: 9,
-      trendCloudMultiplier_12h: 2,
+      trendCloudMultiplier_12h: 4,
+      rsi_min_12h: 25,
+      rsi_max_12h: 80,
     };
   }
 

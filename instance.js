@@ -757,6 +757,8 @@ c.symbols.push({
       hma_low4h_length: 16,
       hma4h_length: 9,
       trendCloudMultiplier_4h: 4,
+      rsi_min_4h: 25,
+      rsi_max_4h: 75,
 
       cci6H_length: 20,
       macd_6h_fast_period: 9,
@@ -766,6 +768,8 @@ c.symbols.push({
       hma_low6h_length: 12,
       hma6h_length: 9,
       trendCloudMultiplier_6h: 4,
+      rsi_min_6h: 25,
+      rsi_max_6h: 75,
 
       cci12h_length: 12,
       macd_12h_01_fast_period: 6,
@@ -775,6 +779,8 @@ c.symbols.push({
       hma_low12h_length: 12,
       hma12h_length: 9,
       trendCloudMultiplier_12h: 4,
+      rsi_min_12h: 25,
+      rsi_max_12h: 75,
     },
   }, ],
 });
@@ -800,6 +806,8 @@ c.symbols.push({
       hma_low4h_length: 20,
       hma4h_length: 9,
       trendCloudMultiplier_4h: 4,
+      rsi_min_4h: 25,
+      rsi_max_4h: 75,
 
       cci6H_length: 12,
       macd_6h_fast_period: 9,
@@ -809,6 +817,8 @@ c.symbols.push({
       hma_low6h_length: 12,
       hma6h_length: 9,
       trendCloudMultiplier_6h: 4,
+      rsi_min_6h: 25,
+      rsi_max_6h: 75,
 
       cci12h_length: 12,
       macd_12h_01_fast_period: 6,
@@ -818,6 +828,57 @@ c.symbols.push({
       hma_low12h_length: 12,
       hma12h_length: 9,
       trendCloudMultiplier_12h: 4,
+      rsi_min_12h: 25,
+      rsi_max_12h: 75,
+    },
+  }, ],
+});
+
+c.symbols.push({
+  symbol: 'XRPUSDT',
+  periods: ['1h', '2h', '4h', '6h', '12h'],
+  exchange: 'binance',
+  state: 'watch',
+  watchdogs: [{
+    name: 'stoploss_watch',
+    stop: 1.5,
+  }, ],
+  strategies: [{
+    strategy: 'custom_all',
+    "interval": "15m",
+    options: {
+      cci4H_length: 25,
+      macd_4h_fast_period: 6,
+      macd_4h_slow_period: 13,
+      macd_4h_signal_period: 9,
+      hma_high4h_length: 20,
+      hma_low4h_length: 20,
+      hma4h_length: 9,
+      trendCloudMultiplier_4h: 4,
+      rsi_min_4h: 25,
+      rsi_max_4h: 75,
+
+      cci6H_length: 12,
+      macd_6h_fast_period: 16,
+      macd_6h_slow_period: 30,
+      macd_6h_signal_period: 13,
+      hma_high6h_length: 12,
+      hma_low6h_length: 12,
+      hma6h_length: 9,
+      trendCloudMultiplier_6h: 4,
+      rsi_min_6h: 25,
+      rsi_max_6h: 80,
+
+      cci12h_length: 12,
+      macd_12h_01_fast_period: 11,
+      macd_12h_01_slow_period: 21,
+      macd_12h_01_signal_period: 9,
+      hma_high12h_length: 12,
+      hma_low12h_length: 12,
+      hma12h_length: 9,
+      trendCloudMultiplier_12h: 4,
+      rsi_min_12h: 10,
+      rsi_max_12h: 90,
     },
   }, ],
 });
