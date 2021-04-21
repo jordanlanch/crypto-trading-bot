@@ -764,11 +764,11 @@ module.exports = class TraderCustom {
       {
         symbol: 'BTCUSDT',
         parameters: {
-          triggerMultiplier_4h: 1.02,
+          triggerMultiplier_4h: 1.055,
           triggerTimeWindows_4h: 1.5,
-          triggerMultiplier_6h: 1.027,
-          triggerTimeWindows_6h: 1.5,
-          triggerMultiplier_12h: 1.103,
+          triggerMultiplier_6h: 1.014,
+          triggerTimeWindows_6h: 1.2,
+          triggerMultiplier_12h: 1.026,
           triggerTimeWindows_12h: 1.5,
         }
       },
@@ -776,12 +776,12 @@ module.exports = class TraderCustom {
       
         symbol: 'ADAUSDT',
         parameters: {
-          triggerMultiplier_4h: 1.015,
-          triggerTimeWindows_4h: 1,
-          triggerMultiplier_6h: 1.099,
-          triggerTimeWindows_6h: 1,
-          triggerMultiplier_12h: 1.008,
-          triggerTimeWindows_12h: 1,
+          triggerMultiplier_4h: 1.002,
+          triggerTimeWindows_4h: 1.5,
+          triggerMultiplier_6h: 1.006,
+          triggerTimeWindows_6h: 1.5,
+          triggerMultiplier_12h: 1.031,
+          triggerTimeWindows_12h: 1.5,
         }
       },
       {
@@ -1111,7 +1111,7 @@ module.exports = class TraderCustom {
 
     debug.buy = count_signals_buy;
     debug.sell = count_signals_sell;
-    let count_signal = 1;
+    let count_signal = 2.5;
 
     if (count_signals_buy > count_signals_sell) {
       //9 señales
@@ -1316,8 +1316,8 @@ module.exports = class TraderCustom {
       hma_low4h_length: 20,
       hma4h_length: 9,
       trendCloudMultiplier_4h: 4,
-      rsi_min_4h: 25,
-      rsi_max_4h: 75,
+      rsi_min_4h: 20,
+      rsi_max_4h: 80,
 
       cci6H_length: 12,
       macd_6h_fast_period: 9,
@@ -1339,7 +1339,7 @@ module.exports = class TraderCustom {
       hma12h_length: 9,
       trendCloudMultiplier_12h: 4,
       rsi_min_12h: 25,
-      rsi_max_12h: 80,
+      rsi_max_12h: 75,
     };
   }
 
