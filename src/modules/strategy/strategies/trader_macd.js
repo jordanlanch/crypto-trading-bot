@@ -1,5 +1,5 @@
 const SignalResult = require('../dict/signal_result');
-
+const request = require('request');
 module.exports = class TraderCustom {
   getName() {
     return 'trader_macd';
@@ -26,13 +26,13 @@ module.exports = class TraderCustom {
       signal_period: 9,
     });
 
-    indicatorBuilder.add('macd_2h_01', 'macd', '2h', {
+    indicatorBuilder.add('macd_2h_01', 'macd_ext', '2h', {
       fast_period: 5,
       slow_period: 34,
       signal_period: 8,
     });
 
-    indicatorBuilder.add('macd_2h_02', 'macd', '2h', {
+    indicatorBuilder.add('macd_2h_02', 'macd_ext', '2h', {
       fast_period: 6,
       slow_period: 23,
       signal_period: 10,
@@ -134,8 +134,9 @@ module.exports = class TraderCustom {
     indicatorBuilder.add('rsi12h', 'rsi', '12h');
   }
 
-  period(indicatorPeriod) {
+  period(indicatorPeriod, options, buy_or_sell) {
     return this.trader_custom(
+      buy_or_sell,
       indicatorPeriod.getPrice(),
       indicatorPeriod.getIndicator('macd_12h_01'),
       indicatorPeriod.getIndicator('macd_12h_02'),
@@ -171,6 +172,7 @@ module.exports = class TraderCustom {
   }
 
   async trader_custom(
+    buy_or_sell,
     price,
     macd1D01Full,
     macd1D02Full,
@@ -521,6 +523,11 @@ module.exports = class TraderCustom {
       sell: 0,
       buy: 0,
       last_signal: lastSignal,
+      sentiment: 0,
+      incremetShortTOP: 0,
+      incremetShortGlobal: 0,
+      incrementLogTOP: 0,
+      incrementLogGlobal: 0,
     };
     /*
     levels signals
@@ -549,7 +556,7 @@ module.exports = class TraderCustom {
     //SMA & LONG
 
     //6H
-    let long6H = price >= sma2006H.slice(-1)[0];
+    let long6H = price >= sma2006H;
 
     // ema long
     if (!long6H) {
@@ -557,7 +564,7 @@ module.exports = class TraderCustom {
     }
 
     //4H
-    let long4H = price >= sma2004H.slice(-1)[0];
+    let long4H = price >= sma2004H;
 
     // ema long
     if (!long4H) {
@@ -571,191 +578,191 @@ module.exports = class TraderCustom {
       long1D = price >= ema2001D.slice(-1)[0];
     }
 
-    // //sma & ema 6H, 4H, 1D
+    //sma & ema 6H, 4H, 1D
+    count_signals_buy += buy_or_sell.buy;
+    count_signals_sell += buy_or_sell.sell;
+    debug.sentiment += buy_or_sell.buy;
+    debug.sentiment -= buy_or_sell.sell;
+    debug.incrementLogGlobal = buy_or_sell.incrementLogGlobal;
+    debug.incremetShortTOP = buy_or_sell.incremetShortTOP;
+    debug.incrementLogTOP = buy_or_sell.incrementLogTOP;
+    debug.incremetShortGlobal = buy_or_sell.incremetShortGlobal;
 
-    // if (price >= ema704h.slice(-1)[0]) {
-    //   count_signals_buy += 1.5;
-    //   debug.ema704h += 1.5;
-    // } else {
-    //   count_signals_sell += 1.5;
-    //   debug.ema704h -= 1.5;
-    // }
+    // //obv 6H, 4H, 1D
+    // //01 16 -1.248
+    // let resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.058, 1);
+    // count_signals_buy += resolve_obv.buy;
+    // count_signals_sell += resolve_obv.sell;
+    // debug.obv1D += resolve_obv.buy;
+    // debug.obv1D -= resolve_obv.sell;
+    // debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
+    // debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
+    // debug.difference_obv_12h -= resolve_obv.difference_obv;
+    // debug = resolve_obv.debug;
 
-    //obv 6H, 4H, 1D
-    //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv1D, count_ovb1D, 1.058, 1);
-    count_signals_buy += resolve_obv.buy;
-    count_signals_sell += resolve_obv.sell;
-    debug.obv1D += resolve_obv.buy;
-    debug.obv1D -= resolve_obv.sell;
-    debug.highest_overage_obv_12h -= resolve_obv.highestOverage_obv;
-    debug.current_average_obv_12h -= resolve_obv.currentAverage_obv;
-    debug.difference_obv_12h -= resolve_obv.difference_obv;
-    debug = resolve_obv.debug;
+    // resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.035, 2);
+    // count_signals_buy += resolve_obv.buy;
+    // count_signals_sell += resolve_obv.sell;
+    // debug.obv6H += resolve_obv.buy;
+    // debug.obv6H -= resolve_obv.sell;
+    // debug.highest_overage_obv_6h -= resolve_obv.highestOverage_obv;
+    // debug.current_average_obv_6h -= resolve_obv.currentAverage_obv;
+    // debug.difference_obv_6h -= resolve_obv.difference_obv;
+    // debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, 1.248, 2);
-    count_signals_buy += resolve_obv.buy;
-    count_signals_sell += resolve_obv.sell;
-    debug.obv6H += resolve_obv.buy;
-    debug.obv6H -= resolve_obv.sell;
-    debug.highest_overage_obv_6h -= resolve_obv.highestOverage_obv;
-    debug.current_average_obv_6h -= resolve_obv.currentAverage_obv;
-    debug.difference_obv_6h -= resolve_obv.difference_obv;
-    debug = resolve_obv.debug;
+    // //1.014 20 3 am
+    // //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
+    // resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.02, 2.5);
+    // count_signals_buy += resolve_obv.buy;
+    // count_signals_sell += resolve_obv.sell;
+    // debug.obv4H += resolve_obv.buy;
+    // debug.obv4H -= resolve_obv.sell;
+    // debug.highest_overage_obv_4h -= resolve_obv.highestOverage_obv;
+    // debug.current_average_obv_4h -= resolve_obv.currentAverage_obv;
+    // debug.difference_obv_4h -= resolve_obv.difference_obv;
+    // debug = resolve_obv.debug;
 
-    //1.014 20 3 am
-    //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.02, 2);
-    count_signals_buy += resolve_obv.buy;
-    count_signals_sell += resolve_obv.sell;
-    debug.obv4H += resolve_obv.buy;
-    debug.obv4H -= resolve_obv.sell;
-    debug.highest_overage_obv_4h -= resolve_obv.highestOverage_obv;
-    debug.current_average_obv_4h -= resolve_obv.currentAverage_obv;
-    debug.difference_obv_4h -= resolve_obv.difference_obv;
-    debug = resolve_obv.debug;
+    // //CCI 6H, 4H, 1D
 
-    //CCI 6H, 4H, 1D
+    // let resolve_cci = this.resolve_cci(debug, long6H, cci6H, count_cci6H);
+    // count_signals_buy += resolve_cci.buy;
+    // count_signals_sell += resolve_cci.sell;
+    // debug.cci6H += resolve_cci.buy;
+    // debug.cci6H -= resolve_cci.sell;
+    // debug = resolve_cci.debug;
 
-    let resolve_cci = this.resolve_cci(debug, long1D, cci1D, count_cci1D);
-    count_signals_buy += resolve_cci.buy;
-    count_signals_sell += resolve_cci.sell;
-    debug.cci1D += resolve_cci.buy;
-    debug.cci1D -= resolve_cci.sell;
-    debug = resolve_cci.debug;
+    // resolve_cci = this.resolve_cci(debug, long4H, cci4H, count_cci4H);
+    // count_signals_buy += resolve_cci.buy;
+    // count_signals_sell += resolve_cci.sell;
+    // debug.cci4H += resolve_cci.buy;
+    // debug.cci4H -= resolve_cci.sell;
+    // debug = resolve_cci.debug;
 
-    resolve_cci = this.resolve_cci(debug, long6H, cci6H, count_cci6H);
-    count_signals_buy += resolve_cci.buy;
-    count_signals_sell += resolve_cci.sell;
-    debug.cci6H += resolve_cci.buy;
-    debug.cci6H -= resolve_cci.sell;
-    debug = resolve_cci.debug;
+    // resolve_cci = this.resolve_cci(debug, long1D, cci1D, count_cci1D);
+    // count_signals_buy += resolve_cci.buy;
+    // count_signals_sell += resolve_cci.sell;
+    // debug.cci1D += resolve_cci.buy;
+    // debug.cci1D -= resolve_cci.sell;
+    // debug = resolve_cci.debug;
 
-    resolve_cci = this.resolve_cci(debug, long4H, cci4H, count_cci4H);
-    count_signals_buy += resolve_cci.buy;
-    count_signals_sell += resolve_cci.sell;
-    debug.cci4H += resolve_cci.buy;
-    debug.cci4H -= resolve_cci.sell;
-    debug = resolve_cci.debug;
+    // //MACD 6H, 4H, 1D
 
-    //MACD 6H, 4H, 1D
+    // // let resolve_macd = this.resolve_macd(debug, long6H, macd6H03, count_macd6H);
+    // // count_signals_buy += resolve_macd.buy;
+    // // count_signals_sell += resolve_macd.sell;
+    // // debug.macd6H03 += resolve_macd.buy;
+    // // debug.macd6H03 -= resolve_macd.sell;
+    // // debug = resolve_macd.debug;
 
-    // let resolve_macd = this.resolve_macd(debug, long6H, macd6H03, count_macd6H);
+    // // resolve_macd = this.resolve_macd(debug, long6H, macd6H02, count_macd6H);
+    // // count_signals_buy += resolve_macd.buy;
+    // // count_signals_sell += resolve_macd.sell;
+    // // debug.macd6H02 += resolve_macd.buy;
+    // // debug.macd6H02 -= resolve_macd.sell;
+    // // debug = resolve_macd.debug;
+
+    // // resolve_macd = this.resolve_macd(debug, long6H, macd6H01, count_macd6H);
+    // // count_signals_buy += resolve_macd.buy;
+    // // count_signals_sell += resolve_macd.sell;
+    // // debug.macd6H01 += resolve_macd.buy;
+    // // debug.macd6H01 -= resolve_macd.sell;
+    // // debug = resolve_macd.debug;
+
+    // let resolve_macd = this.resolve_macd(debug, long4H, macd6H, count_macd6H);
     // count_signals_buy += resolve_macd.buy;
     // count_signals_sell += resolve_macd.sell;
-    // debug.macd6H03 += resolve_macd.buy;
-    // debug.macd6H03 -= resolve_macd.sell;
+    // debug.macd6H += resolve_macd.buy;
+    // debug.macd6H -= resolve_macd.sell;
     // debug = resolve_macd.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long6H, macd6H02, count_macd6H);
+    // // resolve_macd = this.resolve_macd(debug, long4H, macd4H02, count_macd4H);
+    // // count_signals_buy += resolve_macd.buy;
+    // // count_signals_sell += resolve_macd.sell;
+    // // debug.macd4H02 += resolve_macd.buy;
+    // // debug.macd4H02 -= resolve_macd.sell;
+    // // debug = resolve_macd.debug;
+
+    // resolve_macd = this.resolve_macd(debug, long4H, macd4H01, count_macd4H);
     // count_signals_buy += resolve_macd.buy;
     // count_signals_sell += resolve_macd.sell;
-    // debug.macd6H02 += resolve_macd.buy;
-    // debug.macd6H02 -= resolve_macd.sell;
+    // debug.macd4H01 += resolve_macd.buy;
+    // debug.macd4H01 -= resolve_macd.sell;
     // debug = resolve_macd.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long6H, macd6H01, count_macd6H);
+    // // resolve_macd = this.resolve_macd(debug, long1D, macd2H02, count_macd2H);
+    // // count_signals_buy += resolve_macd.buy;
+    // // count_signals_sell += resolve_macd.sell;
+    // // debug.macd2H02 += resolve_macd.buy;
+    // // debug.macd2H02 -= resolve_macd.sell;
+    // // debug = resolve_macd.debug;
+
+    // resolve_macd = this.resolve_macd(debug, long1D, macd2H01, count_macd2H);
     // count_signals_buy += resolve_macd.buy;
     // count_signals_sell += resolve_macd.sell;
-    // debug.macd6H01 += resolve_macd.buy;
-    // debug.macd6H01 -= resolve_macd.sell;
+    // debug.macd2H01 += resolve_macd.buy;
+    // debug.macd2H01 -= resolve_macd.sell;
     // debug = resolve_macd.debug;
 
-    let resolve_macd = this.resolve_macd(debug, long4H, macd6H, count_macd6H);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd6H += resolve_macd.buy;
-    debug.macd6H -= resolve_macd.sell;
-    debug = resolve_macd.debug;
-
-    // resolve_macd = this.resolve_macd(debug, long4H, macd4H02, count_macd4H);
+    // resolve_macd = this.resolve_macd(debug, long1D, macd1D01, count_macd1D);
     // count_signals_buy += resolve_macd.buy;
     // count_signals_sell += resolve_macd.sell;
-    // debug.macd4H02 += resolve_macd.buy;
-    // debug.macd4H02 -= resolve_macd.sell;
+    // debug.macd1D01 += resolve_macd.buy;
+    // debug.macd1D01 -= resolve_macd.sell;
     // debug = resolve_macd.debug;
 
-    resolve_macd = this.resolve_macd(debug, long4H, macd4H01, count_macd4H);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd4H01 += resolve_macd.buy;
-    debug.macd4H01 -= resolve_macd.sell;
-    debug = resolve_macd.debug;
+    // // resolve_macd = this.resolve_macd(debug, long1D, macd1D02, count_macd1D);
+    // // count_signals_buy += resolve_macd.buy;
+    // // count_signals_sell += resolve_macd.sell;
+    // // debug.macd1D02 += resolve_macd.buy;
+    // // debug.macd1D02 -= resolve_macd.sell;
+    // // debug = resolve_macd.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long1D, macd2H02, count_macd2H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd2H02 += resolve_macd.buy;
-    // debug.macd2H02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
+    // //AO 6H, 4H, 1D
 
-    resolve_macd = this.resolve_macd(debug, long1D, macd2H01, count_macd2H);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd2H01 += resolve_macd.buy;
-    debug.macd2H01 -= resolve_macd.sell;
-    debug = resolve_macd.debug;
+    // let resolve_ao = this.resolve_ao(debug, long6H, ao6H, count_ao6H);
+    // count_signals_buy += resolve_ao.buy;
+    // count_signals_sell += resolve_ao.sell;
+    // debug.ao6H += resolve_ao.buy;
+    // debug.ao6H -= resolve_ao.sell;
+    // debug = resolve_ao.debug;
 
-    resolve_macd = this.resolve_macd(debug, long1D, macd1D01, count_macd1D);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd1D01 += resolve_macd.buy;
-    debug.macd1D01 -= resolve_macd.sell;
-    debug = resolve_macd.debug;
+    // resolve_ao = this.resolve_ao(debug, long4H, ao4H, count_ao4H);
+    // count_signals_buy += resolve_ao.buy;
+    // count_signals_sell += resolve_ao.sell;
+    // debug.ao4H += resolve_ao.buy;
+    // debug.ao4H -= resolve_ao.sell;
+    // debug = resolve_ao.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long1D, macd1D02, count_macd1D);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd1D02 += resolve_macd.buy;
-    // debug.macd1D02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
+    // resolve_ao = this.resolve_ao(debug, long1D, ao1D, count_ao1D);
+    // count_signals_buy += resolve_ao.buy;
+    // count_signals_sell += resolve_ao.sell;
+    // debug.ao1D += resolve_ao.buy;
+    // debug.ao1D -= resolve_ao.sell;
+    // debug = resolve_ao.debug;
 
-    //AO 6H, 4H, 1D
+    // //RSI 6H, 4H, 1D
 
-    let resolve_ao = this.resolve_ao(debug, long6H, ao6H, count_ao6H);
-    count_signals_buy += resolve_ao.buy;
-    count_signals_sell += resolve_ao.sell;
-    debug.ao6H += resolve_ao.buy;
-    debug.ao6H -= resolve_ao.sell;
-    debug = resolve_ao.debug;
+    // let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 20, 80);
+    // count_signals_buy += resolve_rsi.buy;
+    // count_signals_sell += resolve_rsi.sell;
+    // debug.rsi6H += resolve_rsi.buy;
+    // debug.rsi6H -= resolve_rsi.sell;
 
-    resolve_ao = this.resolve_ao(debug, long4H, ao4H, count_ao4H);
-    count_signals_buy += resolve_ao.buy;
-    count_signals_sell += resolve_ao.sell;
-    debug.ao4H += resolve_ao.buy;
-    debug.ao4H -= resolve_ao.sell;
-    debug = resolve_ao.debug;
+    // debug = resolve_rsi.debug;
 
-    resolve_ao = this.resolve_ao(debug, long1D, ao1D, count_ao1D);
-    count_signals_buy += resolve_ao.buy;
-    count_signals_sell += resolve_ao.sell;
-    debug.ao1D += resolve_ao.buy;
-    debug.ao1D -= resolve_ao.sell;
-    debug = resolve_ao.debug;
+    // resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
+    // count_signals_buy += resolve_rsi.buy;
+    // count_signals_sell += resolve_rsi.sell;
+    // debug.rsi4H += resolve_rsi.buy;
+    // debug.rsi4H -= resolve_rsi.sell;
+    // debug = resolve_rsi.debug;
 
-    //RSI 6H, 4H, 1D
-
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, 20, 80);
-    count_signals_buy += resolve_rsi.buy;
-    count_signals_sell += resolve_rsi.sell;
-    debug.rsi6H += resolve_rsi.buy;
-    debug.rsi6H -= resolve_rsi.sell;
-
-    debug = resolve_rsi.debug;
-
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, 20, 80);
-    count_signals_buy += resolve_rsi.buy;
-    count_signals_sell += resolve_rsi.sell;
-    debug.rsi4H += resolve_rsi.buy;
-    debug.rsi4H -= resolve_rsi.sell;
-    debug = resolve_rsi.debug;
-
-    resolve_rsi = this.resolve_rsi(debug, rsi1D, count_rsi1D, 20, 80);
-    count_signals_buy += resolve_rsi.buy;
-    count_signals_sell += resolve_rsi.sell;
-    debug.rsi1D += resolve_rsi.buy;
-    debug.rsi1D -= resolve_rsi.sell;
-    debug = resolve_rsi.debug;
+    // resolve_rsi = this.resolve_rsi(debug, rsi1D, count_rsi1D, 20, 80);
+    // count_signals_buy += resolve_rsi.buy;
+    // count_signals_sell += resolve_rsi.sell;
+    // debug.rsi1D += resolve_rsi.buy;
+    // debug.rsi1D -= resolve_rsi.sell;
+    // debug = resolve_rsi.debug;
 
     // console.log('******price***************--->' + price);
     // console.log('************count_signals_buy***************--->' + count_signals_buy);
@@ -787,8 +794,7 @@ module.exports = class TraderCustom {
   }
 
   getBacktestColumns() {
-    return [
-      {
+    return [{
         label: 'sell',
         value: 'sell',
         type: 'cross',
@@ -807,6 +813,36 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
 
+      {
+        label: 'sentiment',
+        value: 'sentiment',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogGlobal',
+        value: 'incrementLogGlobal',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortTOP',
+        value: 'incremetShortTOP',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incrementLogTOP',
+        value: 'incrementLogTOP',
+        type: 'cross',
+        range: 'sma200',
+      },
+      {
+        label: 'incremetShortGlobal',
+        value: 'incremetShortGlobal',
+        type: 'cross',
+        range: 'sma200',
+      },
       {
         label: 'cci1D',
         value: 'cci1D',
@@ -1031,7 +1067,11 @@ module.exports = class TraderCustom {
         const min = Math.min(...rangeValues);
         if (min <= -200) {
           debug._trigger = min;
-          return { buy: count_cci, sell: 0, debug: debug };
+          return {
+            buy: count_cci,
+            sell: 0,
+            debug: debug
+          };
         }
       }
     } else if (before_cci >= 100 && last_cci <= 100) {
@@ -1048,10 +1088,18 @@ module.exports = class TraderCustom {
       const max = Math.max(...rangeValues);
       if (max >= 200) {
         debug._trigger = max;
-        return { buy: 0, sell: count_cci, debug: debug };
+        return {
+          buy: 0,
+          sell: count_cci,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 
   resolve_macd(debug, long, macd, count_macd) {
@@ -1061,15 +1109,27 @@ module.exports = class TraderCustom {
     if (long) {
       if (before_macd < 0 && last_macd > 0) {
         debug.macd += count_macd;
-        return { buy: count_macd, sell: 0, debug: debug };
+        return {
+          buy: count_macd,
+          sell: 0,
+          debug: debug
+        };
       }
     } else {
       if (before_macd > 0 && last_macd < 0) {
         debug.macd -= count_macd;
-        return { buy: 0, sell: count_macd, debug: debug };
+        return {
+          buy: 0,
+          sell: count_macd,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 
   resolve_ao(debug, long, ao, count_ao) {
@@ -1079,15 +1139,27 @@ module.exports = class TraderCustom {
     if (long) {
       if (before_ao < 0 && last_ao > 0) {
         debug.ao += count_ao;
-        return { buy: count_ao, sell: 0, debug: debug };
+        return {
+          buy: count_ao,
+          sell: 0,
+          debug: debug
+        };
       }
     } else {
       if (before_ao > 0 && last_ao < 0) {
         debug.ao -= count_ao;
-        return { buy: 0, sell: count_ao, debug: debug };
+        return {
+          buy: 0,
+          sell: count_ao,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
 
   resolve_rsi(debug, rsi, count_rsi, min, max) {
@@ -1097,16 +1169,29 @@ module.exports = class TraderCustom {
     if (before_rsi < min) {
       if (before_rsi < last_rsi) {
         debug.rsi += count_rsi;
-        return { buy: count_rsi, sell: 0, debug: debug };
+        return {
+          buy: count_rsi,
+          sell: 0,
+          debug: debug
+        };
       }
     }
 
     if (before_rsi > max) {
       if (before_rsi > last_rsi) {
         debug.rsi -= count_rsi;
-        return { buy: 0, sell: count_rsi, debug: debug };
+        return {
+          buy: 0,
+          sell: count_rsi,
+          debug: debug
+        };
       }
     }
-    return { buy: 0, sell: 0, debug: debug };
+    return {
+      buy: 0,
+      sell: 0,
+      debug: debug
+    };
   }
+
 };

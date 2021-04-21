@@ -1,10 +1,11 @@
-const SignalResult = require('../../dict/signal_result');
+const SignalResult = require('../dict/signal_result');
 
-module.exports = class DipCatcher {
+module.exports = class DipCatcherCustom {
   getName() {
-    return 'dip_catcher';
+    return 'dip_catcher_custom';
   }
 
+  
   buildIndicator(indicatorBuilder, options) {
     // line for short entry or long exit
     indicatorBuilder.add('hma_high', 'hma', options.period, {
@@ -41,7 +42,6 @@ module.exports = class DipCatcher {
     const hma = indicatorPeriod.getIndicator('hma').slice(-2);
     const hmaLow = indicatorPeriod.getIndicator('hma_low').slice(-2);
     const hmaHigh = indicatorPeriod.getIndicator('hma_high').slice(-2);
-    console.log('bollinger*****************************'+indicatorPeriod.getIndicator('bb'))
     const bb = indicatorPeriod.getIndicator('bb').slice(-2);
     const cloud = indicatorPeriod.getIndicator('cloud').slice(-1);
 
@@ -81,8 +81,7 @@ module.exports = class DipCatcher {
   }
 
   getBacktestColumns() {
-    return [
-      {
+    return [{
         label: 'bb_hma',
         value: row => {
           if (!row.bb) {

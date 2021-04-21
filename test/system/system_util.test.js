@@ -1,7 +1,7 @@
 const assert = require('assert');
 const SystemUtil = require('../../src/modules/system/system_util');
 
-describe('#system util test', function() {
+describe('#system util test', function () {
   it('test configuration extraction', () => {
     const systemUtil = new SystemUtil({
       root: 'test123',

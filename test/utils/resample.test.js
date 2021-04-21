@@ -60,7 +60,7 @@ describe('#resample of candles', () => {
         open: i * 2,
         close: i * 2.1,
         high: i * 1.1,
-        low: i * 0.9
+        low: i * 0.9,
       });
     }
 
@@ -75,11 +75,11 @@ describe('#resample of candles', () => {
     assert.equal(resampleCandles.length, 6);
 
     assert.equal(resampleCandles[0].time, 1393495200);
-    assert.equal(resampleCandles[4].time, 1393480900);
+    assert.equal(resampleCandles[4].time, 1393480700);
     assert.equal(resampleCandles[4]._candle_count, 4);
   });
 
-  let createCandleFixtures = function() {
+  let createCandleFixtures = function () {
     return JSON.parse(fs.readFileSync(`${__dirname}/fixtures/xbt-usd-5m.json`, 'utf8'));
   };
 });
