@@ -624,43 +624,13 @@ module.exports = class TraderCustom {
     const bb12H = bb12hFull.slice(-2);
     const cloud12H = cloud12hFull.slice(-1);
 
-    // console.log('***************************rsi6H***************--->' + rsi6H);
-
-    // const debug = {
-    //   sma20012h: sma20012h.slice(-1)[0],
-    //   ema20012h: ema20012h.slice(-1)[0],
-    //   ema2004H: ema2004H.slice(-1)[0],
-    //   sma2006H: sma2006H.slice(-1)[0],
-    //   sma2004H: sma2004H.slice(-1)[0],
-    //   ema2006H: ema2006H.slice(-1)[0],
-    //   ema704h: ema704h.slice(-1)[0],
-    //   ema1006H: ema1006H.slice(-1)[0],
-    //   last_histogram_6H: macd6H.slice(-1)[0].histogram,
-    //   before_histogram_6H: macd6H.slice(-2)[0].histogram,
-    //   last_histogram_12h: macd12h.slice(-1)[0].histogram,
-    //   before_histogram_12h: macd12h.slice(-2)[0].histogram,
-    //   last_histogram_4h: macd4H.slice(-1)[0].histogram,
-    //   before_histogram_4h: macd4H.slice(-2)[0].histogram,
-    //   cci6H: cci6H.slice(-1)[0],
-    //   cci12h: cci12h.slice(-1)[0],
-    //   cci4H: cci4H.slice(-1)[0],
-    //   Lrsi6H: rsi6H.slice(-1)[0],
-    //   Brsi6H: rsi6H.slice(-2)[0],
-    //   last_signal: lastSignal,
-    // };
-
     let count_signals_buy = 0;
     let count_signals_sell = 0;
 
     let debug = {
       macd12h01: 0,
-      // macd12h02: 0,
       macd4H01: 0,
-      // macd4H02: 0,
       macd6H: 0,
-      // macd6H01: 0,
-      // macd6H02: 0,
-      // macd6H03: 0,
       cci6H: 0,
       cci4H: 0,
       cci12h: 0,
@@ -704,32 +674,6 @@ module.exports = class TraderCustom {
       incrementLogTOP_1d: 0,
       incrementLogGlobal_1d: 0,
     };
-    /*
-    levels signals
-    */
-    let count_ovb4H = 1;
-    let count_ovb6H = 1.5;
-    let count_ovb12h = 2;
-
-    let count_cci4H = 1;
-    let count_cci6H = 1.5;
-    let count_cci12h = 2;
-
-    let count_macd4H = 1;
-    let count_macd6H = 1.5;
-    let count_macd12h = 2;
-
-    let count_ao4H = 1;
-    let count_ao6H = 1.5;
-    let count_ao12h = 2;
-
-    let count_rsi4H = 1;
-    let count_rsi6H = 1.5;
-    let count_rsi12h = 2;
-
-    let count_dip4H = 1;
-    let count_dip6H = 1.5;
-    let count_dip12H = 2;
 
     //SMA & LONG
 
@@ -770,6 +714,25 @@ module.exports = class TraderCustom {
           triggerTimeWindows_6h: 1.2,
           triggerMultiplier_12h: 1.026,
           triggerTimeWindows_12h: 1.5,
+          resolve_obv_4h: 1,
+          resolve_obv_6h: 1.5,
+          resolve_obv_12h: 2,
+          resolve_cci_4h: 1,
+          resolve_cci_6h: 1.5,
+          resolve_cci_12h: 2,
+          resolve_macd_4h: 1,
+          resolve_macd_6h: 1.5,
+          resolve_macd_12h: 2,
+          resolve_ao_4h: 1,
+          resolve_ao_6h: 1.5,
+          resolve_ao_12h: 2,
+          resolve_rsi_4h: 1,
+          resolve_rsi_6h: 1.5,
+          resolve_rsi_12h: 2,
+          resolve_dip_4h: 1,
+          resolve_dip_6h: 1.5,
+          resolve_dip_12h: 2,
+          count_signal: 2.5,
         }
       },
       {
@@ -782,6 +745,25 @@ module.exports = class TraderCustom {
           triggerTimeWindows_6h: 1.5,
           triggerMultiplier_12h: 1.031,
           triggerTimeWindows_12h: 1.5,
+          resolve_obv_4h: 1,
+          resolve_obv_6h: 1.5,
+          resolve_obv_12h: 2,
+          resolve_cci_4h: 1,
+          resolve_cci_6h: 1.5,
+          resolve_cci_12h: 2,
+          resolve_macd_4h: 1,
+          resolve_macd_6h: 1.5,
+          resolve_macd_12h: 2,
+          resolve_ao_4h: 1,
+          resolve_ao_6h: 1.5,
+          resolve_ao_12h: 2,
+          resolve_rsi_4h: 1,
+          resolve_rsi_6h: 1.5,
+          resolve_rsi_12h: 2,
+          resolve_dip_4h: 1,
+          resolve_dip_6h: 1.5,
+          resolve_dip_12h: 2,
+          count_signal: 2,
         }
       },
       {
@@ -893,49 +875,8 @@ module.exports = class TraderCustom {
     if (parameters == [] || parameters == undefined) {
       parameters = parameters_by_symbol[0]
     }
-    // count_signals_buy += buy_or_sells[0].buy;
-    // count_signals_sell += buy_or_sells[0].sell;
-    // debug.sentiment_4h += buy_or_sells[0].buy;
-    // debug.sentiment_4h -= buy_or_sells[0].sell;
-    // debug.incrementLogGlobal_4h = buy_or_sells[0].incrementLogGlobal;
-    // debug.incremetShortTOP_4h = buy_or_sells[0].incremetShortTOP;
-    // debug.incrementLogTOP_4h = buy_or_sells[0].incrementLogTOP;
-    // debug.incremetShortGlobal_4h = buy_or_sells[0].incremetShortGlobal;
 
-    // count_signals_buy += buy_or_sells[1].buy;
-    // count_signals_sell += buy_or_sells[1].sell;
-    // debug.sentiment_6h += buy_or_sells[1].buy;
-    // debug.sentiment_6h -= buy_or_sells[1].sell;
-    // debug.incrementLogGlobal_6h = buy_or_sells[1].incrementLogGlobal;
-    // debug.incremetShortTOP_6h = buy_or_sells[1].incremetShortTOP;
-    // debug.incrementLogTOP_6h = buy_or_sells[1].incrementLogTOP;
-    // debug.incremetShortGlobal_6h = buy_or_sells[1].incremetShortGlobal;
-
-    // count_signals_buy += buy_or_sells[2].buy;
-    // count_signals_sell += buy_or_sells[2].sell;
-    // debug.sentiment_1d += buy_or_sells[2].buy;
-    // debug.sentiment_1d -= buy_or_sells[2].sell;
-    // debug.incrementLogGlobal_1d = buy_or_sells[2].incrementLogGlobal;
-    // debug.incremetShortTOP_1d = buy_or_sells[2].incremetShortTOP;
-    // debug.incrementLogTOP_1d = buy_or_sells[2].incrementLogTOP;
-    // debug.incremetShortGlobal_1d = buy_or_sells[2].incremetShortGlobal;
-
-
-    //obv 6H, 4H, 12h
-    //01 16 -1.248
-    let resolve_obv = this.resolve_obv(debug, obv6H, count_ovb6H, parameters.parameters.triggerMultiplier_6h, parameters.parameters.triggerTimeWindows_6h);
-    count_signals_buy += resolve_obv.buy;
-    count_signals_sell += resolve_obv.sell;
-    debug.obv6H += resolve_obv.buy;
-    debug.obv6H -= resolve_obv.sell;
-    debug.highest_overage_obv_6h -= resolve_obv.highestOverage_obv;
-    debug.current_average_obv_6h -= resolve_obv.currentAverage_obv;
-    debug.difference_obv_6h -= resolve_obv.difference_obv;
-    debug = resolve_obv.debug;
-
-    //1.014 20 3 am
-    //resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, 1.034, 2.9);     3.6%    56.25%  BTC
-    resolve_obv = this.resolve_obv(debug, obv4H, count_ovb4H, parameters.parameters.triggerMultiplier_4h, parameters.parameters.triggerTimeWindows_4h);
+    let resolve_obv = this.resolve_obv(debug, obv4H, parameters.parameters.resolve_obv_4h, parameters.parameters.triggerMultiplier_4h, parameters.parameters.triggerTimeWindows_4h);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv4H += resolve_obv.buy;
@@ -945,7 +886,17 @@ module.exports = class TraderCustom {
     debug.difference_obv_4h -= resolve_obv.difference_obv;
     debug = resolve_obv.debug;
 
-    resolve_obv = this.resolve_obv(debug, obv12h, count_ovb12h, parameters.parameters.triggerMultiplier_12h, parameters.parameters.triggerTimeWindows_12h);
+    resolve_obv = this.resolve_obv(debug, obv6H, parameters.parameters.resolve_obv_6h, parameters.parameters.triggerMultiplier_6h, parameters.parameters.triggerTimeWindows_6h);
+    count_signals_buy += resolve_obv.buy;
+    count_signals_sell += resolve_obv.sell;
+    debug.obv6H += resolve_obv.buy;
+    debug.obv6H -= resolve_obv.sell;
+    debug.highest_overage_obv_6h -= resolve_obv.highestOverage_obv;
+    debug.current_average_obv_6h -= resolve_obv.currentAverage_obv;
+    debug.difference_obv_6h -= resolve_obv.difference_obv;
+    debug = resolve_obv.debug;
+
+    resolve_obv = this.resolve_obv(debug, obv12h, parameters.parameters.resolve_obv_12h, parameters.parameters.triggerMultiplier_12h, parameters.parameters.triggerTimeWindows_12h);
     count_signals_buy += resolve_obv.buy;
     count_signals_sell += resolve_obv.sell;
     debug.obv12h += resolve_obv.buy;
@@ -957,21 +908,23 @@ module.exports = class TraderCustom {
 
     //CCI 6H, 4H, 12h
 
-    let resolve_cci = this.resolve_cci(debug, long6H, cci6H, count_cci6H);
+    let  resolve_cci = this.resolve_cci(debug, long4H, cci4H, parameters.parameters.resolve_cci_4h);
+    count_signals_buy += resolve_cci.buy;
+    count_signals_sell += resolve_cci.sell;
+    debug.cci4H += resolve_cci.buy;
+    debug.cci4H -= resolve_cci.sell;
+    debug = resolve_cci.debug;
+    
+    resolve_cci = this.resolve_cci(debug, long6H, cci6H, parameters.parameters.resolve_cci_6h);
     count_signals_buy += resolve_cci.buy;
     count_signals_sell += resolve_cci.sell;
     debug.cci6H += resolve_cci.buy;
     debug.cci6H -= resolve_cci.sell;
     debug = resolve_cci.debug;
 
-    resolve_cci = this.resolve_cci(debug, long4H, cci4H, count_cci4H);
-    count_signals_buy += resolve_cci.buy;
-    count_signals_sell += resolve_cci.sell;
-    debug.cci4H += resolve_cci.buy;
-    debug.cci4H -= resolve_cci.sell;
-    debug = resolve_cci.debug;
+   
 
-    resolve_cci = this.resolve_cci(debug, long12h, cci12h, count_cci12h);
+    resolve_cci = this.resolve_cci(debug, long12h, cci12h, parameters.parameters.resolve_cci_12h);
     count_signals_buy += resolve_cci.buy;
     count_signals_sell += resolve_cci.sell;
     debug.cci12h += resolve_cci.buy;
@@ -980,79 +933,48 @@ module.exports = class TraderCustom {
 
     //MACD 6H, 4H, 12h
 
-    // let resolve_macd = this.resolve_macd(debug, long6H, macd6H03, count_macd6H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd6H03 += resolve_macd.buy;
-    // debug.macd6H03 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
-
-    // resolve_macd = this.resolve_macd(debug, long6H, macd6H02, count_macd6H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd6H02 += resolve_macd.buy;
-    // debug.macd6H02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
-
-    // resolve_macd = this.resolve_macd(debug, long6H, macd6H01, count_macd6H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd6H01 += resolve_macd.buy;
-    // debug.macd6H01 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
-
-    let resolve_macd = this.resolve_macd(debug, long4H, macd6H, count_macd6H);
+    let  resolve_macd = this.resolve_macd(debug, long4H, macd4H01, parameters.parameters.resolve_macd_4h);
+    count_signals_buy += resolve_macd.buy;
+    count_signals_sell += resolve_macd.sell;
+    debug.macd4H01 += resolve_macd.buy;
+    debug.macd4H01 -= resolve_macd.sell;
+    debug = resolve_macd.debug;
+    
+    resolve_macd = this.resolve_macd(debug, long4H, macd6H, parameters.parameters.resolve_macd_6h);
     count_signals_buy += resolve_macd.buy;
     count_signals_sell += resolve_macd.sell;
     debug.macd6H += resolve_macd.buy;
     debug.macd6H -= resolve_macd.sell;
     debug = resolve_macd.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long4H, macd4H02, count_macd4H);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd4H02 += resolve_macd.buy;
-    // debug.macd4H02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
 
-    resolve_macd = this.resolve_macd(debug, long4H, macd4H01, count_macd4H);
-    count_signals_buy += resolve_macd.buy;
-    count_signals_sell += resolve_macd.sell;
-    debug.macd4H01 += resolve_macd.buy;
-    debug.macd4H01 -= resolve_macd.sell;
-    debug = resolve_macd.debug;
 
-    resolve_macd = this.resolve_macd(debug, long12h, macd12h01, count_macd12h);
+    resolve_macd = this.resolve_macd(debug, long12h, macd12h01, parameters.parameters.resolve_macd_16h);
     count_signals_buy += resolve_macd.buy;
     count_signals_sell += resolve_macd.sell;
     debug.macd12h01 += resolve_macd.buy;
     debug.macd12h01 -= resolve_macd.sell;
     debug = resolve_macd.debug;
 
-    // resolve_macd = this.resolve_macd(debug, long12h, macd12h02, count_macd12h);
-    // count_signals_buy += resolve_macd.buy;
-    // count_signals_sell += resolve_macd.sell;
-    // debug.macd12h02 += resolve_macd.buy;
-    // debug.macd12h02 -= resolve_macd.sell;
-    // debug = resolve_macd.debug;
-
     //AO 6H, 4H, 12h
 
-    let resolve_ao = this.resolve_ao(debug, long6H, ao6H, count_ao6H);
+    let  resolve_ao = this.resolve_ao(debug, long4H, ao4H, parameters.parameters.resolve_ao_4h);
+    count_signals_buy += resolve_ao.buy;
+    count_signals_sell += resolve_ao.sell;
+    debug.ao4H += resolve_ao.buy;
+    debug.ao4H -= resolve_ao.sell;
+    debug = resolve_ao.debug;
+    
+    resolve_ao = this.resolve_ao(debug, long6H, ao6H,  parameters.parameters.resolve_ao_6h);
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao6H += resolve_ao.buy;
     debug.ao6H -= resolve_ao.sell;
     debug = resolve_ao.debug;
 
-    resolve_ao = this.resolve_ao(debug, long4H, ao4H, count_ao4H);
-    count_signals_buy += resolve_ao.buy;
-    count_signals_sell += resolve_ao.sell;
-    debug.ao4H += resolve_ao.buy;
-    debug.ao4H -= resolve_ao.sell;
-    debug = resolve_ao.debug;
+   
 
-    resolve_ao = this.resolve_ao(debug, long12h, ao12h, count_ao12h);
+    resolve_ao = this.resolve_ao(debug, long12h, ao12h,  parameters.parameters.resolve_ao_12h);
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao12h += resolve_ao.buy;
@@ -1061,22 +983,22 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 12h
 
-    let resolve_rsi = this.resolve_rsi(debug, rsi6H, count_rsi6H, options.rsi_min_6h, options.rsi_max_6h);
-    count_signals_buy += resolve_rsi.buy;
-    count_signals_sell += resolve_rsi.sell;
-    debug.rsi6H += resolve_rsi.buy;
-    debug.rsi6H -= resolve_rsi.sell;
-
-    debug = resolve_rsi.debug;
-
-    resolve_rsi = this.resolve_rsi(debug, rsi4H, count_rsi4H, options.rsi_min_4h, options.rsi_max_4h);
+    let  resolve_rsi = this.resolve_rsi(debug, rsi4H, parameters.parameters.resolve_rsi_4h, options.rsi_min_4h, options.rsi_max_4h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
     debug.rsi4H -= resolve_rsi.sell;
     debug = resolve_rsi.debug;
+    
+    resolve_rsi = this.resolve_rsi(debug, rsi6H, parameters.parameters.resolve_rsi_6h, options.rsi_min_6h, options.rsi_max_6h);
+    count_signals_buy += resolve_rsi.buy;
+    count_signals_sell += resolve_rsi.sell;
+    debug.rsi6H += resolve_rsi.buy;
+    debug.rsi6H -= resolve_rsi.sell;
+    debug = resolve_rsi.debug;
 
-    resolve_rsi = this.resolve_rsi(debug, rsi12h, count_rsi12h, options.rsi_min_12h, options.rsi_max_12h);
+
+    resolve_rsi = this.resolve_rsi(debug, rsi12h, parameters.parameters.resolve_rsi_12h, options.rsi_min_12h, options.rsi_max_12h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi12h += resolve_rsi.buy;
@@ -1084,21 +1006,21 @@ module.exports = class TraderCustom {
     debug = resolve_rsi.debug;
 
 
-    let resolve_dip = this.resolve_dip(debug, lastSignal, hma6H, hmaLow6H, hmaHigh6H, bb6H, cloud6H, count_dip6H)
-    count_signals_buy += resolve_dip.buy;
-    count_signals_sell += resolve_dip.sell;
-    debug.dip6H += resolve_dip.buy;
-    debug.dip6H -= resolve_dip.sell;
-    debug = resolve_dip.debug;
-
-    resolve_dip = this.resolve_dip(debug, lastSignal, hma4H, hmaLow4H, hmaHigh4H, bb4H, cloud4H, count_dip4H)
+    let  resolve_dip = this.resolve_dip(debug, lastSignal, hma4H, hmaLow4H, hmaHigh4H, bb4H, cloud4H, parameters.parameters.resolve_dip_4h)
     count_signals_buy += resolve_dip.buy;
     count_signals_sell += resolve_dip.sell;
     debug.dip4H += resolve_dip.buy;
     debug.dip4H -= resolve_dip.sell;
     debug = resolve_dip.debug;
 
-    resolve_dip = this.resolve_dip(debug, lastSignal, hma12H, hmaLow12H, hmaHigh12H, bb12H, cloud12H, count_dip12H)
+    resolve_dip = this.resolve_dip(debug, lastSignal, hma6H, hmaLow6H, hmaHigh6H, bb6H, cloud6H, parameters.parameters.resolve_dip_6h)
+    count_signals_buy += resolve_dip.buy;
+    count_signals_sell += resolve_dip.sell;
+    debug.dip6H += resolve_dip.buy;
+    debug.dip6H -= resolve_dip.sell;
+    debug = resolve_dip.debug;
+
+    resolve_dip = this.resolve_dip(debug, lastSignal, hma12H, hmaLow12H, hmaHigh12H, bb12H, cloud12H, parameters.parameters.resolve_dip_12h)
     count_signals_buy += resolve_dip.buy;
     count_signals_sell += resolve_dip.sell;
     debug.dip12H += resolve_dip.buy;
@@ -1111,7 +1033,7 @@ module.exports = class TraderCustom {
 
     debug.buy = count_signals_buy;
     debug.sell = count_signals_sell;
-    let count_signal = 2.5;
+    let count_signal = parameters.parameters.count_signal;
 
     if (count_signals_buy > count_signals_sell) {
       //9 señales
@@ -1503,7 +1425,6 @@ module.exports = class TraderCustom {
       debug: debug
     };
   }
-
 
   resolve_rsi(debug, rsi, count_rsi, min, max) {
     const before_rsi = rsi.slice(-2)[0];
