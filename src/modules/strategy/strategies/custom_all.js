@@ -728,7 +728,7 @@ module.exports = class TraderCustom {
           resolve_macd_4h: 0.25,
           resolve_macd_6h: 0.25,
           resolve_macd_12h: 1,
-          resolve_ao_4h: 0.5,
+          resolve_ao_4h: 1.5,
           resolve_ao_6h: 0.5,
           resolve_ao_12h: 1,
           resolve_rsi_4h: 1,
