@@ -708,14 +708,22 @@ module.exports = class TraderCustom {
 
     // //sma & ema 6H, 4H, 12h
 
-    //map by symbol
 
     let parameters_by_symbol = [{
+        //BTC Interval
+        // 180 min 
+        // Return on Invest = 193.25%
+        // Sharpe Ratio = -2.6
+        // Average Return Per Trade	= 1.4 %
+        // Total Number of Trades	= 85
+        // Number of Winning Trades	= 49
+        // Percentage of Winning Trades	= 57.65
+
         symbol: 'BTCUSDT',
         parameters: {
           triggerMultiplier_4h: 1.02,
           triggerTimeWindows_4h: 1.7,
-          triggerMultiplier_6h: 1.010,
+          triggerMultiplier_6h: 1.019,
           triggerTimeWindows_6h: 1.5,
           triggerMultiplier_12h: 1.008,
           triggerTimeWindows_12h: 1.25,
@@ -724,13 +732,13 @@ module.exports = class TraderCustom {
           resolve_obv_12h: 1,
           resolve_cci_4h: 1,
           resolve_cci_6h: 1,
-          resolve_cci_12h: 1.25,
+          resolve_cci_12h: 0.5,
           resolve_macd_4h: 0.25,
           resolve_macd_6h: 0.25,
           resolve_macd_12h: 1,
-          resolve_ao_4h: 1.5,
+          resolve_ao_4h: 0.5,
           resolve_ao_6h: 0.5,
-          resolve_ao_12h: 1,
+          resolve_ao_12h: 2.25,
           resolve_rsi_4h: 1,
           resolve_rsi_6h: 1.5,
           resolve_rsi_12h: 0.5,
@@ -741,34 +749,42 @@ module.exports = class TraderCustom {
         }
       },
       {
+        //ADA Interval
+        // 180 min 
+        // Return on Invest = 193.25%
+        // Sharpe Ratio = -2.6
+        // Average Return Per Trade	= 1.4 %
+        // Total Number of Trades	= 85
+        // Number of Winning Trades	= 49
+        // Percentage of Winning Trades	= 57.65
 
         symbol: 'ADAUSDT',
         parameters: {
-          triggerMultiplier_4h: 1.002,
-          triggerTimeWindows_4h: 1.5,
-          triggerMultiplier_6h: 1.006,
-          triggerTimeWindows_6h: 1.5,
-          triggerMultiplier_12h: 1.031,
+          triggerMultiplier_4h: 1.028,
+          triggerTimeWindows_4h: 1.2,
+          triggerMultiplier_6h: 1.009,
+          triggerTimeWindows_6h: 1.2,
+          triggerMultiplier_12h: 1.001,
           triggerTimeWindows_12h: 1.5,
-          resolve_obv_4h: 1,
-          resolve_obv_6h: 1.5,
-          resolve_obv_12h: 2,
-          resolve_cci_4h: 1,
-          resolve_cci_6h: 1.5,
-          resolve_cci_12h: 2,
-          resolve_macd_4h: 1,
-          resolve_macd_6h: 1.5,
-          resolve_macd_12h: 2,
-          resolve_ao_4h: 1,
-          resolve_ao_6h: 1.5,
-          resolve_ao_12h: 2,
-          resolve_rsi_4h: 1,
-          resolve_rsi_6h: 1.5,
-          resolve_rsi_12h: 2,
-          resolve_dip_4h: 1,
-          resolve_dip_6h: 1.5,
-          resolve_dip_12h: 2,
-          count_signal: 2,
+          resolve_obv_4h: 0.75,
+          resolve_obv_6h: 1,
+          resolve_obv_12h: 1,
+          resolve_cci_4h:0.5,
+          resolve_cci_6h: 0.5,
+          resolve_cci_12h: 0.5,
+          resolve_macd_4h:0.5,
+          resolve_macd_6h: 0.5,
+          resolve_macd_12h: 1,
+          resolve_ao_4h: 0.5,
+          resolve_ao_6h: 0.5,
+          resolve_ao_12h: 1,
+          resolve_rsi_4h:1,
+          resolve_rsi_6h: 0.5,
+          resolve_rsi_12h: 0.5,
+          resolve_dip_4h: 0.5,
+          resolve_dip_6h: 0.5,
+          resolve_dip_12h: 0.5,
+          count_signal: 1,
         }
       },
       {
@@ -1268,12 +1284,12 @@ module.exports = class TraderCustom {
       macd_6h_fast_period: 9,
       macd_6h_slow_period: 26,
       macd_6h_signal_period: 11,
-      hma_high6h_length: 16,
-      hma_low6h_length: 16,
-      hma6h_length: 12,
+      hma_high6h_length: 12,
+      hma_low6h_length: 12,
+      hma6h_length: 9,
       trendCloudMultiplier_6h: 4,
-      rsi_min_6h: 17,
-      rsi_max_6h: 83,
+      rsi_min_6h: 25,
+      rsi_max_6h: 75,
 
       cci12h_length: 12,
       macd_12h_01_fast_period: 6,
@@ -1481,8 +1497,8 @@ module.exports = class TraderCustom {
     return {
       buy: 0,
       sell: 0,
-      last_rsi: last_rsi,
-      before_rsi: before_rsi,
+      last_rsi: 0,
+      before_rsi: 0,
       debug: debug
     };
   }

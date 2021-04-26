@@ -9,26 +9,26 @@ module.exports = class {
   }
 
   buildIndicator(indicatorBuilder, options) {
-    indicatorBuilder.add('bb', 'bb', '15m');
-    indicatorBuilder.add('rsi', 'rsi', '15m');
-    indicatorBuilder.add('mfi', 'mfi', '15m');
-    indicatorBuilder.add('volume_profile', 'volume_profile', '15m');
-    indicatorBuilder.add('zigzag', 'zigzag', '15m');
+    indicatorBuilder.add('bb', 'bb', options.period);
+    indicatorBuilder.add('rsi', 'rsi', options.period);
+    indicatorBuilder.add('mfi', 'mfi', options.period);
+    indicatorBuilder.add('volume_profile', 'volume_profile', options.period);
+    indicatorBuilder.add('zigzag', 'zigzag', options.period);
 
-    indicatorBuilder.add('pivot_points_high_low', 'pivot_points_high_low', '15m', {
+    indicatorBuilder.add('pivot_points_high_low', 'pivot_points_high_low', options.period, {
       left: 14,
       right: 14
     });
 
-    indicatorBuilder.add('sma200', 'sma', '15m', {
+    indicatorBuilder.add('sma200', 'sma', options.period, {
       length: 200
     });
 
-    indicatorBuilder.add('sma50', 'sma', '15m', {
+    indicatorBuilder.add('sma50', 'sma', options.period, {
       length: 50
     });
 
-    indicatorBuilder.add('foreign_candle', 'candles', options.foreign_pair_period || '15m', {
+    indicatorBuilder.add('foreign_candle', 'candles', options.foreign_pair_period || options.period, {
       exchange: options.foreign_pair_exchange || 'binance',
       symbol: options.foreign_pair_symbol || 'BTCUSDT'
     });
