@@ -649,9 +649,15 @@ module.exports = class TraderCustom {
       ao6H: 0,
       ao4H: 0,
       ao12h: 0,
-      rsi6H: 0,
       rsi4H: 0,
+      before_rsi4H: 0,
+      last_rsi4H: 0,
+      rsi6H: 0,
+      before_rsi6H: 0,
+      last_rsi6H: 0,
       rsi12h: 0,
+      before_rsi12H: 0,
+      last_rsi12H: 0,
       dip6H: 0,
       dip4H: 0,
       dip12H: 0,
@@ -704,39 +710,38 @@ module.exports = class TraderCustom {
 
     //map by symbol
 
-    let parameters_by_symbol = [
-      {
+    let parameters_by_symbol = [{
         symbol: 'BTCUSDT',
         parameters: {
-          triggerMultiplier_4h: 1.055,
-          triggerTimeWindows_4h: 1.5,
-          triggerMultiplier_6h: 1.014,
-          triggerTimeWindows_6h: 1.2,
-          triggerMultiplier_12h: 1.026,
-          triggerTimeWindows_12h: 1.5,
+          triggerMultiplier_4h: 1.02,
+          triggerTimeWindows_4h: 1.7,
+          triggerMultiplier_6h: 1.010,
+          triggerTimeWindows_6h: 1.5,
+          triggerMultiplier_12h: 1.008,
+          triggerTimeWindows_12h: 1.25,
           resolve_obv_4h: 1,
-          resolve_obv_6h: 1.5,
-          resolve_obv_12h: 2,
+          resolve_obv_6h: 1,
+          resolve_obv_12h: 1,
           resolve_cci_4h: 1,
-          resolve_cci_6h: 1.5,
-          resolve_cci_12h: 2,
-          resolve_macd_4h: 1,
-          resolve_macd_6h: 1.5,
-          resolve_macd_12h: 2,
-          resolve_ao_4h: 1,
-          resolve_ao_6h: 1.5,
-          resolve_ao_12h: 2,
+          resolve_cci_6h: 1,
+          resolve_cci_12h: 1.25,
+          resolve_macd_4h: 0.25,
+          resolve_macd_6h: 0.25,
+          resolve_macd_12h: 1,
+          resolve_ao_4h: 0.5,
+          resolve_ao_6h: 0.5,
+          resolve_ao_12h: 1,
           resolve_rsi_4h: 1,
           resolve_rsi_6h: 1.5,
-          resolve_rsi_12h: 2,
-          resolve_dip_4h: 1,
-          resolve_dip_6h: 1.5,
-          resolve_dip_12h: 2,
-          count_signal: 2.5,
+          resolve_rsi_12h: 0.5,
+          resolve_dip_4h: 0.5,
+          resolve_dip_6h: 1,
+          resolve_dip_12h: 1,
+          count_signal: 1,
         }
       },
       {
-      
+
         symbol: 'ADAUSDT',
         parameters: {
           triggerMultiplier_4h: 1.002,
@@ -778,7 +783,7 @@ module.exports = class TraderCustom {
         }
       },
 
-      
+
       {
         symbol: 'TRXUSDT',
         parameters: {
@@ -790,7 +795,7 @@ module.exports = class TraderCustom {
           triggerTimeWindows_12h: 2,
         }
       },
-     
+
       {
         symbol: 'DOTUSDT',
         parameters: {
@@ -824,7 +829,7 @@ module.exports = class TraderCustom {
           triggerTimeWindows_12h: 1,
         }
       },
-      
+
       {
         symbol: 'LTCUSDT',
         parameters: {
@@ -908,13 +913,13 @@ module.exports = class TraderCustom {
 
     //CCI 6H, 4H, 12h
 
-    let  resolve_cci = this.resolve_cci(debug, long4H, cci4H, parameters.parameters.resolve_cci_4h);
+    let resolve_cci = this.resolve_cci(debug, long4H, cci4H, parameters.parameters.resolve_cci_4h);
     count_signals_buy += resolve_cci.buy;
     count_signals_sell += resolve_cci.sell;
     debug.cci4H += resolve_cci.buy;
     debug.cci4H -= resolve_cci.sell;
     debug = resolve_cci.debug;
-    
+
     resolve_cci = this.resolve_cci(debug, long6H, cci6H, parameters.parameters.resolve_cci_6h);
     count_signals_buy += resolve_cci.buy;
     count_signals_sell += resolve_cci.sell;
@@ -922,7 +927,7 @@ module.exports = class TraderCustom {
     debug.cci6H -= resolve_cci.sell;
     debug = resolve_cci.debug;
 
-   
+
 
     resolve_cci = this.resolve_cci(debug, long12h, cci12h, parameters.parameters.resolve_cci_12h);
     count_signals_buy += resolve_cci.buy;
@@ -933,13 +938,13 @@ module.exports = class TraderCustom {
 
     //MACD 6H, 4H, 12h
 
-    let  resolve_macd = this.resolve_macd(debug, long4H, macd4H01, parameters.parameters.resolve_macd_4h);
+    let resolve_macd = this.resolve_macd(debug, long4H, macd4H01, parameters.parameters.resolve_macd_4h);
     count_signals_buy += resolve_macd.buy;
     count_signals_sell += resolve_macd.sell;
     debug.macd4H01 += resolve_macd.buy;
     debug.macd4H01 -= resolve_macd.sell;
     debug = resolve_macd.debug;
-    
+
     resolve_macd = this.resolve_macd(debug, long4H, macd6H, parameters.parameters.resolve_macd_6h);
     count_signals_buy += resolve_macd.buy;
     count_signals_sell += resolve_macd.sell;
@@ -958,23 +963,23 @@ module.exports = class TraderCustom {
 
     //AO 6H, 4H, 12h
 
-    let  resolve_ao = this.resolve_ao(debug, long4H, ao4H, parameters.parameters.resolve_ao_4h);
+    let resolve_ao = this.resolve_ao(debug, long4H, ao4H, parameters.parameters.resolve_ao_4h);
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao4H += resolve_ao.buy;
     debug.ao4H -= resolve_ao.sell;
     debug = resolve_ao.debug;
-    
-    resolve_ao = this.resolve_ao(debug, long6H, ao6H,  parameters.parameters.resolve_ao_6h);
+
+    resolve_ao = this.resolve_ao(debug, long6H, ao6H, parameters.parameters.resolve_ao_6h);
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao6H += resolve_ao.buy;
     debug.ao6H -= resolve_ao.sell;
     debug = resolve_ao.debug;
 
-   
 
-    resolve_ao = this.resolve_ao(debug, long12h, ao12h,  parameters.parameters.resolve_ao_12h);
+
+    resolve_ao = this.resolve_ao(debug, long12h, ao12h, parameters.parameters.resolve_ao_12h);
     count_signals_buy += resolve_ao.buy;
     count_signals_sell += resolve_ao.sell;
     debug.ao12h += resolve_ao.buy;
@@ -983,18 +988,22 @@ module.exports = class TraderCustom {
 
     //RSI 6H, 4H, 12h
 
-    let  resolve_rsi = this.resolve_rsi(debug, rsi4H, parameters.parameters.resolve_rsi_4h, options.rsi_min_4h, options.rsi_max_4h);
+    let resolve_rsi = this.resolve_rsi(debug, rsi4H, parameters.parameters.resolve_rsi_4h, options.rsi_min_4h, options.rsi_max_4h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi4H += resolve_rsi.buy;
     debug.rsi4H -= resolve_rsi.sell;
+    debug.last_rsi4H = resolve_rsi.last_rsi;
+    debug.before_rsi4H = resolve_rsi.before_rsi;
     debug = resolve_rsi.debug;
-    
+
     resolve_rsi = this.resolve_rsi(debug, rsi6H, parameters.parameters.resolve_rsi_6h, options.rsi_min_6h, options.rsi_max_6h);
     count_signals_buy += resolve_rsi.buy;
     count_signals_sell += resolve_rsi.sell;
     debug.rsi6H += resolve_rsi.buy;
     debug.rsi6H -= resolve_rsi.sell;
+    debug.last_rsi6H = resolve_rsi.last_rsi;
+    debug.before_rsi6H = resolve_rsi.before_rsi;
     debug = resolve_rsi.debug;
 
 
@@ -1003,10 +1012,12 @@ module.exports = class TraderCustom {
     count_signals_sell += resolve_rsi.sell;
     debug.rsi12h += resolve_rsi.buy;
     debug.rsi12h -= resolve_rsi.sell;
+    debug.last_rsi12H = resolve_rsi.last_rsi;
+    debug.before_rsi12H = resolve_rsi.before_rsi;
     debug = resolve_rsi.debug;
 
 
-    let  resolve_dip = this.resolve_dip(debug, lastSignal, hma4H, hmaLow4H, hmaHigh4H, bb4H, cloud4H, parameters.parameters.resolve_dip_4h)
+    let resolve_dip = this.resolve_dip(debug, lastSignal, hma4H, hmaLow4H, hmaHigh4H, bb4H, cloud4H, parameters.parameters.resolve_dip_4h)
     count_signals_buy += resolve_dip.buy;
     count_signals_sell += resolve_dip.sell;
     debug.dip4H += resolve_dip.buy;
@@ -1106,6 +1117,18 @@ module.exports = class TraderCustom {
         type: 'sma200',
       },
       {
+        label: 'before_rsi4H',
+        value: 'before_rsi4H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'last_rsi4H',
+        value: 'last_rsi4H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
         label: 'ao4H',
         value: 'ao4H',
         type: 'cross',
@@ -1141,27 +1164,21 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      // {
-      //   label: 'macd6H01',
-      //   value: 'macd6H01',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
-      // {
-      //   label: 'macd6H02',
-      //   value: 'macd6H02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
-      // {
-      //   label: 'macd6H03',
-      //   value: 'macd6H03',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
       {
         label: 'rsi6H',
         value: 'rsi6H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'before_rsi6H',
+        value: 'before_rsi6H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'last_rsi6H',
+        value: 'last_rsi6H',
         type: 'cross',
         type: 'sma200',
       },
@@ -1201,15 +1218,21 @@ module.exports = class TraderCustom {
         type: 'cross',
         type: 'sma200',
       },
-      // {
-      //   label: 'macd12h02',
-      //   value: 'macd12h02',
-      //   type: 'cross',
-      //   type: 'sma200',
-      // },
       {
         label: 'rsi12h',
         value: 'rsi12h',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'before_rsi12H',
+        value: 'before_rsi12H',
+        type: 'cross',
+        type: 'sma200',
+      },
+      {
+        label: 'last_rsi12H',
+        value: 'last_rsi12H',
         type: 'cross',
         type: 'sma200',
       },
@@ -1245,12 +1268,12 @@ module.exports = class TraderCustom {
       macd_6h_fast_period: 9,
       macd_6h_slow_period: 26,
       macd_6h_signal_period: 11,
-      hma_high6h_length: 12,
-      hma_low6h_length: 12,
-      hma6h_length: 9,
+      hma_high6h_length: 16,
+      hma_low6h_length: 16,
+      hma6h_length: 12,
       trendCloudMultiplier_6h: 4,
-      rsi_min_6h: 25,
-      rsi_max_6h: 75,
+      rsi_min_6h: 17,
+      rsi_max_6h: 83,
 
       cci12h_length: 12,
       macd_12h_01_fast_period: 6,
@@ -1436,6 +1459,8 @@ module.exports = class TraderCustom {
         return {
           buy: count_rsi,
           sell: 0,
+          last_rsi: last_rsi,
+          before_rsi: before_rsi,
           debug: debug
         };
       }
@@ -1447,6 +1472,8 @@ module.exports = class TraderCustom {
         return {
           buy: 0,
           sell: count_rsi,
+          last_rsi: last_rsi,
+          before_rsi: before_rsi,
           debug: debug
         };
       }
@@ -1454,6 +1481,8 @@ module.exports = class TraderCustom {
     return {
       buy: 0,
       sell: 0,
+      last_rsi: last_rsi,
+      before_rsi: before_rsi,
       debug: debug
     };
   }

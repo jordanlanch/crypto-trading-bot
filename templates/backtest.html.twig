@@ -61,7 +61,7 @@
                                                     <select class="form-control" id="form-candle-period" name="candle_period" required>
                                                         {% if pairs|length > 0 %}
                                                             {% for period in pairs[0].options %}
-                                                                <option value="{{ period }}" {% if period == '1h' %}selected{% endif %}>{{ period }}</option>
+                                                                <option value="{{ period }}" {% if period == '6h' %}selected{% endif %}>{{ period }}</option>
                                                             {% endfor %}                                                        
                                                         {% endif %}
                                                     </select>
@@ -85,7 +85,7 @@
 
                                                 <div class="form-group">
                                                     <label for="form-tick-interval">Signal Tick Interval (in minutes)</label>
-                                                    <input class="form-control" id="form-tick-interval" name="ticker_interval" value="60" required>
+                                                    <input class="form-control" id="form-tick-interval" name="ticker_interval" value="180" required>
                                                     <small class="form-text text-muted">Interval in which the strategy is mainly run</small>
                                                 </div>
 
