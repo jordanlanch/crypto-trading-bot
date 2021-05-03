@@ -105,7 +105,7 @@ module.exports = class Binance {
       symbol.periods.forEach(interval => {
         // backfill
         this.queue.add(() => {
-          client.candles({ symbol: symbol.symbol, limit: 500, interval: interval }).then(async candles => {
+          client.candles({ symbol: symbol.symbol, limit: 5000, interval: interval }).then(async candles => {
             const ourCandles = candles.map(candle => {
               return new ExchangeCandlestick(
                 'binance',
