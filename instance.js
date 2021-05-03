@@ -4,552 +4,552 @@ c.symbols = [];
 
 const InstanceUtil = require('./src/utils/instance_util');
 c.init = async () => {
-  // Bitmex contracts + examples
-  //   c.symbols.push(
-  //     ...(await InstanceUtil.bitmexInit(pair => {
-  //       // inverse contracts; trade with 1 USD
-  //       // you can also provide a "capital" instead for trade with fixed BTC or ETH
-  //       if (['XBTUSD', 'ETHUSD'].includes(pair.symbol) || pair.symbol.startsWith('XBT')) {
-  //         pair.trade = { currency_capital: 1 };
-  //         return pair;
-  //       }
-  //       // trade with 1 ETH on "BTC-ETH" contract, but ignore USD pair
-  //       if (pair.symbol.startsWith('ETH') && !pair.symbol.includes('USD')) {
-  //         pair.trade = { capital: 1 };
-  //         return pair;
-  //       }
-  //       // trade ADA-BTC; as ADA is low priced BTC; good for testing
-  //       if (pair.symbol.startsWith('ADA')) {
-  //         pair.trade = { capital: 1 };
-  //         return pair;
-  //       }
-  //       // remove others; we can not use all pairs in one instance; (only on when we not in quarterly contract change window)
-  //       return undefined;
-  //     }))
-  //   );
+    // Bitmex contracts + examples
+    //   c.symbols.push(
+    //     ...(await InstanceUtil.bitmexInit(pair => {
+    //       // inverse contracts; trade with 1 USD
+    //       // you can also provide a "capital" instead for trade with fixed BTC or ETH
+    //       if (['XBTUSD', 'ETHUSD'].includes(pair.symbol) || pair.symbol.startsWith('XBT')) {
+    //         pair.trade = { currency_capital: 1 };
+    //         return pair;
+    //       }
+    //       // trade with 1 ETH on "BTC-ETH" contract, but ignore USD pair
+    //       if (pair.symbol.startsWith('ETH') && !pair.symbol.includes('USD')) {
+    //         pair.trade = { capital: 1 };
+    //         return pair;
+    //       }
+    //       // trade ADA-BTC; as ADA is low priced BTC; good for testing
+    //       if (pair.symbol.startsWith('ADA')) {
+    //         pair.trade = { capital: 1 };
+    //         return pair;
+    //       }
+    //       // remove others; we can not use all pairs in one instance; (only on when we not in quarterly contract change window)
+    //       return undefined;
+    //     }))
+    //   );
 
-  // FTX all "perp" / futures contracts
-  // c.symbols.push(...(await InstanceUtil.ftxInitPerp()));
+    // FTX all "perp" / futures contracts
+    // c.symbols.push(...(await InstanceUtil.ftxInitPerp()));
 
-  // Binance all USDT pairs
-  // c.symbols.push(...(await InstanceUtil.binanceInitUsd()));
+    // Binance all USDT pairs
+    // c.symbols.push(...(await InstanceUtil.binanceInitUsd()));
 
-  // Binance all USDT pairs spot or margin
-  // c.symbols.push(...(await InstanceUtil.binanceInitMarginUsd()));
-  // c.symbols.push(...(await InstanceUtil.binanceInitSpotUsd()));
+    // Binance all USDT pairs spot or margin
+    // c.symbols.push(...(await InstanceUtil.binanceInitMarginUsd()));
+    // c.symbols.push(...(await InstanceUtil.binanceInitSpotUsd()));
 
-  // c.symbols.push({
-  //   symbol: 'BTCUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_BTC',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'BTCUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_BTC',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'ETHUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_ETH',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'ETHUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_ETH',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'BCHUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_BCH',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'BCHUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_BCH',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'XRPUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_XRP',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'XRPUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_XRP',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'EOSUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_EOS',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'EOSUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_EOS',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'LTCUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_LTC',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'LTCUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_LTC',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'ADAUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_ADA',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'ADAUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_ADA',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'ETCUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_ETC',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'ETCUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_ETC',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'LINKUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_LINK',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'LINKUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_LINK',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'DASHUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_DASH',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'DASHUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_DASH',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // c.symbols.push({
-  //   symbol: 'XMRUSDT',
-  //   periods: ['1h', '2h', '4h', '6h', '12h'],
-  //   exchange: 'binance_futures',
-  //   state: 'trade',
-  //   watchdogs: [{
-  //     name: 'risk_reward_ratio',
-  //     target_percent: 2.5,
-  //     stop_percent: 1.7,
-  //   }, ],
-  //   trade: {
-  //     currency_capital: 60,
-  //     strategies: [{
-  //         strategy: 'trader_macd_XMR',
-  //         interval: '5m',
-  //         options: {
-  //           period: '12h',
-  //         },
-  //       },
-  //       // {
-  //       //   "strategy": "dca_dipper",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
+    // c.symbols.push({
+    //   symbol: 'XMRUSDT',
+    //   periods: ['1h', '2h', '4h', '6h', '12h'],
+    //   exchange: 'binance_futures',
+    //   state: 'trade',
+    //   watchdogs: [{
+    //     name: 'risk_reward_ratio',
+    //     target_percent: 2.5,
+    //     stop_percent: 1.7,
+    //   }, ],
+    //   trade: {
+    //     currency_capital: 60,
+    //     strategies: [{
+    //         strategy: 'trader_macd_XMR',
+    //         interval: '5m',
+    //         options: {
+    //           period: '12h',
+    //         },
+    //       },
+    //       // {
+    //       //   "strategy": "dca_dipper",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
 
-  //       //     "percent_below_price": 0.1,
-  //       //     "hma_period": 12,
-  //       //     "hma_source": "low"
-  //       //   }
-  //       // },
-  //       // {
-  //       //   "strategy": "dip_catcher",
-  //       //   "interval": "15m",
-  //       //   "options": {
-  //       //     "period": "15m",
-  //       //     "trend_cloud_multiplier": 4,
-  //       //     "hma_high_period": 9,
-  //       //     "hma_high_candle_source": "close",
-  //       //     "hma_low_period": 9,
-  //       //     "hma_low_candle_source": "close"
-  //       //   }
-  //       // }
-  //     ]
-  //   }
-  // });
+    //       //     "percent_below_price": 0.1,
+    //       //     "hma_period": 12,
+    //       //     "hma_source": "low"
+    //       //   }
+    //       // },
+    //       // {
+    //       //   "strategy": "dip_catcher",
+    //       //   "interval": "15m",
+    //       //   "options": {
+    //       //     "period": "15m",
+    //       //     "trend_cloud_multiplier": 4,
+    //       //     "hma_high_period": 9,
+    //       //     "hma_high_candle_source": "close",
+    //       //     "hma_low_period": 9,
+    //       //     "hma_low_candle_source": "close"
+    //       //   }
+    //       // }
+    //     ]
+    //   }
+    // });
 
-  // Binance futures
-  //   c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
+    // Binance futures
+    //   c.symbols.push(...(await InstanceUtil.binanceFuturesInit()));
 
-  // Bitfinex USD margin pairs
-  // c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
+    // Bitfinex USD margin pairs
+    // c.symbols.push(...(await InstanceUtil.bitfinexUsdMarginInit()));
 
-  // Bybit USD pairs
-  // c.symbols.push(...(await InstanceUtil.bybitInit()));
+    // Bybit USD pairs
+    // c.symbols.push(...(await InstanceUtil.bybitInit()));
 };
 
 /*
@@ -737,52 +737,52 @@ c.init = () => {
 // });
 
 c.symbols.push({
-  symbol: 'BTCUSDT',
-  periods: ['1h', '2h', '4h', '6h', '12h', '1d'],
-  exchange: 'binance',
-  state: 'watch',
-  watchdogs: [{
-    name: 'stoploss_watch',
-    stop: 1.5,
-  }, ],
-  strategies: [{
-    strategy: 'custom_all',
-    "interval": "180m",
-    options: {
-      cci4H_length: 24,
-      macd_4h_fast_period: 6,
-      macd_4h_slow_period: 13,
-      macd_4h_signal_period: 9,
-      hma_high4h_length: 20,
-      hma_low4h_length: 20,
-      hma4h_length: 9,
-      trendCloudMultiplier_4h: 4,
-      rsi_min_4h: 27,
-      rsi_max_4h: 73,
+    symbol: 'BTCUSDT',
+    periods: ['1h', '2h', '4h', '6h', '12h', '1d'],
+    exchange: 'binance',
+    state: 'watch',
+    watchdogs: [{
+        name: 'stoploss_watch',
+        stop: 1.5,
+    }, ],
+    strategies: [{
+        strategy: 'custom_all',
+        "interval": "180m",
+        options: {
+            cci4H_length: 24,
+            macd4H_fast_period: 6,
+            macd4H_slow_period: 13,
+            macd4H_signal_period: 9,
+            hma_high4H_length: 20,
+            hma_low4H_length: 20,
+            hma4H_length: 9,
+            trendCloudMultiplier_4h: 4,
+            rsi_min_4h: 27,
+            rsi_max_4h: 73,
 
-      cci6H_length: 24,
-      macd_6h_fast_period: 9,
-      macd_6h_slow_period: 26,
-      macd_6h_signal_period: 11,
-      hma_high6h_length: 16,
-      hma_low6h_length: 16,
-      hma6h_length: 12,
-      trendCloudMultiplier_6h: 4,
-      rsi_min_6h: 17,
-      rsi_max_6h: 83,
+            cci6H_length: 24,
+            macd6H_fast_period: 9,
+            macd6H_slow_period: 26,
+            macd6H_signal_period: 11,
+            hma_high6H_length: 16,
+            hma_low6H_length: 16,
+            hma6H_length: 12,
+            trendCloudMultiplier_6h: 4,
+            rsi_min_6h: 17,
+            rsi_max_6h: 83,
 
-      cci12h_length: 24,
-      macd_12h_01_fast_period: 6,
-      macd_12h_01_slow_period: 13,
-      macd_12h_01_signal_period: 9,
-      hma_high12h_length: 12,
-      hma_low12h_length: 12,
-      hma12h_length: 9,
-      trendCloudMultiplier_12h: 4,
-      rsi_min_12h: 20,
-      rsi_max_12h: 80,
-    },
-  }, ],
+            cci12H_length: 24,
+            macd12H_fast_period: 6,
+            macd12H_slow_period: 13,
+            macd12H_signal_period: 9,
+            hma_high12H_length: 12,
+            hma_low12H_length: 12,
+            hma12H_length: 9,
+            trendCloudMultiplier_12h: 4,
+            rsi_min_12h: 20,
+            rsi_max_12h: 80,
+        },
+    }, ],
 });
 
 // c.symbols.push({
