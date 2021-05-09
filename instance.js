@@ -739,12 +739,11 @@ c.init = () => {
 c.symbols.push({
     symbol: 'BTCUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h', '1d'],
-    exchange: 'binance',
-    state: 'watch',
-    watchdogs: [{
-        name: 'stoploss_watch',
-        stop: 1.5,
-    }, ],
+    exchange: 'binance_margin',
+    state: 'trade',
+    trade: {
+        'currency_capital': 200
+    },
     strategies: [{
         strategy: 'custom_all',
         "interval": "180m",
