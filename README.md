@@ -104,7 +104,7 @@ For initialize the configuration once
 ➜ docker-compose build
 ➜ docker-compose up -d
 ```
-After this you can use `docker-compose` which will give you a running bot via <http://127.0.0.1:8090>
+After this you can use `docker-compose` which will give you a running bot via <http://127.0.0.1:8080>
 
 ## Setting Up Telegram Bot
 
@@ -137,11 +137,11 @@ Look for id: -1001118554477 is your chat id (with the negative sign).
 
 Some browser links
 
- * UI: http://127.0.0.1:8090
- * Signals: http://127.0.0.1:8090/signals
- * Tradingview: http://127.0.0.1:8090/tradingview/BTCUSD
- * Backtesting: http://127.0.0.1:8090/backtest
- * Order & Pair Management: http://127.0.0.1:8090/pairs
+ * UI: http://127.0.0.1:8080
+ * Signals: http://127.0.0.1:8080/signals
+ * Tradingview: http://127.0.0.1:8080/tradingview/BTCUSD
+ * Backtesting: http://127.0.0.1:8080/backtest
+ * Order & Pair Management: http://127.0.0.1:8080/pairs
 
 
 ### Security / Authentication
@@ -154,7 +154,7 @@ server {
     server_name YOURHOST;
 
     location / {
-        proxy_pass http://127.0.0.1:8090;
+        proxy_pass http://127.0.0.1:8080;
     }
 
     listen 443 ssl; # managed by Certbot
