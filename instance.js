@@ -745,7 +745,7 @@ c.symbols.push({
         'currency_capital': 200,
         strategies: [{
             strategy: 'custom_all',
-            "interval": "180m",
+            interval: "180m",
             options: {
                 cci4H_length: 24,
                 macd4H_fast_period: 6,
