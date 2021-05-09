@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   bot:
-    container_name: crypto-trading-bot-quant
+    container_name: crypto-trading-bot-binance-margin
     image: node:10
     build:
         context: .

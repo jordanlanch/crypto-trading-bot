@@ -1,8 +1,8 @@
 {
-  "name": "crypto-trading-bot-quant",
+  "name": "crypto-trading-bot-binance-margin",
   "version": "0.0.0",
   "author": "Daniel Espendiller",
-  "bugs": "https://github.com/Haehnchen/crypto-trading-bot-quant/issues",
+  "bugs": "https://github.com/Haehnchen/crypto-trading-bot-binance-margin/issues",
   "contributors": [
     {
       "email": "daniel@espendiller.net",
@@ -78,7 +78,7 @@
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Haehnchen/crypto-trading-bot-quant.git"
+    "url": "https://github.com/Haehnchen/crypto-trading-bot-binance-margin.git"
   },
   "scripts": {
     "start": "node index.js trade",
