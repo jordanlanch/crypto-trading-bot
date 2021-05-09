@@ -739,10 +739,10 @@ c.init = () => {
 c.symbols.push({
     symbol: 'BTCUSDT',
     periods: ['1h', '2h', '4h', '6h', '12h', '1d'],
-    exchange: 'binance_margin',
+    exchange: 'binance_futures',
     state: 'trade',
     trade: {
-        'currency_capital': 200,
+        currency_capital: 250,
         strategies: [{
             strategy: 'custom_all',
             interval: "180m",
